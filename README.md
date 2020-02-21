@@ -1,8 +1,8 @@
-# Online Movie URL Scraper
+# 9Anime.to direct download link scraper
 
 This scraper is used to collect and extract direct anime download links from 9anime.to (From its Mp4Upload server)
 
-## Getting Started
+## Getting started
 
 - Clone the project using to your local machine
 

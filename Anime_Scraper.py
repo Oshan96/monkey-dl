@@ -41,13 +41,15 @@ def get_mp4upload_index(servers_container) :
 def extract_page_urls(start_episode, end_episode) :
     global session, episodes, nine_anime_url, download_9anime_url, ts_no, episodes
 
+    print("Extracting page URLs...")
+
     anime_page = session.get(download_9anime_url).content
     soup_html = BeautifulSoup(anime_page, "html.parser")
 
     ts_no = soup_html.find("html")["data-ts"]
 
     eps_url = episodes_url+"?ts="+ts_no
-    print(eps_url)
+    # print(eps_url)
 
     epi_data = session.get(eps_url).json()["html"]
 
@@ -89,6 +91,7 @@ def extract_download_urls() :
     global session
     down_base = "https://9anime.to/ajax/episode/info?"
 
+    print("Extracting download URLs...")
     for episode in episodes :
         if(episode.id is None) :
             episode.download_url = None
@@ -111,6 +114,17 @@ def extract_download_urls() :
 
         episode.download_url = download_url
 
+def writeData() :
+    global episodes
+
+    print("Writing results to results.csv file...")
+    data_file = open("results.csv", "w")
+    for episode in episodes :
+        data_file.write(episode.episode+","+episode.download_url+"\n")
+    
+    data_file.close()
+
+
 def main() : 
     global episodes, download_9anime_url, episodes_url
 
@@ -127,8 +141,10 @@ def main() :
     
     extract_download_urls()
 
-    for episode in episodes :
-        print(episode.episode, "-", episode.title,":", episode.download_url)
+    # for episode in episodes :
+    #     print(episode.episode, "-", episode.title,":", episode.download_url)
+
+    writeData()
 
 if __name__ == "__main__" :
     main()

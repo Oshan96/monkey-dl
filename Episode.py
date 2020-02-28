@@ -21,7 +21,7 @@ def extract_episode_names(url, isFiller, start_epi, end_epi) :
     page = session.get(url).content
     soup_html = BeautifulSoup(page, "html.parser")
 
-    table = soup_html.find("table", attrs={"class" : "EpisodeList"})
+    table = soup_html.find("table", attrs={"class" : "EpisodeList"}).find("tbody")
 
     if isFiller :
         epis = table.findAll("tr")

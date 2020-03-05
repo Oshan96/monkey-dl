@@ -14,6 +14,6 @@ def printer(msg_type, msg) :
     if msg_type == "INFO" :
         print(Color.YELLOW("[INFO!] : "+msg) + Color.RESET(" "))
     elif msg_type == "ERROR" :
-        print(Color.RED("[ERROR!] : "+msg) + Color.RESET(" "))
+        print(Color.RED("[ERROR!] : "+str(msg)) + Color.RESET(" "))
     elif msg_type == "BANNER" :
         print(Color.CYAN(msg) + Color.RESET(" "))

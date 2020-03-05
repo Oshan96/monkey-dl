@@ -6,7 +6,9 @@ import argparse
 import requests
 import shutil
 import os
+import re
 import sys
+from platform import system
 
 from threading import Thread
 from queue import Queue
@@ -54,10 +56,19 @@ class ThreadPool :
         self.tasks.join()
 
 
+def clean_file_name(file_name) :
+    for c in r'[]/\;,><&*:%=+@#^()|?^':
+        file_name = file_name.replace(c,'')
+    
+    return file_name
+
 def download_episode(episode) :
     global titles
 
     Color.printer("INFO","Downloading "+episode.episode+"...")
+
+    if system() == "Windows" :
+        episode.title = clean_file_name(episode.title)
 
     if titles :
         file_name = directory + episode.episode + " - " + episode.title + ".mp4"

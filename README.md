@@ -26,6 +26,7 @@ Navigate to the extracted folder and open a cmd or powershell window from that f
 
 First of all, you need to be familiar with the commands you can use with the Anime Downloader.
 
+```
 Commands List :
   -h, --help            show this help message and exit
   -u, --url             9Anime.to URL for the anime to be downloaded
@@ -36,7 +37,7 @@ Commands List :
   -c, --code            Recaptcha answer token code. Insert this if you don't have 2captcha captcha bypass api_key
   -t, --threads         Number of parrallel downloads. Will download sequencially if not provided
   -f, --filler          Whether fillers needed (True/False)
-
+```
 Above mentioned are the arguments you should use in order to download anime. 
 
 The below [FAQ](#FAQ) section provides examples on how to download anime

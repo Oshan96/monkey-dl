@@ -126,7 +126,7 @@ def main() :
     parser.add_argument("-e", "--end", required=False, help="End episode", default=9999, type=int ,dest="end")
     parser.add_argument("-c", "--code", required=False, help="Recaptcha answer token code. Insert this if you don't have 2captcha captcha bypass api_key", default=None, dest="token")
     parser.add_argument("-t", "--threads", required=False, help="Number of parrallel downloads. Will download sequencially if not provided", default=1, type=int ,dest="threads")
-    parser.add_argument("-f", "--filler", required=False, help="Whether fillers needed", default=False, type=bool ,dest="isFiller")
+    parser.add_argument("-f", "--filler", required=False, help="Whether fillers needed", default=True, type=bool ,dest="isFiller")
 
     args = parser.parse_args()
 

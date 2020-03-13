@@ -74,29 +74,33 @@ def verify(token) :
 
     session.post("https://9anime.to/waf-verify", data=payload)
 
-def extract_page_urls(start_episode, end_episode) :
-    global session, episodes, nine_anime_url, download_9anime_url, ts_no, episodes
+def extract_page_urls(start_episode, end_episode, token) :
+    global session, episodes, nine_anime_url, download_9anime_url, ts_no, episodes, api_key
 
     session.headers.update ({
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'
     })
 
-    if ts_no is None :
+    if token is None :
+        if api_key is None :
+            Color.printer("ERROR", "No API Key Provided!")
+            exit(0)
+        
         Color.printer("INFO", "Solving recaptcha...")
 
         token = get_token("https://9anime.to/waf-verify")
         if not token :
-            Color.printer("INFO", "Exiting...")
+            Color.printer("ERROR", "Captcha solving failed! Exiting...")
             exit(0)
 
-        verify(token)
+    verify(token)
 
-        Color.printer("INFO", "Extracting page URLs...")
+    Color.printer("INFO", "Extracting page URLs...")
 
-        anime_page = session.get(download_9anime_url).content
-        soup_html = BeautifulSoup(anime_page, "html.parser")
+    anime_page = session.get(download_9anime_url).content
+    soup_html = BeautifulSoup(anime_page, "html.parser")
 
-        ts_no = soup_html.find("html")["data-ts"]
+    ts_no = soup_html.find("html")["data-ts"]
 
     eps_url = episodes_url+"?ts="+ts_no
 
@@ -195,7 +199,7 @@ def writeData() :
     data_file.close()
 
 
-def main(start_episode=-1, end_episode=-1) : 
+def main(start_episode=-1, end_episode=-1, token = None) : 
     global episodes, download_9anime_url, episodes_url, api_key
 
     if not ts_no :
@@ -214,7 +218,7 @@ def main(start_episode=-1, end_episode=-1) :
 
     episodes_url = episodes_url + download_9anime_url.split(".")[2].split("/")[0]
 
-    episodes = extract_page_urls(start_episode, end_episode)
+    episodes = extract_page_urls(start_episode, end_episode, token)
 
     if episodes == None :
         return

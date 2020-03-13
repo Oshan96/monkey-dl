@@ -4,7 +4,7 @@ There are two scripts (Anime_Downloader.py, Anime_Scraper.py) to download given 
 Anime_Scraper.py scraper is used to collect and extract direct anime download links from 9anime.to (From its Mp4Upload server)
 
 ## Download Anime Downloader [Windows]
-> Note : Currently only windows executable is provided (Linux, Mac users go to "Build from source")
+> Note : Currently only windows executable is provided (Linux, Mac users go to [Build from source](#Building-from-source))
 
 Download the [Latest Relase](https://github.com/Oshan96/Anime-Downloader/releases) from here and extract the zip file
 

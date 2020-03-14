@@ -90,6 +90,8 @@ Follow these steps and you will be up and running in no time!
 
 Let's try it!
 
+> Note : There was a bug in v0.0.2-alpha release regarding this solution, so please download v0.0.3-alpha
+
 > Assumptions : let's assume you want to download bleach episodes as in the previous question
 
 Steps : 

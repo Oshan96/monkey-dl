@@ -85,8 +85,8 @@ def extract_page_urls(start_episode, end_episode, token) :
         if api_key is None :
             Color.printer("ERROR", "No API Key Provided!")
             sys.exit(0)
-        
-        if api_key != "" or api_key != "insert_2captcha_api_key":
+
+        if api_key != "" and api_key != "insert_2captcha_api_key":
             Color.printer("INFO", "Solving recaptcha...")
 
             token = get_token("https://9anime.to/waf-verify")

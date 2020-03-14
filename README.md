@@ -1,4 +1,4 @@
-# 9Anime anime downloader
+# Anime Downloader [![Total Downloads](https://img.shields.io/github/downloads/Oshan96/Anime-Downloader/total.svg?style=flat-square)](https://github.com/Oshan96/Anime-Downloader/releases)
 
 There are two scripts (Anime_Downloader.py, Anime_Scraper.py) to download given anime to a directory and to extract direct download links.
 Anime_Scraper.py scraper is used to collect and extract direct anime download links from 9anime.to (From its Mp4Upload server)
@@ -40,7 +40,7 @@ Commands List :
 ```
 Above mentioned are the arguments you should use in order to download anime. 
 
-The below [FAQ](#FAQ) section provides examples on how to download anime
+#### The below [FAQ](#FAQ) section provides examples on how to download anime using Anime Downloader
 
 ## FAQ
 
@@ -77,7 +77,7 @@ Explanation of commands :
 ### Q - How can I download bleach episodes 100 to 130 without filler episodes into "D:\Anime\Bleach" folder and download 3 episodes at once?
 
 ```bash
-    ./anime-dl.exe -u https://9anime.to/watch/bleach.6j9/lz7wvq -s 100 -e 130 -n https://www.animefillerlist.com/shows/bleach -d "D:\Anime\Bleach" -t 4 -f False
+    ./anime-dl.exe -u https://9anime.to/watch/bleach.6j9/lz7wvq -s 100 -e 130 -n https://www.animefillerlist.com/shows/bleach -d "D:\Anime\Bleach" -t 3 -f False
 ```
 
 Explanation of commands : 

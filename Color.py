@@ -10,7 +10,10 @@ class Color():
     UNDERLINE = lambda x: '\u001b[4m' + str(x)
     RESET = lambda x: '\u001b[0m' + str(x)
 
-def printer(msg_type, msg) :
+def printer(msg_type, msg, gui=None) :
+    if gui :
+        gui.gui_queue.put("["+msg_type+"] : "+msg)
+
     if msg_type == "INFO" :
         print(Color.YELLOW("[INFO!] : "+msg) + Color.RESET(" "))
     elif msg_type == "ERROR" :

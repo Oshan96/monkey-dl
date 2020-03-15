@@ -1,4 +1,4 @@
-# Anime Downloader [![Total Downloads](https://img.shields.io/github/downloads/Oshan96/Anime-Downloader/total.svg?style=flat-square)](https://github.com/Oshan96/Anime-Downloader/releases)
+# Anime Downloader [![Total Downloads](https://img.shields.io/github/downloads/Oshan96/Anime-Downloader/total.svg?style=for-the-badge)](https://github.com/Oshan96/Anime-Downloader/releases)
 
 There are two scripts (Anime_Downloader.py, Anime_Scraper.py) to download given anime to a directory and to extract direct download links.
 Anime_Scraper.py scraper is used to collect and extract direct anime download links from 9anime.to (From its Mp4Upload server)
@@ -22,7 +22,26 @@ Open settings.json and set [2captcha](https://2captcha.com/) API key in "api_key
 
 Navigate to the extracted folder and open a cmd or powershell window from that folder and execute "anime-dl.exe" from command line.
 
-## How to download using anime-dl?
+## How to download using GUI version (v0.1.1-alpha upwards)
+It is same as the CLI version, but provided a graphical user interface to collect necessary parameters.
+
+> Note : The GUI version is still in development and this is a pre-release. The code and execution methods will probably change in future
+
+Execute the "anime-dl.exe" to start.
+
+If you're running from source files, execute the "anime-dl.py" script
+
+```bash
+    python3 ./anime-dl.py
+```
+
+And the GUI will appear as following :
+
+![GUI](docs/images/gui.png)
+
+#### Note : If you don't have a 2captcha API key, you need to [provide "Recaptcha Token" in the given text field](#Q---I-don't-have-a-2captcha-API-key,-is-there-any-workaround-for-that?) 
+
+## How to download using anime-dl (CLI)?
 
 First of all, you need to be familiar with the commands you can use with the Anime Downloader.
 

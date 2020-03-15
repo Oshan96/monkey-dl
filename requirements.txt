@@ -1,3 +1,4 @@
-art==4.5
 requests==2.22.0
+art==4.5
 beautifulsoup4==4.8.2
+PySimpleGUI==4.16.0

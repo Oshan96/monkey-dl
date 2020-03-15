@@ -3,6 +3,7 @@ import requests
 import json
 import sys
 import os
+# import browser_cookie3 as bc
 import Color
 from bs4 import BeautifulSoup
 from time import sleep
@@ -24,12 +25,15 @@ ts_no = None
 site_key = "6LfEtpwUAAAAABoJ_595sf-Hh0psstoatwZpLex1"
 api_key = None
 
+cookies = None
+gui = None
+
 session = requests.Session()
 
 episodes = []
 
 def get_token(url) :
-    global session, site_key, api_key
+    global session, site_key, api_key, gui
 
     s = requests.Session()
 
@@ -49,7 +53,7 @@ def get_token(url) :
         return recaptcha_answer
 
     except Exception:
-        Color.printer("ERROR",'Failed to solve ReCaptcha!')
+        Color.printer("ERROR",'Failed to solve ReCaptcha!', gui)
         return None
 
 
@@ -75,7 +79,7 @@ def verify(token) :
     session.post("https://9anime.to/waf-verify", data=payload)
 
 def extract_page_urls(start_episode, end_episode, token) :
-    global session, episodes, nine_anime_url, download_9anime_url, ts_no, episodes, api_key
+    global session, episodes, nine_anime_url, download_9anime_url, ts_no, episodes, api_key, cookies, gui
 
     session.headers.update ({
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'
@@ -83,21 +87,26 @@ def extract_page_urls(start_episode, end_episode, token) :
 
     if token is None :
         if api_key is None :
-            Color.printer("ERROR", "No API Key Provided!")
+            Color.printer("ERROR", "No API Key Provided!", gui)
             sys.exit(0)
 
         if api_key != "" and api_key != "insert_2captcha_api_key":
-            Color.printer("INFO", "Solving recaptcha...")
+            Color.printer("INFO", "Solving recaptcha...", gui)
 
             token = get_token("https://9anime.to/waf-verify")
             if not token :
-                Color.printer("ERROR", "Captcha solving failed! Exiting...")
-                sys.exit(0)
+                Color.printer("ERROR", "Captcha solving failed!", gui)
+                Color.printer("INFO", "Trying to continue using browser cookies...", gui)
+                # sys.exit(0)
 
     if token:
         verify(token)
+    else :
+        Color.printer("INFO", "Collecting browser cookies...", gui)
+        # cookies = bc.load()         #collect all browser cookies
+        # session.cookies = cookies   #set browser cookies for requests
 
-    Color.printer("INFO", "Extracting page URLs...")
+    Color.printer("INFO", "Extracting page URLs...", gui)
 
     anime_page = session.get(download_9anime_url).content
     soup_html = BeautifulSoup(anime_page, "html.parser")
@@ -143,10 +152,10 @@ def extract_page_urls(start_episode, end_episode, token) :
     return episodes
 
 def extract_download_urls() :
-    global session
+    global session, gui
     down_base = "https://9anime.to/ajax/episode/info?"
 
-    Color.printer("INFO", "Extracting download URLs...")
+    Color.printer("INFO", "Extracting download URLs...", gui)
     for episode in episodes :
         if(episode.id is None) :
             episode.download_url = None
@@ -191,9 +200,9 @@ def set_titles(start_episode, end_episode) :
     
 
 def writeData() :
-    global episodes
+    global episodes, gui
 
-    Color.printer("INFO","Writing results to results.csv file...")
+    Color.printer("INFO","Writing results to results.csv file...", gui)
     data_file = open("results.csv", "w")
     for episode in episodes :
         data_file.write(episode.episode+","+episode.download_url+"\n")
@@ -202,9 +211,12 @@ def writeData() :
 
 
 def main(start_episode=-1, end_episode=-1, token = None) : 
-    global episodes, download_9anime_url, episodes_url, api_key
+    global episodes, download_9anime_url, episodes_url, api_key, gui
 
-    if not ts_no :
+    start_episode = int(start_episode)
+    end_episode = int(end_episode)
+
+    if not token :
         with open("settings.json") as (json_file):
             data = json.load(json_file)
             api_key = data["api_key"]
@@ -228,8 +240,8 @@ def main(start_episode=-1, end_episode=-1, token = None) :
     if title_url :
         set_titles(start_episode, end_episode)
     else :
-        Color.printer("INFO", "animefiller.com URL not provided to collect episode names...")
-        Color.printer("INFO", "Skipping collecting episode names...")
+        Color.printer("INFO", "animefiller.com URL not provided to collect episode names...", gui)
+        Color.printer("INFO", "Skipping collecting episode names...", gui)
 
     extract_download_urls()
 

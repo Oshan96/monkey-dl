@@ -17,9 +17,13 @@ from art import text2art
 directory = ""
 threads = 1
 
+token = None
+
 titles = False
 
 args = None
+
+gui = None
 
 class Worker(Thread) :
     def __init__(self, tasks) :
@@ -29,13 +33,14 @@ class Worker(Thread) :
         self.start()
     
     def run(self) :
+        global gui
         while True :
             func, arg, kargs = self.tasks.get()
             try :
                 func(*arg, **kargs)
             except Exception as ex :
                 # print(ex)
-                Color.printer("ERROR", ex)
+                Color.printer("ERROR", ex, gui)
             finally :
                 self.tasks.task_done()
 
@@ -63,9 +68,9 @@ def clean_file_name(file_name) :
     return file_name
 
 def download_episode(episode) :
-    global titles
+    global titles, gui
 
-    Color.printer("INFO","Downloading "+episode.episode+"...")
+    Color.printer("INFO","Downloading "+episode.episode+"...", gui)
 
     if system() == "Windows" :
         episode.title = clean_file_name(episode.title)
@@ -79,11 +84,11 @@ def download_episode(episode) :
         with open(file_name, 'wb') as f:
             shutil.copyfileobj(r.raw, f, length=16*1024*1024)
 
-    Color.printer("INFO",episode.episode + " finished downloading...")
+    Color.printer("INFO",episode.episode + " finished downloading...", gui)
 
 
 def download() :
-    global directory, threads
+    global directory, threads, gui
 
     try:
         _create_unverified_https_context = ssl._create_unverified_context
@@ -94,7 +99,7 @@ def download() :
         # Handle target environment that doesn't support HTTPS verification
         ssl._create_default_https_context = _create_unverified_https_context
 
-    Color.printer("INFO","Downloading started...")
+    Color.printer("INFO","Downloading started...", gui)
 
     # for episode in Anime_Scraper.episodes :
     #     print("Downloading", episode.episode)
@@ -105,6 +110,8 @@ def download() :
     pool.map(download_episode, Anime_Scraper.episodes)
     pool.wait_completion()
 
+    Color.printer("INFO", "Downloading finished!", gui)
+
 
 def print_banner() :
     banner = text2art("Anime    Downloader")
@@ -112,7 +119,7 @@ def print_banner() :
 
 
 def main() :
-    global directory, args, threads, titles
+    global directory, args, threads, titles, token
 
     print_banner()
 

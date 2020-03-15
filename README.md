@@ -39,7 +39,7 @@ And the GUI will appear as following :
 
 ![GUI](docs/images/gui.png)
 
-#### Note : If you don't have a 2captcha API key, you need to [provide "Recaptcha Token" in the given text field](#Q---I-don't-have-a-2captcha-API-key,-is-there-any-workaround-for-that?) 
+#### Note : If you don't have a 2captcha API key, you need to [provide "Recaptcha Token" in the given text field](#Q---I-don't-have-a-2captcha-API-key,-is-there-any-workaround-for-that?) (check FAQ section)
 
 ## How to download using anime-dl (CLI)?
 

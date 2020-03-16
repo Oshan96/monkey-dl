@@ -1,5 +1,5 @@
-from scrapers.nineanime import Anime_Scraper
-from util import Color
+from anime_downloader.scrapers.nineanime import Anime_Scraper
+from anime_downloader.util import Color
 import warnings
 import ssl
 import argparse

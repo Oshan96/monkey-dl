@@ -1,8 +1,8 @@
-import Anime_Downloader
-from scrapers.nineanime import Anime_Scraper
+from anime_downloader import Anime_Downloader
+from anime_downloader.scrapers.nineanime import Anime_Scraper
 import warnings
 from queue import Queue
-from gui.GUI import Anime_GUI
+from anime_downloader.gui.GUI import Anime_GUI
 
 if __name__ == "__main__" :
     warnings.filterwarnings("ignore")

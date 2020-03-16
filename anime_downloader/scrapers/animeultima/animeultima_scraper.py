@@ -1,10 +1,6 @@
 import cloudscraper
-import json
-from util import Color
-from util.Episode import Episode
-from util.Episode import extract_episode_names
 from bs4 import BeautifulSoup
-from math import ceil
+
 
 def get_anime_id(url, session) :
     page = session.get(url).content

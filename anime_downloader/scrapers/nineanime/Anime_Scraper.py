@@ -4,11 +4,11 @@ import json
 import sys
 import os
 # import browser_cookie3 as bc
-from util import Color
+from anime_downloader.util import Color
 from bs4 import BeautifulSoup
 from time import sleep
-from util.Episode import Episode
-from util.Episode import extract_episode_names
+from anime_downloader.util.Episode import Episode
+from anime_downloader.util.Episode import extract_episode_names
 
 title_url = None
 isFiller = False

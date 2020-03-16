@@ -1,6 +1,6 @@
 __pycache__
-settings.json
-results.csv
+anime_downloader/settings.json
+anime_downloader/results.csv
 Test_Downloader.py
 test.html
 build/

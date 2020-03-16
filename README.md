@@ -160,6 +160,19 @@ This will probably give error, but that's what we need.
 
 2) Now try loading the recaptcha page in private browsing. It will appear!
 
+### I'm getting the error "No module named 'tkinter'". How do I fix this?
+
+Answer : 
+> Assumptions : you're trying to run the GUI on Ubuntu (or some other version of it, like Linux Mint)
+
+This can be solved in 2 steps.
+
+1) Open a terminal and type in this command: `sudo apt install python3-tk`
+
+2) Enter your password (it will not be shown)
+
+If the command doesn't work, you may need to run `sudo apt update` first then run the other command again. Once it's installed, the GUI should function correctly.
+
 ## Building from source
 
 - Clone the project using to your local machine

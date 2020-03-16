@@ -1,12 +1,11 @@
-import Anime_Scraper
-import Color
+from scrapers.nineanime import Anime_Scraper
+from util import Color
 import warnings
 import ssl
 import argparse
 import requests
 import shutil
 import os
-import re
 import sys
 from platform import system
 
@@ -70,7 +69,7 @@ def clean_file_name(file_name) :
 def download_episode(episode) :
     global titles, gui
 
-    Color.printer("INFO","Downloading "+episode.episode+"...", gui)
+    Color.printer("INFO", "Downloading " + episode.episode + "...", gui)
 
     if system() == "Windows" :
         episode.title = clean_file_name(episode.title)
@@ -84,7 +83,7 @@ def download_episode(episode) :
         with open(file_name, 'wb') as f:
             shutil.copyfileobj(r.raw, f, length=16*1024*1024)
 
-    Color.printer("INFO",episode.episode + " finished downloading...", gui)
+    Color.printer("INFO", episode.episode + " finished downloading...", gui)
 
 
 def download() :
@@ -99,7 +98,7 @@ def download() :
         # Handle target environment that doesn't support HTTPS verification
         ssl._create_default_https_context = _create_unverified_https_context
 
-    Color.printer("INFO","Downloading started...", gui)
+    Color.printer("INFO", "Downloading started...", gui)
 
     # for episode in Anime_Scraper.episodes :
     #     print("Downloading", episode.episode)

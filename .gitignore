@@ -5,4 +5,6 @@ Test_Downloader.py
 test.html
 build/
 dist/
+.idea/
+venv/
 *.spec

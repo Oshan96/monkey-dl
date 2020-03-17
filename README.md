@@ -5,7 +5,8 @@ Anime_Scraper.py scraper is used to collect and extract direct anime download li
 
 ## Donations
 If this project is helpful to you and love my work and feel like showing love/appreciation, would you like to buy me a coffee?
-<a href="https://www.buymeacoffee.com/Oshan96" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+
+<a href="https://www.buymeacoffee.com/Oshan96" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 180px !important;" ></a>
 
 ## Download Anime Downloader [Windows]
 > Note : Currently only windows executable is provided (Linux, Mac users go to [Build from source](#Building-from-source))

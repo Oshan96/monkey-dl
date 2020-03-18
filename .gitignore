@@ -1,10 +1,8 @@
-__pycache__
-anime_downloader/settings.json
-anime_downloader/results.csv
-build/
-anime_downloader/build/
-anime_downloader/dist/
-dist/
+__pycache__/
 .idea/
 venv/
+anime_downloader/build/
+anime_downloader/dist/
+anime_downloader/settings.json
+anime_downloader/results.csv
 *.spec

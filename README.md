@@ -19,7 +19,7 @@ First of all, Anime Downloader uses [2captcha](https://www.2captcha.com) to bypa
 Open settings.json and set [2captcha](https://2captcha.com/) API key in "api_key"
 
 ```json
-    "api_key":"insert_2captcha_api_key"
+"api_key":"insert_2captcha_api_key"
 ```
 
 *Don't have 2captcha API key? Don't worry! You can still use this to download anime. Check the "FAQ" section on [how to download if you don't have a 2captcha API key](#Q---I-don't-have-a-2captcha-API-key,-is-there-any-workaround-for-that?)*
@@ -36,7 +36,7 @@ Execute the "anime-dl.exe" to start.
 If you're running from source files, execute the "anime-dl.py" script
 
 ```bash
-    python3 ./anime-dl.py
+python3 ./anime-dl.py
 ```
 
 And the GUI will appear as following :
@@ -70,7 +70,7 @@ Above mentioned are the arguments you should use in order to download anime.
 ### Q - How can I download one piece anime episodes from 10 to 20?
 
 ```bash
-    ./anime-dl.exe -u https://9anime.to/watch/one-piece.ov8/169lyx -s 10 -e 20 -n https://www.animefillerlist.com/shows/one-piece 
+./anime-dl.exe -u https://9anime.to/watch/one-piece.ov8/169lyx -s 10 -e 20 -n https://www.animefillerlist.com/shows/one-piece 
 ```
 
 Explantion of the commands used : 
@@ -82,7 +82,7 @@ Explantion of the commands used :
 ### Q - How can I download one piece anime episodes 30 to 70 into "D:\Anime\One Piece" folder?
 
 ```bash
-    ./anime-dl.exe -u https://9anime.to/watch/one-piece.ov8/169lyx -s 10 -e 20 -n https://www.animefillerlist.com/shows/one-piece -d "D:\Anime\One Piece" 
+./anime-dl.exe -u https://9anime.to/watch/one-piece.ov8/169lyx -s 10 -e 20 -n https://www.animefillerlist.com/shows/one-piece -d "D:\Anime\One Piece" 
 ```
 
 Explanation of commands : 
@@ -91,7 +91,7 @@ Explanation of commands :
 ### Q - How can I download bleach episodes 100 to 130 into "D:\Anime\Bleach" folder and download 4 episodes at once?
 
 ```bash
-    ./anime-dl.exe -u https://9anime.to/watch/bleach.6j9/lz7wvq -s 100 -e 130 -n https://www.animefillerlist.com/shows/bleach -d "D:\Anime\Bleach" -t 4
+./anime-dl.exe -u https://9anime.to/watch/bleach.6j9/lz7wvq -s 100 -e 130 -n https://www.animefillerlist.com/shows/bleach -d "D:\Anime\Bleach" -t 4
 ```
 
 Explanation of commands : 
@@ -100,7 +100,7 @@ Explanation of commands :
 ### Q - How can I download bleach episodes 100 to 130 without filler episodes into "D:\Anime\Bleach" folder and download 3 episodes at once?
 
 ```bash
-    ./anime-dl.exe -u https://9anime.to/watch/bleach.6j9/lz7wvq -s 100 -e 130 -n https://www.animefillerlist.com/shows/bleach -d "D:\Anime\Bleach" -t 3 -f False
+./anime-dl.exe -u https://9anime.to/watch/bleach.6j9/lz7wvq -s 100 -e 130 -n https://www.animefillerlist.com/shows/bleach -d "D:\Anime\Bleach" -t 3 -f False
 ```
 
 Explanation of commands : 
@@ -149,7 +149,7 @@ Now we have what we need!
 All you have to do is, add -c or --code command to the previous example's code like below
 
 ```bash
-    ./anime-dl.exe -u https://9anime.to/watch/bleach.6j9/lz7wvq -s 100 -e 130 -n https://www.animefillerlist.com/shows/bleach -d "D:\Anime\Bleach" -t 4 -f False -c 03AERD8Xode9TV-gFkG-7CNkllpKoiXfDKVEZ0Lu9NjGpxVv89bjwNHkS5bcfXHqKXx746tsNW_IUMhSVV7Aym-lcvdn6jd5Ggy1a28AQ_BI1K380joLpYReKB0EOjJjO2oVEUpOgtPu0fgfjxABKpI9EjrDZ0T7iSsKDPfhnXebQcZxIbAwelADkZ8m4qYojn3J_-kQyreIRCEztWyTTpm_SoNt6lIpFxG-egDFqVF6Sg7ICPp0QQrPa5UC-6pecgs_3xspg7PN48VOXGfHH4PCARIaGVL-J5CYNsesqUuZ4t_4kni9euduhtB3KCrV1_IYOhymepwczWIKKPGmze2DKVddoDBABlS8NZaxHRFAzNjjJHOhlRyblBMlmerK_Mu5N25bZeY5ZZ
+./anime-dl.exe -u https://9anime.to/watch/bleach.6j9/lz7wvq -s 100 -e 130 -n https://www.animefillerlist.com/shows/bleach -d "D:\Anime\Bleach" -t 4 -f False -c 03AERD8Xode9TV-gFkG-7CNkllpKoiXfDKVEZ0Lu9NjGpxVv89bjwNHkS5bcfXHqKXx746tsNW_IUMhSVV7Aym-lcvdn6jd5Ggy1a28AQ_BI1K380joLpYReKB0EOjJjO2oVEUpOgtPu0fgfjxABKpI9EjrDZ0T7iSsKDPfhnXebQcZxIbAwelADkZ8m4qYojn3J_-kQyreIRCEztWyTTpm_SoNt6lIpFxG-egDFqVF6Sg7ICPp0QQrPa5UC-6pecgs_3xspg7PN48VOXGfHH4PCARIaGVL-J5CYNsesqUuZ4t_4kni9euduhtB3KCrV1_IYOhymepwczWIKKPGmze2DKVddoDBABlS8NZaxHRFAzNjjJHOhlRyblBMlmerK_Mu5N25bZeY5ZZ
 ```
 
 ### Recaptcha does not appear even in private browsing. What can I do?
@@ -183,21 +183,21 @@ If the command doesn't work, you may need to run `sudo apt update` first then ru
 
 ### Prerequisites
 
-- Make sure python3 and pip3 is installed
+- Make sure python 3.7+ (preferably the latest version) and pip3 is installed
 
 ### Installing
 
 1) Download the dependancies using requirements.txt file
 
 ```
-    pip install -r requirements.txt 
+pip install -r requirements.txt 
 ```
 2) Rename settings_example.json as settings.json
 
 3) Open settings.json and set [2captcha](https://2captcha.com/) API key in "api_key"
 
 ```json
-    "api_key":"insert_2captcha_api_key"
+"api_key":"insert_2captcha_api_key"
 ```
 
 > If you don't have a 2captcha API key purchased, check the "FAQ" section on [how to download if you don't have a 2captcha API key](#Q---I-don't-have-a-2captcha-API-key,-is-there-any-workaround-for-that?)
@@ -205,6 +205,14 @@ If the command doesn't work, you may need to run `sudo apt update` first then ru
 ## Usage
 
 Anime Downloader is a CLI application which takes command line arguments in execution time
+
+Note : The package structure has been changed and the source (working) directory is now "anime_downloader/"
+
+First change your working directory to "anime_downloader/" before running the script
+
+```bash
+cd /path/to/anime_downloader/
+```
 
 To see the full available commands, run
 
@@ -235,7 +243,7 @@ optional arguments:
 Download One Piece episodes from 130 to 180 without filler episodes into "K:\Anime\One-Piece" folder with episode names (3 simultanious downloads a time)
 
 ```bash
-    python3 ./Anime_Downloader -u https://9anime.to/watch/one-piece.ov8/169lyx -s 130 -e 180 -f False -d "F:\Anime\One-Piece" -n https://www.animefillerlist.com/shows/one-piece -t 3
+python3 ./Anime_Downloader -u https://9anime.to/watch/one-piece.ov8/169lyx -s 130 -e 180 -f False -d "F:\Anime\One-Piece" -n https://www.animefillerlist.com/shows/one-piece -t 3
 ```
 ![Result](https://i.imgur.com/gRUhQdS.png)
 

@@ -1,9 +1,9 @@
 __pycache__
 anime_downloader/settings.json
 anime_downloader/results.csv
-Test_Downloader.py
-test.html
 build/
+anime_downloader/build/
+anime_downloader/dist/
 dist/
 .idea/
 venv/

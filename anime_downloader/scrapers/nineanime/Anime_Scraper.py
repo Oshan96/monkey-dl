@@ -4,11 +4,11 @@ import json
 import sys
 import os
 # import browser_cookie3 as bc
-from anime_downloader.util import Color
+from util import Color
 from bs4 import BeautifulSoup
 from time import sleep
-from anime_downloader.util.Episode import Episode
-from anime_downloader.util.Episode import extract_episode_names
+from util.Episode import Episode
+from util.Episode import extract_episode_names
 
 title_url = None
 isFiller = False
@@ -203,7 +203,7 @@ def writeData() :
     global episodes, gui
 
     Color.printer("INFO", "Writing results to results.csv file...", gui)
-    data_file = open("../../results.csv", "w")
+    data_file = open("results.csv", "w")
     for episode in episodes :
         data_file.write(episode.episode+","+episode.download_url+"\n")
     
@@ -217,7 +217,7 @@ def main(start_episode=-1, end_episode=-1, token = None) :
     end_episode = int(end_episode)
 
     if not token :
-        with open("../../settings.json") as (json_file):
+        with open("settings.json") as (json_file):
             data = json.load(json_file)
             api_key = data["api_key"]
 

@@ -1,5 +1,5 @@
 import requests
-from anime_downloader.util.Color import printer
+from util.Color import printer
 from bs4 import BeautifulSoup
 
 class Episode :

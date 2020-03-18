@@ -4,11 +4,11 @@ import json
 import sys
 import os
 # import browser_cookie3 as bc
-import Color
+from util import Color
 from bs4 import BeautifulSoup
 from time import sleep
-from Episode import Episode
-from Episode import extract_episode_names
+from util.Episode import Episode
+from util.Episode import extract_episode_names
 
 title_url = None
 isFiller = False
@@ -53,7 +53,7 @@ def get_token(url) :
         return recaptcha_answer
 
     except Exception:
-        Color.printer("ERROR",'Failed to solve ReCaptcha!', gui)
+        Color.printer("ERROR", 'Failed to solve ReCaptcha!', gui)
         return None
 
 
@@ -202,7 +202,7 @@ def set_titles(start_episode, end_episode) :
 def writeData() :
     global episodes, gui
 
-    Color.printer("INFO","Writing results to results.csv file...", gui)
+    Color.printer("INFO", "Writing results to results.csv file...", gui)
     data_file = open("results.csv", "w")
     for episode in episodes :
         data_file.write(episode.episode+","+episode.download_url+"\n")

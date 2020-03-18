@@ -1,6 +1,5 @@
 import requests
-from Color import Color
-from Color import printer
+from util.Color import printer
 from bs4 import BeautifulSoup
 
 class Episode :
@@ -12,8 +11,8 @@ class Episode :
         self.download_url = None
 
 
-def extract_episode_names(url, isFiller, start_epi, end_epi) :
-    printer("INFO", "Collecting episode names...")
+def extract_episode_names(url, isFiller, start_epi, end_epi, gui=None) :
+    printer("INFO", "Collecting episode names...", gui)
     episodes = []
 
     session = requests.Session()

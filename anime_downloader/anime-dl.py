@@ -1,5 +1,5 @@
 import Anime_Downloader
-import Anime_Scraper
+from scrapers.nineanime import Anime_Scraper
 import warnings
 from queue import Queue
 from gui.GUI import Anime_GUI

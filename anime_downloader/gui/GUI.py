@@ -94,10 +94,19 @@ class Anime_GUI() :
                 self.scraper.gui = self
                 self.downloader.gui = self
 
-                self.window["txt_msg"].update("[INFO] : Download started!")
+                # self.window["txt_msg"].update("[INFO] : Download started!")
                 self.window.refresh()
 
-                thread = Thread(target=execute, args=(self.downloader, self.scraper, values["start_epi"], values["end_epi"]), daemon=True)
+                start_epi = 1
+                end_epi=9999
+
+                if values["start_epi"] != "":
+                    start_epi = int(values["start_epi"])
+
+                if values["end_epi"] != "":
+                    end_epi = int(values["end_epi"])
+
+                thread = Thread(target=execute, args=(self.downloader, self.scraper, start_epi, end_epi), daemon=True)
                 thread.start()
                 
             self.check_messages(values)

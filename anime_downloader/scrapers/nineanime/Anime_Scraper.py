@@ -1,14 +1,13 @@
-import re
-import requests
+import cloudscraper
 import json
 import sys
 import os
-# import browser_cookie3 as bc
 from util import Color
 from bs4 import BeautifulSoup
 from time import sleep
 from util.Episode import Episode
 from util.Episode import extract_episode_names
+from extractors.mp4upload_extractor import Mp4UploadExtractor
 
 title_url = None
 isFiller = False
@@ -28,24 +27,22 @@ api_key = None
 cookies = None
 gui = None
 
-session = requests.Session()
+session = cloudscraper.create_scraper()
 
 episodes = []
 
 def get_token(url) :
     global session, site_key, api_key, gui
 
-    s = requests.Session()
-
     try:
-        captcha_id = s.post("http://2captcha.com/in.php?key={}&method=userrecaptcha&googlekey={}&pageurl={}&invisible=1"
+        captcha_id = session.post("http://2captcha.com/in.php?key={}&method=userrecaptcha&googlekey={}&pageurl={}&invisible=1"
             .format(api_key, site_key, url)).text.split('|')[1]
 
-        recaptcha_answer = s.get("http://2captcha.com/res.php?key={}&action=get&id={}".format(api_key, captcha_id)).text
+        recaptcha_answer = session.get("http://2captcha.com/res.php?key={}&action=get&id={}".format(api_key, captcha_id)).text
  
         while 'CAPCHA_NOT_READY' in recaptcha_answer:
             sleep(5)
-            recaptcha_answer = s.get("http://2captcha.com/res.php?key={}&action=get&id={}".format(api_key, captcha_id)).text
+            recaptcha_answer = session.get("http://2captcha.com/res.php?key={}&action=get&id={}".format(api_key, captcha_id)).text
         
         recaptcha_answer = recaptcha_answer.split('|')[1]
 
@@ -96,13 +93,13 @@ def extract_page_urls(start_episode, end_episode, token) :
             token = get_token("https://9anime.to/waf-verify")
             if not token :
                 Color.printer("ERROR", "Captcha solving failed!", gui)
-                Color.printer("INFO", "Trying to continue using browser cookies...", gui)
+                Color.printer("INFO", "Trying to continue ...", gui)
                 # sys.exit(0)
 
     if token:
         verify(token)
     else :
-        Color.printer("INFO", "Collecting browser cookies...", gui)
+        Color.printer("INFO", "No API key or token given, trying to continue...", gui)
         # cookies = bc.load()         #collect all browser cookies
         # session.cookies = cookies   #set browser cookies for requests
 
@@ -166,14 +163,16 @@ def extract_download_urls() :
 
         episode.page_url = target
 
-        video_page = session.get(target).content
+        download_url = Mp4UploadExtractor(target, session).extract_direct_url()
 
-        string = video_page.decode("utf-8")
-
-        www_base = re.search("false\|(.*)\|devicePixelRatio",string).group(1)
-        url_id = re.search("video\|(.*)\|282", string).group(1)
-
-        download_url = "https://"+www_base+".mp4upload.com:282/d/"+url_id+"/video.mp4"
+        # video_page = session.get(target).content
+        #
+        # string = video_page.decode("utf-8")
+        #
+        # www_base = re.search("false\|(.*)\|devicePixelRatio",string).group(1)
+        # url_id = re.search("video\|(.*)\|282", string).group(1)
+        #
+        # download_url = "https://"+www_base+".mp4upload.com:282/d/"+url_id+"/video.mp4"
 
         episode.download_url = download_url
 

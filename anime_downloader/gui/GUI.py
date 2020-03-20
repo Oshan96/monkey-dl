@@ -66,6 +66,11 @@ class Anime_GUI() :
 
             if event == "Download" :
                 self.scraper.download_9anime_url = values["anime_url"]
+
+                if values["anime_url"] == "" :
+                    self.window['txt_msg'].update("[ERROR!] : Provide Anime URL!")
+                    continue
+
                 self.scraper.title_url = values["names_url"]
 
                 if values["names_url"] != "" :

@@ -11,7 +11,7 @@ class JWPlayerExtractor(BaseExtractor):
         page_content = self.extract_page_content()
 
         link_sources = [match.group(1) for match in
-                        re.finditer("{\s*file\s*:\s*[\"\']\s*([https][^\"\']+)", page_content)]
+                        re.finditer("{\s*file\s*:\s*[\"\']\s*([htps][^\"\']+)", page_content)]
 
         return link_sources
 
@@ -28,6 +28,7 @@ class JWPlayerExtractor(BaseExtractor):
 
 
 # if __name__ == "__main__":
+#     import cloudscraper
 #     data = "sources: [{file:\"http://localhost/srt/43534234/viral022018SD.MP4\",label:\"SD\",type: \"video/mp4\"}," \
 #            "{file:\"https://localhost/srt/43534234/viral022018HD.MP4\",label:\"HD\",type: \"video/mp4\"," \
 #            "default: true}] "

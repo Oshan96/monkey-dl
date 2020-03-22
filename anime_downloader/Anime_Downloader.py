@@ -83,14 +83,14 @@ class Downloader:
         if system() == "Windows":
             episode.title = self.__clean_file_name(episode.title)
 
-        print(self.is_titles)
-        print(episode.title)
+        # print(self.is_titles)
+        # print(episode.title)
 
         if self.is_titles:
-            print("with title")
+            # print("with title")
             file_name = self.directory + episode.episode + " - " + episode.title + ".mp4"
         else:
-            print("without title")
+            # print("without title")
             file_name = self.directory + episode.episode + ".mp4"
 
         with requests.get(episode.download_url, stream=True, verify=False) as r:

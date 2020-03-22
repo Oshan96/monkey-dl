@@ -108,7 +108,7 @@ class NineAnimeScraper(BaseScraper):
 
                     self.episodes.append(epi)
         except Exception as ex:
-            print(ex)
+            Color.printer("ERROR", ex, self.gui)
             return None
 
         return self.episodes

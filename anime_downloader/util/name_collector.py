@@ -50,7 +50,7 @@ class EpisodeNamesCollector:
             epi = self.__get_episode(epis, episode)
             if epi:
                 episode.title = epi.title
-                print(episode.episode,"Title -",episode.title)
+                # print(episode.episode,"Title -",episode.title)
                 epis.remove(epi)
             else:
                 print(episode.episode,"is Filler, skipped")

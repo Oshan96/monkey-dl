@@ -2,11 +2,13 @@ import queue
 import cloudscraper
 import PySimpleGUI as sg
 from threading import Thread
+from time import sleep
 from scrapers.nineanime import Anime_Scraper
 from scrapers.fouranime.fouranime_scraper import FourAnimeScraper
 from scrapers.nineanime.nineanime_scraper import NineAnimeScraper
 from Anime_Downloader import Downloader
 from util.name_collector import EpisodeNamesCollector
+from util.Color import printer
 
 sg.theme('Dark Amber')
 
@@ -25,7 +27,7 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
 
     anime_url = anime_url.lower()
 
-    print(anime_url)
+    # print(anime_url)
 
     if "9anime.to" in anime_url :
         # scraper = Anime_Scraper
@@ -40,7 +42,7 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
         scraper = NineAnimeScraper(anime_url, start_epi, end_epi, session, gui, token)
 
     elif "4anime.to" in anime_url:
-        print("4anime")
+        # print("4anime")
         scraper = FourAnimeScraper(anime_url, start_epi, end_epi, session, gui)
 
         # episodes = scraper.get_direct_links()
@@ -55,22 +57,27 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
     else:
         return
 
-    gui.gui_queue.put("[INFO] : Collecting download links...")
+    printer("INFO", "Collecting download links...", gui)
     episodes = scraper.get_direct_links()
+
+    if episodes is None:
+        printer("INFO", "Retrying to collect download links...", gui)
+        sleep(5)
+        episodes = scraper.get_direct_links()
 
     if episodes:
         if is_titles:
-            gui.gui_queue.put("[INFO] : Setting episode titles...")
+            printer("INFO", "Setting episode titles...", gui)
             episodes = EpisodeNamesCollector(names_url, start_epi, end_epi, is_filler, episodes).collect_episode_names()
 
-        for episode in episodes:
-            print(episode.episode, "-", episode.title)
+        # for episode in episodes:
+        #     print(episode.episode, "-", episode.title)
 
     else:
-        gui.gui_queue.put("[ERROR] : Failed to retrieve download links!")
+        printer("ERROR", "Failed to retrieve download links!", gui)
         return
 
-    print("is titles", is_titles)
+    # print("is titles", is_titles)
     downloader = Downloader(directory, episodes, threads, gui, is_titles)
     downloader.download()
 
@@ -172,6 +179,7 @@ class AnimeGUI:
                 # self.downloader.gui = self
 
                 # self.window["txt_msg"].update("[INFO] : Download started!")
+                self.window["txt_msg"].update("")
                 self.window.refresh()
 
                 # thread = Thread(target=execute, args=(self.downloader, self.scraper, start_epi, end_epi), daemon=True)

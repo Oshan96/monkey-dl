@@ -8,7 +8,7 @@ import shutil
 import os
 import sys
 from platform import system
-
+from util.ffmpeg_downloader import FFMPEGDownloader
 from threading import Thread
 from queue import Queue
 from art import text2art
@@ -77,27 +77,31 @@ class Downloader:
         return file_name
 
     def __download_episode(self, episode):
+        if episode.is_direct:
+            Color.printer("INFO", "Downloading " + episode.episode + "...", self.gui)
 
-        Color.printer("INFO", "Downloading " + episode.episode + "...", self.gui)
+            if system() == "Windows":
+                episode.title = self.__clean_file_name(episode.title)
 
-        if system() == "Windows":
-            episode.title = self.__clean_file_name(episode.title)
+            # print(self.is_titles)
+            # print(episode.title)
 
-        # print(self.is_titles)
-        # print(episode.title)
+            if self.is_titles:
+                # print("with title")
+                file_name = self.directory + episode.episode + " - " + episode.title + ".mp4"
+            else:
+                # print("without title")
+                file_name = self.directory + episode.episode + ".mp4"
 
-        if self.is_titles:
-            # print("with title")
-            file_name = self.directory + episode.episode + " - " + episode.title + ".mp4"
+            with requests.get(episode.download_url, stream=True, verify=False) as r:
+                with open(file_name, 'wb') as f:
+                    shutil.copyfileobj(r.raw, f, length=16 * 1024 * 1024)
+
+            Color.printer("INFO", episode.episode + " finished downloading...", self.gui)
+
         else:
-            # print("without title")
-            file_name = self.directory + episode.episode + ".mp4"
-
-        with requests.get(episode.download_url, stream=True, verify=False) as r:
-            with open(file_name, 'wb') as f:
-                shutil.copyfileobj(r.raw, f, length=16 * 1024 * 1024)
-
-        Color.printer("INFO", episode.episode + " finished downloading...", self.gui)
+            Color.printer("INFO", "HLS link found. Using FFMPEG to download...", self.gui)
+            FFMPEGDownloader(episode, self.directory, self.gui).download()
 
     def download(self):
 

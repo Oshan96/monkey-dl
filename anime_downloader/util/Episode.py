@@ -10,6 +10,7 @@ class Episode:
         self.id = None
         self.page_url = None
         self.download_url = None
+        self.is_direct = True
 
 
 def extract_episode_names(url, isFiller, start_epi, end_epi, gui=None):

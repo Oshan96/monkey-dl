@@ -3,9 +3,9 @@ import cloudscraper
 import PySimpleGUI as sg
 from threading import Thread
 from time import sleep
-from scrapers.nineanime import Anime_Scraper
 from scrapers.fouranime.fouranime_scraper import FourAnimeScraper
 from scrapers.nineanime.nineanime_scraper import NineAnimeScraper
+from scrapers.animeultima.animeultima_scraper import AnimeUltimaScraper
 from Anime_Downloader import Downloader
 from util.name_collector import EpisodeNamesCollector
 from util.Color import printer
@@ -13,16 +13,9 @@ from util.Color import printer
 sg.theme('Dark Amber')
 
 
-# def execute(downloader, scraper, start_epi, end_epi):
-#     scraper.main(start_epi, end_epi, downloader.token)
-#     downloader.download()
-
-
 def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, gui):
     session = cloudscraper.create_scraper()
-
     scraper = None
-
     episodes = []
 
     anime_url = anime_url.lower()
@@ -30,29 +23,16 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
     # print(anime_url)
 
     if "9anime.to" in anime_url :
-        # scraper = Anime_Scraper
-        # scraper.download_9anime_url = anime_url
-        # scraper.title_url = names_url
-        # scraper.isFiller = is_filler
-        # scraper.session = session
-        #
-        # scraper.main(start_epi, end_epi, token)
-        # episodes = scraper.episodes
-
+        print("9anime")
         scraper = NineAnimeScraper(anime_url, start_epi, end_epi, session, gui, token)
 
     elif "4anime.to" in anime_url:
-        # print("4anime")
+        print("4anime")
         scraper = FourAnimeScraper(anime_url, start_epi, end_epi, session, gui)
 
-        # episodes = scraper.get_direct_links()
-        # if episodes:
-        #     if is_titles:
-        #         episodes = EpisodeNamesCollector(names_url, start_epi, end_epi, is_filler, episodes)
-        #
-        # else:
-        #     gui.gui_queue.put("[ERROR] : Failed to retrieve download links!")
-        #     return
+    elif "animeultima.to" in anime_url:
+        print("animeultima")
+        scraper = AnimeUltimaScraper(anime_url, start_epi, end_epi, session, gui, False, "240")
 
     else:
         return
@@ -69,9 +49,6 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
         if is_titles:
             printer("INFO", "Setting episode titles...", gui)
             episodes = EpisodeNamesCollector(names_url, start_epi, end_epi, is_filler, episodes).collect_episode_names()
-
-        # for episode in episodes:
-        #     print(episode.episode, "-", episode.title)
 
     else:
         printer("ERROR", "Failed to retrieve download links!", gui)
@@ -164,25 +141,8 @@ class AnimeGUI:
                     if not directory.endswith("/"):
                         directory += "/"
 
-                # self.scraper.download_9anime_url = anime_url
-                # self.scraper.title_url = names_url
-                # self.scraper.isFiller = is_filler
-                #
-                # self.downloader.titles = is_titles
-                #
-                # self.downloader.token = token
-                #
-                # self.downloader.directory = directory
-                # self.downloader.threads = threads
-                #
-                # self.scraper.gui = self
-                # self.downloader.gui = self
-
-                # self.window["txt_msg"].update("[INFO] : Download started!")
                 self.window["txt_msg"].update("")
                 self.window.refresh()
-
-                # thread = Thread(target=execute, args=(self.downloader, self.scraper, start_epi, end_epi), daemon=True)
 
                 thread = Thread(target=download, args=(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, self), daemon=True)
                 thread.start()

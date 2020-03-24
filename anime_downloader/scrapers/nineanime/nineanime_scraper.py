@@ -97,10 +97,6 @@ class NineAnimeScraper(BaseScraper):
                     if epi_number < self.start_episode or epi_number > self.end_episode:
                         continue
 
-                    # epi = get_episode(epi_number)
-                    # if epi == None :
-                    #     continue
-
                     epi = Episode(str(epi_number), "Episode - " + str(epi_number))
 
                     epi.page_url = self.nine_anime_url + episode["href"]

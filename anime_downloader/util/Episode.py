@@ -13,7 +13,7 @@ class Episode:
         self.is_direct = True
 
 
-def extract_episode_names(url, isFiller, start_epi, end_epi, gui=None):
+def extract_episode_names(url, is_filler, start_epi, end_epi, gui=None):
     printer("INFO", "Collecting episode names...", gui)
     episodes = []
 
@@ -24,7 +24,7 @@ def extract_episode_names(url, isFiller, start_epi, end_epi, gui=None):
 
     table = soup_html.find("table", attrs={"class": "EpisodeList"}).find("tbody")
 
-    if isFiller:
+    if is_filler:
         epis = table.findAll("tr")
     else:
         epis = table.findAll("tr", attrs={"class": ["anime_canon", "mixed_canon/filler", "manga_canon"]})

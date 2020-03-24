@@ -3,17 +3,18 @@ import cloudscraper
 import PySimpleGUI as sg
 from threading import Thread
 from time import sleep
+from Anime_Downloader import Downloader
+from util.Color import printer
+from util.name_collector import EpisodeNamesCollector
 from scrapers.fouranime.fouranime_scraper import FourAnimeScraper
 from scrapers.nineanime.nineanime_scraper import NineAnimeScraper
 from scrapers.animeultima.animeultima_scraper import AnimeUltimaScraper
-from Anime_Downloader import Downloader
-from util.name_collector import EpisodeNamesCollector
-from util.Color import printer
+from scrapers.animepahe.animepahe_scraper import AnimePaheScraper
 
 sg.theme('Dark Amber')
 
 
-def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, gui):
+def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, gui, resolution="720", is_dub=False):
     session = cloudscraper.create_scraper()
     scraper = None
     episodes = []
@@ -22,7 +23,7 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
 
     # print(anime_url)
 
-    if "9anime.to" in anime_url :
+    if "9anime.to" in anime_url:
         print("9anime")
         scraper = NineAnimeScraper(anime_url, start_epi, end_epi, session, gui, token)
 
@@ -32,7 +33,11 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
 
     elif "animeultima.to" in anime_url:
         print("animeultima")
-        scraper = AnimeUltimaScraper(anime_url, start_epi, end_epi, session, gui, False, "240")
+        scraper = AnimeUltimaScraper(anime_url, start_epi, end_epi, session, gui, resolution, is_dub)
+
+    elif "animepahe.com" in anime_url:
+        print("animepahe")
+        scraper = AnimePaheScraper(anime_url, start_epi, end_epi, session, gui, resolution, is_filler)
 
     else:
         return
@@ -144,7 +149,9 @@ class AnimeGUI:
                 self.window["txt_msg"].update("")
                 self.window.refresh()
 
-                thread = Thread(target=download, args=(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, self), daemon=True)
+                thread = Thread(target=download, args=(
+                anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, self),
+                                daemon=True)
                 thread.start()
 
             self.check_messages(values)

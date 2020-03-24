@@ -17,7 +17,11 @@ class FFMPEGDownloader:
         return file_name
 
     def download(self):
-        print("FFMPEG", which("ffmpeg"))
+        # print("FFMPEG", which("ffmpeg"))
+        if self.episode.download_url is None:
+            printer("ERROR", "Download URL is not set for " + self.episode.episode + ", skipping...", self.gui)
+            return
+
         if which("ffmpeg") is None:
             printer("ERROR", "FFMPEG not found! Please install and add to system path to download!", self.gui)
             return

@@ -1,4 +1,3 @@
-import cloudscraper
 from bs4 import BeautifulSoup
 from scrapers.base_scraper import BaseScraper
 from util.Episode import Episode
@@ -7,7 +6,7 @@ from extractors.jwplayer_extractor import JWPlayerExtractor
 
 class AnimeUltimaScraper(BaseScraper):
 
-    def __init__(self, url, start_episode, end_episode, session, gui=None, is_dub=False, resolution="720"):
+    def __init__(self, url, start_episode, end_episode, session, gui=None, resolution="720", is_dub=False):
         super().__init__(url, start_episode, end_episode, session, gui)
         self.is_dub = False
         self.resolution = resolution
@@ -118,8 +117,6 @@ class AnimeUltimaScraper(BaseScraper):
             stream_url = extractor.extract_stream_link(self.resolution)
             episode.dowload_url = stream_url
 
-    # This will get called initially
-    # Not fully implemented yet
     def get_direct_links(self):
         anime_id = self.get_anime_id()
         start_page, end_page = self.get_start_and_end_page(anime_id)
@@ -129,29 +126,9 @@ class AnimeUltimaScraper(BaseScraper):
 
         try:
             self.collect_episodes(anime_id, start_page, end_page)
-            # sleep(2)
-            # self.set_stream_urls()
 
             return self.episodes
         except Exception as ex:
             print(ex)
             return None
 
-
-# if __name__ == "__main__":
-#     session = cloudscraper.create_scraper()
-    # id = get_anime_id("https://www1.animeultima.to/a/naruto-shippuuden_395410", session)
-    # print(id)
-    # print(get_start_and_end_page(session, id, 20, 450))
-
-    # print(get_anime_id("https://www1.animeultima.to/a/naruto-shippuuden_395410", session))
-    # print(get_start_and_end_page(1,513))
-    # print(session.get("https://www1.animeultima.to/faststream/2336").text)
-    # AnimeUltimaScraper("https://www1.animeultima.to/a/one-piece_708779", 261, 330, session).extract_episodes()
-    epis = AnimeUltimaScraper("https://www1.animeultima.to/a/one-piece_708779", 261, 330, session).get_direct_links()
-
-    for epi in epis:
-        print(epi.episode, "-", epi.title)
-        print(epi.is_direct)
-        print(epi.download_url)
-        print("-------------------------")

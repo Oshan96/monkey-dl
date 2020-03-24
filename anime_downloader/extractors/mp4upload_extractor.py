@@ -19,9 +19,3 @@ class Mp4UploadExtractor(BaseExtractor):
 
         return direct_url
 
-
-# if __name__ == "__main__":
-#     import cloudscraper
-#
-#     print(Mp4UploadExtractor("https://www.mp4upload.com/embed-qs3giv932ea3.html",
-#                              cloudscraper.create_scraper()).direct_link())

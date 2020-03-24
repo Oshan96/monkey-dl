@@ -28,7 +28,6 @@ class JWPlayerExtractor(BaseExtractor):
     def get_resolution_link(self, master_url, resolution):
         count = 0
         content = self.session.get(master_url).text
-        # print(content.split("\n"))
         data_list = content.split("\n")
 
         link = None
@@ -62,17 +61,3 @@ class JWPlayerExtractor(BaseExtractor):
 
         return link
 
-
-if __name__ == "__main__":
-    import cloudscraper
-
-    # data = "sources: [{file:\"http://localhost/srt/43534234/viral022018SD.MP4\",label:\"SD\",type: \"video/mp4\"}," \
-    #        "{file:\"https://localhost/srt/43534234/viral022018HD.MP4\",label:\"HD\",type: \"video/mp4\"," \
-    #        "default: true}] "
-    # print(JWPlayerExtractor(None, cloudscraper.create_scraper()).extract_sources(data))
-
-    # print(JWPlayerExtractor("https://www1.animeultima.to/faststream/2336",
-    #                         cloudscraper.create_scraper()).extract_direct_url())
-
-    print(JWPlayerExtractor("https://www1.animeultima.to/faststream/2336",
-                            cloudscraper.create_scraper()).extract_stream_link("240"))

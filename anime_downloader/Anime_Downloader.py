@@ -1,5 +1,3 @@
-from scrapers.nineanime import Anime_Scraper
-from util import Color
 import warnings
 import ssl
 import argparse
@@ -8,20 +6,18 @@ import shutil
 import os
 import sys
 from platform import system
-from util.ffmpeg_downloader import FFMPEGDownloader
 from threading import Thread
 from queue import Queue
 from art import text2art
+from util import Color
+from util.ffmpeg_downloader import FFMPEGDownloader
+from scrapers.nineanime import Anime_Scraper
 
 directory = ""
 threads = 1
-
 token = None
-
 titles = False
-
 args = None
-
 gui = None
 
 
@@ -39,7 +35,6 @@ class Worker(Thread):
             try:
                 func(*arg, **kargs)
             except Exception as ex:
-                # print(ex)
                 Color.printer("ERROR", ex, self.gui)
             finally:
                 self.tasks.task_done()
@@ -78,6 +73,10 @@ class Downloader:
 
     def __download_episode(self, episode):
         if episode.is_direct:
+            if episode.download_url is None:
+                Color.printer("ERROR", "Download URL is not set for " + episode.episode + ", skipping...", self.gui)
+                return
+
             Color.printer("INFO", "Downloading " + episode.episode + "...", self.gui)
 
             if system() == "Windows":
@@ -160,7 +159,7 @@ def main():
     Anime_Scraper.download_9anime_url = args.url
     Anime_Scraper.title_url = args.title_url
     Anime_Scraper.isFiller = args.isFiller
-    # Anime_Scraper.ts_no = args.ts_no
+
     token = args.token
     directory = args.dir
     threads = args.threads

@@ -1,4 +1,4 @@
-class BaseExtractor():
+class BaseExtractor:
 
     def __init__(self, url, session):
         self.url = url

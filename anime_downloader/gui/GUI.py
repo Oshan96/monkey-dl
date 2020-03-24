@@ -12,9 +12,13 @@ from scrapers.animeultima.animeultima_scraper import AnimeUltimaScraper
 from scrapers.animepahe.animepahe_scraper import AnimePaheScraper
 
 sg.theme('Dark Amber')
+i = 0
+max_val = 100
 
 
 def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, gui, resolution="720", is_dub=False):
+    global max_val
+
     session = cloudscraper.create_scraper()
     scraper = None
     episodes = []
@@ -59,6 +63,7 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
         printer("ERROR", "Failed to retrieve download links!", gui)
         return
 
+    max_val = len(episodes)
     # print("is titles", is_titles)
     downloader = Downloader(directory, episodes, threads, gui, is_titles)
     downloader.download()
@@ -97,12 +102,15 @@ class AnimeGUI:
             [],
             [sg.Text("Messages")],
             [sg.Multiline(size=(None, 8), key="txt_msg", disabled=True)],
-            []
+            [],
+            [sg.Text("Progress"), sg.Text("_" * 74, pad=(0, 15))],
+            [sg.ProgressBar(100, key="progress", orientation="h", size=(45, 15))]
         ]
 
-        self.window = sg.Window("Anime Downloader v0.1.1-alpha", layout)
+        self.window = sg.Window("Anime Downloader v1.0.0", layout)
 
     def check_messages(self, values):
+        global i, max_val
         txt = values["txt_msg"].strip()
         while True:
             try:  # see if something has been posted to Queue
@@ -112,18 +120,28 @@ class AnimeGUI:
             # if message received from queue, display the message in the Window
             if message:
                 txt += "\n" + message
+
+                if "finished downloading..." in message or "failed to download!" in message:
+                    i+=1
+                    self.window["progress"].UpdateBar(i, max=max_val)
+
                 self.window['txt_msg'].update(txt)
                 # do a refresh because could be showing multiple messages before next Read
                 self.window.refresh()
                 # print(message)
 
     def run(self):
+        global i, max_val
         self.create_ui()
+
         while True:
             # wait for up to 100 ms for a GUI event
             event, values = self.window.read(timeout=100)
             if event in (None, 'Exit'):
                 break
+
+            # self.window["progress"].UpdateBar(i+1, max=100)
+            # i+=1
 
             if event == "Download":
                 anime_url = values["anime_url"]
@@ -138,7 +156,10 @@ class AnimeGUI:
                 threads = values["threads"]
                 start_epi = int(values["start_epi"]) if values["start_epi"] != "" else 1
                 end_epi = int(values["end_epi"]) if values["end_epi"] != "" else 9999
-                resolution = values["resolution"]
+                resolution = str(values["resolution"])
+
+                max_val = (end_epi - start_epi) + 1
+                self.window["progress"].UpdateBar(i, max=max_val)
 
                 if anime_url == "":
                     self.window['txt_msg'].update("[ERROR!] : Provide Anime URL!")

@@ -13,7 +13,7 @@ class Color:
 
 def printer(msg_type, msg, gui=None):
     if gui:
-        gui.gui_queue.put("[" + msg_type + "] : " + msg)
+        gui.gui_queue.put("[" + msg_type + "] : " + str(msg))
 
     if msg_type == "INFO":
         print(Color.YELLOW("[INFO!] : " + msg) + Color.RESET(" "))

@@ -72,10 +72,14 @@ class AnimePaheScraper(BaseScraper):
             link = api_data[links[0]]["720"]["url"]
             id = link.split("/")[-1]
 
-            # 1080p
-            if self.resolution == "1080":
-                link = api_data[links[0]]["1080"]["url"]
-                id = link.split("/")[-1]
+            try:
+                # 1080p
+                if self.resolution == "1080":
+                    link = api_data[links[0]]["1080"]["url"]
+                    id = link.split("/")[-1]
+            except Exception as ex:
+                printer("ERROR", "1080p not available!", self.gui)
+                printer("INFO", "Continuing with 720p link...", self.gui)
 
             episode.id = id
             page_url = "https://kwik.cx/f/" + id

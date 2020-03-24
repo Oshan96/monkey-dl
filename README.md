@@ -1,20 +1,29 @@
 # Anime Downloader [![Total Downloads](https://img.shields.io/github/downloads/Oshan96/Anime-Downloader/total.svg?style=for-the-badge)](https://github.com/Oshan96/Anime-Downloader/releases)
 
-There are two scripts (Anime_Downloader.py, Anime_Scraper.py) to download given anime to a directory and to extract direct download links.
-Anime_Scraper.py scraper is used to collect and extract direct anime download links from 9anime.to (From its Mp4Upload server)
+You can now bulk download your favourite anime episodes for various websites, in various resolutions, with or without filler episodes
+
+[See supported websites](#Supported-Websites)
 
 ## Donations
 If this project is helpful to you and love my work and feel like showing love/appreciation, would you like to buy me a coffee?
 <a href="https://www.buymeacoffee.com/Oshan96" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+
+## Supported Websites
+| Website                                       | Need recaptcha token? | Supported resolutions         | FFMPEG needed?    |
+|---                                            |---                    |---                            |---                |
+| [9Anime](https://9anime.to/)                  | Yes                   | Default only                  | No                |
+| [4Anime](https://4anime.to/)                  | No                    | Default only                  | No                |
+| [AnimePahe](https://animepahe.com/)           | No                    | 720p, 1080p                   | No                |
+| [AnimeUltima](https://www.animeultima.to/)    | No                    | 240p, 360p, 480p, 720p, 1080p | Yes               |
 
 ## Download Anime Downloader [Windows]
 > Note : Currently only windows executable is provided (Linux, Mac users go to [Build from source](#Building-from-source))
 
 Download the [Latest Relase](https://github.com/Oshan96/Anime-Downloader/releases) from here and extract the zip file
 
-## Downloading 
+## Downloading Your Favourite Anime
 
-First of all, Anime Downloader uses [2captcha](https://www.2captcha.com) to bypass google recaptcha, so you need to purchase one
+First of all for websites which require capatcha token, Anime Downloader uses [2captcha](https://www.2captcha.com) to bypass google recaptcha, so you need to purchase one ([Check whether your anime website needs captcha token](#Supported-Websites))
 
 Open settings.json and set [2captcha](https://2captcha.com/) API key in "api_key"
 
@@ -24,12 +33,20 @@ Open settings.json and set [2captcha](https://2captcha.com/) API key in "api_key
 
 *Don't have 2captcha API key? Don't worry! You can still use this to download anime. Check the "FAQ" section on [how to download if you don't have a 2captcha API key](#Q---I-don't-have-a-2captcha-API-key,-is-there-any-workaround-for-that?)*
 
+##### And in order to download from some websites (like animeultima.to) Anime Downloader requires you to have [FFMPEG](https://www.ffmpeg.org/) to be downloaded ([Check whether your anime website needs FFMPEG](#Supported-Websites))
+
+- You can download FFMPEG from [here](https://www.ffmpeg.org/download.html)
+- And then add the ffmpeg executable to system path
+Or, in your linux environment, 
+```bash
+sudo apt install ffmpeg
+```
+
+## Running the application
 Navigate to the extracted folder and open a cmd or powershell window from that folder and execute "anime-dl.exe" from command line.
 
 ## How to download using GUI version (v0.1.1-alpha upwards)
 It is same as the CLI version, but provided a graphical user interface to collect necessary parameters.
-
-> Note : The GUI version is still in development and this is a pre-release. The code and execution methods will probably change in future
 
 Execute the "anime-dl.exe" to start.
 
@@ -43,7 +60,7 @@ And the GUI will appear as following :
 
 ![GUI](docs/images/gui.png)
 
-#### Note : If you don't have a 2captcha API key, you need to [provide "Recaptcha Token" in the given text field](#Q---I-don't-have-a-2captcha-API-key,-is-there-any-workaround-for-that?) (check FAQ section)
+#### Note : If you don't have a 2captcha API key, you need to [provide "Recaptcha Token" in the given text field](#Q---I-don't-have-a-2captcha-API-key,-is-there-any-workaround-for-that?) for websites require captcha token (check FAQ section)
 
 ## How to download using anime-dl (CLI)?
 

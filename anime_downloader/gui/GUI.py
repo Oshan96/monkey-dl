@@ -74,17 +74,19 @@ class AnimeGUI:
         layout = [
 
             [sg.Text("General Details", size=(15, 1)), sg.Text("_" * 60, pad=(0, 15))],
-            [sg.Text("Anime URL (9anime.to)", text_color="white", size=(25, 1)), sg.InputText(key="anime_url")],
+            [sg.Text("Anime URL", text_color="white", size=(25, 1)), sg.InputText(key="anime_url")],
             [sg.Text("Animefillerlist URL", text_color="white", size=(25, 1)), sg.InputText(key="names_url")],
             [sg.Text("Save To", size=(25, 1), text_color="white"), sg.InputText(key="location"), sg.FolderBrowse()],
 
             [sg.Text("Episodes Details", size=(15, 1)), sg.Text("_" * 60, pad=(0, 15))],
             [sg.Text("From", text_color="white"), sg.InputText(key="start_epi", size=(5, 1)),
              sg.Text("To", text_color="white"), sg.InputText(key="end_epi", size=(5, 1)),
-             sg.Text("Download Filler Episodes?", text_color="white"),
+             sg.Text("Download Fillers?", text_color="white"),
              sg.Combo(["Yes", "No"], size=(4, 1), default_value="Yes", key="isFiller"),
              sg.Text("Threads", text_color="white"),
-             sg.Spin([i for i in range(1, 21)], initial_value=1, size=(3, 1), key="threads")],
+             sg.Spin([i for i in range(1, 21)], initial_value=1, size=(3, 1), key="threads"),
+             sg.Text("Resolution", text_color="white"),
+             sg.Combo(["240", "360", "480", "720", "1080"], size=(4, 1), default_value="1080", key="resolution")],
             [],
 
             [sg.Text("Optional Settings (Fill this if you don't have 2captcha key)", size=(45, 1)),
@@ -136,6 +138,7 @@ class AnimeGUI:
                 threads = values["threads"]
                 start_epi = int(values["start_epi"]) if values["start_epi"] != "" else 1
                 end_epi = int(values["end_epi"]) if values["end_epi"] != "" else 9999
+                resolution = values["resolution"]
 
                 if anime_url == "":
                     self.window['txt_msg'].update("[ERROR!] : Provide Anime URL!")
@@ -149,9 +152,7 @@ class AnimeGUI:
                 self.window["txt_msg"].update("")
                 self.window.refresh()
 
-                thread = Thread(target=download, args=(
-                anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, self),
-                                daemon=True)
+                thread = Thread(target=download, args=(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, self, resolution), daemon=True)
                 thread.start()
 
             self.check_messages(values)

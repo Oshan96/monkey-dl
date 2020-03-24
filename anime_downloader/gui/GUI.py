@@ -25,48 +25,52 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
 
     anime_url = anime_url.lower()
 
-    # print(anime_url)
+    try:
+        if "9anime.to" in anime_url:
+            printer("INFO", "9Anime URL detected...", gui)
+            scraper = NineAnimeScraper(anime_url, start_epi, end_epi, session, gui, token)
 
-    if "9anime.to" in anime_url:
-        print("9anime")
-        scraper = NineAnimeScraper(anime_url, start_epi, end_epi, session, gui, token)
+        elif "4anime.to" in anime_url:
+            printer("INFO", "4Anime URL detected...", gui)
+            scraper = FourAnimeScraper(anime_url, start_epi, end_epi, session, gui)
 
-    elif "4anime.to" in anime_url:
-        print("4anime")
-        scraper = FourAnimeScraper(anime_url, start_epi, end_epi, session, gui)
+        elif "animeultima.to" in anime_url:
+            printer("INFO", "AnimeUltima URL detected...", gui)
+            scraper = AnimeUltimaScraper(anime_url, start_epi, end_epi, session, gui, resolution, is_dub)
 
-    elif "animeultima.to" in anime_url:
-        print("animeultima")
-        scraper = AnimeUltimaScraper(anime_url, start_epi, end_epi, session, gui, resolution, is_dub)
+        elif "animepahe.com" in anime_url:
+            printer("INFO", "AnimePahe URL detected...", gui)
+            scraper = AnimePaheScraper(anime_url, start_epi, end_epi, session, gui, resolution, is_filler)
 
-    elif "animepahe.com" in anime_url:
-        print("animepahe")
-        scraper = AnimePaheScraper(anime_url, start_epi, end_epi, session, gui, resolution, is_filler)
+        else:
+            printer("ERROR", "Incorrect URL provided!", gui)
+            return
 
-    else:
-        return
-
-    printer("INFO", "Collecting download links...", gui)
-    episodes = scraper.get_direct_links()
-
-    if episodes is None:
-        printer("INFO", "Retrying to collect download links...", gui)
-        sleep(5)
+        printer("INFO", "Collecting download links...", gui)
         episodes = scraper.get_direct_links()
 
-    if episodes:
-        if is_titles:
-            printer("INFO", "Setting episode titles...", gui)
-            episodes = EpisodeNamesCollector(names_url, start_epi, end_epi, is_filler, episodes).collect_episode_names()
+        if episodes is None:
+            printer("INFO", "Retrying to collect download links...", gui)
+            sleep(5)
+            episodes = scraper.get_direct_links()
 
-    else:
-        printer("ERROR", "Failed to retrieve download links!", gui)
-        return
+        if episodes:
+            if is_titles:
+                printer("INFO", "Setting episode titles...", gui)
+                episodes = EpisodeNamesCollector(names_url, start_epi, end_epi, is_filler, episodes).collect_episode_names()
 
-    max_val = len(episodes)
-    # print("is titles", is_titles)
-    downloader = Downloader(directory, episodes, threads, gui, is_titles)
-    downloader.download()
+        else:
+            printer("ERROR", "Failed to retrieve download links!", gui)
+            return
+
+        max_val = len(episodes)
+        # print("is titles", is_titles)
+        downloader = Downloader(directory, episodes, threads, gui, is_titles)
+        downloader.download()
+
+    except Exception as ex:
+        printer("ERROR", ex, gui)
+        printer("ERROR", "Something went wrong! Please close and restart Anime Downloader to retry!", gui)
 
 
 class AnimeGUI:

@@ -276,6 +276,12 @@ python3 ./Anime_Downloader -u https://9anime.to/watch/one-piece.ov8/169lyx -s 13
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
+## Acknowledgements 
+Anime Downloader wouldn't be possible without these awesome free and opensource projects!
+- [CloudScraper](https://github.com/VeNoMouS/cloudscraper)
+- [PySimpleGUI](https://github.com/PySimpleGUI/PySimpleGUI)
+- [FFMPEG](https://ffmpeg.org/)
+
 ## Disclaimer
 
 This software has been developed only for educational purposes by the [Author](https://github.com/Oshan96). By no means this encourage content piracy. Please support original content creators!

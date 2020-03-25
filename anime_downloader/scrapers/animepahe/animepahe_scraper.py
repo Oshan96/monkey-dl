@@ -113,6 +113,7 @@ class AnimePaheScraper(BaseScraper):
     def __get_token(self, response):
         printer("INFO", "Collecting access token...", self.gui)
         page = response.text
+        # print(page)
         try:
             token = re.search("value\|(.*)\|([a-zA-Z])", page).group(1).split("|")[0]
             # print("TOKEN :", token)

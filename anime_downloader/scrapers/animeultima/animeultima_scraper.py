@@ -31,6 +31,7 @@ class AnimeUltimaScraper(BaseScraper):
                 return content_data[-2]
 
     def get_start_and_end_page(self, anime_id):
+        # print("start end page")
         start_page = 0
         end_page = 0
 
@@ -54,6 +55,7 @@ class AnimeUltimaScraper(BaseScraper):
         return start_page, end_page
 
     def get_page_url(self, url):
+        # print("get page url")
         page = self.session.get(url).content
 
         soup_html = BeautifulSoup(page, "html.parser")
@@ -65,6 +67,7 @@ class AnimeUltimaScraper(BaseScraper):
         return None
 
     def collect_episodes(self, anime_id, start_page, end_page):
+        # print("collect epis")
         base_url = "https://www1.animeultima.to/api/episodeList?animeId=" + anime_id + "&page="
         page_counter = start_page
 
@@ -105,6 +108,7 @@ class AnimeUltimaScraper(BaseScraper):
             page_counter += 1
 
     def set_stream_url(self, episode):
+        # print("set stream")
         self.extractor.url = episode.page_url
         stream_url = self.extractor.extract_stream_link(self.resolution)
         print("Stream URL : " + stream_url)
@@ -118,11 +122,12 @@ class AnimeUltimaScraper(BaseScraper):
             episode.dowload_url = stream_url
 
     def get_direct_links(self):
+        # print("direct links")
         anime_id = self.get_anime_id()
         start_page, end_page = self.get_start_and_end_page(anime_id)
 
-        print(anime_id)
-        print(start_page, end_page)
+        # print(anime_id)
+        # print(start_page, end_page)
 
         try:
             self.collect_episodes(anime_id, start_page, end_page)

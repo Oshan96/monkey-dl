@@ -42,6 +42,10 @@ Or, in your linux environment,
 sudo apt install ffmpeg
 ```
 
+#### Download failed and weird error came? Don't worry, it's because these websites are protected by various security measures. Simply, just visit the website manually, and restart the anime downloader!
+
+#### Still not able to download? Go ahead and post your issue [here](https://github.com/Oshan96/Anime-Downloader/issues). And I will look into the error and give necessary fixes!
+
 ## Running the application
 Navigate to the extracted folder and open a cmd or powershell window from that folder and execute "anime-dl.exe" from command line.
 

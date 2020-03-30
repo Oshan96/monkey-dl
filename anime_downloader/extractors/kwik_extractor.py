@@ -104,16 +104,3 @@ class KwikExtractor:
             return False
 
         return True
-
-
-if __name__ == "__main__":
-    import cloudscraper
-    from util.Episode import Episode
-
-    s = cloudscraper.create_scraper()
-    epi = Episode("test", "test")
-    epi.id = "dSRsopQM4htz"
-    epi.page_url = "https://kwik.cx/f/dSRsopQM4htz"
-    ext = KwikExtractor(s)
-    if not ext.set_direct_link(epi):
-        ext.set_direct_link(epi)

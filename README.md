@@ -5,16 +5,16 @@ You can now bulk download your favourite anime episodes for various websites, in
 [See supported websites](#Supported-Websites)
 
 ## Donations
-If this project is helpful to you and love my work and feel like showing love/appreciation, would you like to buy me a coffee?
+If this project is helpful to you and love my work and feel like showing love/appreciation, would you like to buy me a coffee?<br>
 <a href="https://www.buymeacoffee.com/Oshan96" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
 ## Supported Websites
-| Website                                       | Need recaptcha token? | Supported resolutions         | FFMPEG needed?    |
-|---                                            |---                    |---                            |---                |
-| [9Anime](https://9anime.to/)                  | Yes                   | Default only                  | No                |
-| [4Anime](https://4anime.to/)                  | No                    | Default only                  | No                |
-| [AnimePahe](https://animepahe.com/)           | No                    | 720p, 1080p                   | No                |
-| [AnimeUltima](https://www.animeultima.to/)    | No                    | 240p, 360p, 480p, 720p, 1080p | Yes               |
+| Website                                       | Need recaptcha token? | Supported resolutions         | FFMPEG needed?    | File Size                     | Additional Notes                                                                                  |
+|---                                            |---                    |---                            |---                |---                            |---                                                                                                |        
+| [9Anime](https://9anime.to/)                  | Yes                   | Default only                  | No                | 500-600MB                     | Will always work, provided token                                                                  |
+| [4Anime](https://4anime.to/)                  | No                    | Default only                  | No                | Around 150MB                  | Upon failure, visit 4anime website and restart anime downloader                                   |
+| [AnimePahe](https://animepahe.com/)           | No                    | 720p, 1080p                   | No                | 720p: ~150MB, 1080p: ~200MB   | Anime Downloader v1.0.1 upwards(v1.0.0 no longer works). Also download speed is capped by host    |
+| [AnimeUltima](https://www.animeultima.to/)    | No                    | 240p, 360p, 480p, 720p, 1080p | Yes               | 1080p is around 1GB           | -                                                                                                 |
 
 ## Download Anime Downloader [Windows]
 > Note : Currently only windows executable is provided (Linux, Mac users go to [Build from source](#Building-from-source))
@@ -279,6 +279,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Acknowledgements 
 Anime Downloader wouldn't be possible without these awesome free and opensource projects!
 - [CloudScraper](https://github.com/VeNoMouS/cloudscraper)
+- [Js2Py](https://github.com/PiotrDabkowski/Js2Py)
 - [PySimpleGUI](https://github.com/PySimpleGUI/PySimpleGUI)
 - [FFMPEG](https://ffmpeg.org/)
 

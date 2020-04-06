@@ -7,8 +7,9 @@ class JWPlayerExtractor(BaseExtractor):
     def __init__(self, url, session):
         super().__init__(url, session)
 
-    def extract_sources(self):
-        page_content = self.extract_page_content()
+    def extract_sources(self, page_content=None):
+        if page_content is None:
+            page_content = self.extract_page_content()
 
         # print(page_content)
 

@@ -10,13 +10,18 @@ class JWPlayerExtractor(BaseExtractor):
     def extract_sources(self):
         page_content = self.extract_page_content()
 
+        # print(page_content)
+
         link_sources = [match.group(1) for match in
                         re.finditer("{\s*file\s*:\s*[\"\']\s*([htps][^\"\']+)", page_content)]
 
         return link_sources
 
     def extract_direct_url(self):
+        print("extracting direct stream links")
         direct_links = self.extract_sources()
+
+        # print(direct_links)
 
         if len(direct_links) > 0:
             # return the first direct link
@@ -51,6 +56,7 @@ class JWPlayerExtractor(BaseExtractor):
         return link
 
     def extract_stream_link(self, resolution="720"):
+        print("Extracting stream link")
         link = self.extract_direct_url()
 
         print("Master Link : " + link)

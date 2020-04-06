@@ -1,4 +1,5 @@
 import re
+from bs4 import BeautifulSoup
 from util.Episode import Episode
 from scrapers.base_scraper import BaseScraper
 from util.Color import printer
@@ -16,8 +17,16 @@ class AnimePaheScraper(BaseScraper):
         self.end_page = 1
         self.extractor = KwikExtractor(session, gui)
 
+        self.__set_working_url()
         self.__set_anime_id()
         self.__set_start_end_page()
+
+    def __set_working_url(self):
+        page = self.session.get(self.url).content
+        soup_page = BeautifulSoup(page, "html.parser")
+        og_url = soup_page.find("meta", attrs={"property": "og:url"})
+        if og_url is not None:
+            self.url = og_url["content"]
 
     def __set_anime_id(self):
         page = self.session.get(self.url).text

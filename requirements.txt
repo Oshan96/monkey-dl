@@ -1,5 +1,7 @@
-art==4.5
 requests==2.22.0
-cloudscraper==1.2.30
+art==4.5
+cloudscraper==1.2.33
 beautifulsoup4==4.8.2
-PySimpleGUI==4.16.0
+js2py==0.68
+PySimpleGUI==4.18.0
+polling==0.3.1

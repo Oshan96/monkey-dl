@@ -19,6 +19,8 @@ class NineAnimeScraper(BaseScraper):
         self.server_name = "Mp4upload"
         self.nine_anime_url = "https://9anime.to"
 
+        self.headers = {"origin": self.nine_anime_url, "referer": url, "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.162 Safari/537.36 Edg/80.0.361.109"}
+
         self.episodes_url = "https://9anime.to/ajax/film/servers/" + url.split(".")[2].split("/")[0]
 
         if not token:
@@ -45,10 +47,14 @@ class NineAnimeScraper(BaseScraper):
             "g-recaptcha-response": self.token
         }
 
-        self.session.post("https://9anime.to/waf-verify", data=payload)
+        data = self.session.post("https://9anime.to/waf-verify", data=payload, headers=self.headers, allow_redirects=False)
+        self.headers["cookie"] = data.headers["set-cookie"]
 
     def __extract_page_urls(self):
-        if self.token is None :
+        d = self.session.get("https://9anime.to/waf-verify", headers=self.headers, allow_redirects=True)
+        self.headers["cookie"] = d.headers["set-cookie"]
+
+        if self.token is None:
             if self.api_key != "" and self.api_key != "insert_2captcha_api_key":
                 Color.printer("INFO", "Solving recaptcha...", self.gui)
 
@@ -60,21 +66,29 @@ class NineAnimeScraper(BaseScraper):
                     Color.printer("INFO", "Trying to continue ...", self.gui)
 
         if self.token:
+            # print(self.token)
             self.__verify()
         else:
             Color.printer("INFO", "No API key or token given, trying to continue...", self.gui)
 
         Color.printer("INFO", "Extracting page URLs...", self.gui)
 
-        anime_page = self.session.get(self.url).content
+        data = self.session.get(self.url, headers=self.headers)
+        anime_page = data.content
+
         soup_html = BeautifulSoup(anime_page, "html.parser")
 
-        try :
+        try:
             self.ts_no = soup_html.find("html")["data-ts"]
 
             eps_url = self.episodes_url + "?ts=" + self.ts_no
 
-            epi_data = self.session.get(eps_url).json()["html"]
+            self.headers["referer"] = eps_url
+
+            resp = self.session.get(eps_url, headers=self.headers, allow_redirects=False)
+            epi_data = resp.json()["html"]
+
+            # print(epi_data)
 
             soup = BeautifulSoup(epi_data, "html.parser")
 
@@ -119,7 +133,7 @@ class NineAnimeScraper(BaseScraper):
                 continue
 
             url = down_base + "ts=" + self.ts_no + "&id=" + episode.id + "&server=" + self.server_id
-            target = self.session.get(url).json()["target"]
+            target = self.session.get(url, headers=self.headers).json()["target"]
 
             episode.page_url = target
 

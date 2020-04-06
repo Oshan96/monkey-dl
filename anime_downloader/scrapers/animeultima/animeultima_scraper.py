@@ -8,7 +8,7 @@ class AnimeUltimaScraper(BaseScraper):
 
     def __init__(self, url, start_episode, end_episode, session, gui=None, resolution="720", is_dub=False):
         super().__init__(url, start_episode, end_episode, session, gui)
-        self.is_dub = False
+        self.is_dub = is_dub
         self.resolution = resolution
         self.base_url = "https://www1.animeultima.to"
         self.extractor = JWPlayerExtractor(None, self.session)
@@ -37,6 +37,8 @@ class AnimeUltimaScraper(BaseScraper):
 
         data = self.session.get("https://www1.animeultima.to/api/episodeList?animeId=" + anime_id).json()
 
+        # print("start end data")
+        # print(data)
         last_page = data["last_page"]
         max_total_epis = last_page * 50
 
@@ -75,11 +77,15 @@ class AnimeUltimaScraper(BaseScraper):
             url = base_url + str(page_counter)
 
             data = self.session.get(url).json()
+            # print("data")
+            # print(data)
+
             has_dub = data["anime"]["hasDub"]
             epis = data["episodes"]
 
             for epi in epis:
                 epi_no = int(epi["episode_num"])
+                # print(str(epi_no))
 
                 if epi_no < self.start_episode or epi_no > self.end_episode:
                     continue
@@ -87,13 +93,14 @@ class AnimeUltimaScraper(BaseScraper):
                 title = epi["title"]
                 page_url = None
                 if not self.is_dub:
+                    # print("sub")
                     page_url = epi["urls"]["sub"]
                 elif has_dub:
                     page_url = epi["urls"]["dub"]
                 else:
                     print("Dubbed episodes not available")
 
-                if page_url:
+                if page_url is not None:
                     page_url = self.get_page_url(page_url)
 
                 episode = Episode(title, "Episode - " + str(epi_no))

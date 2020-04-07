@@ -1,3 +1,4 @@
+jsbeautifier
 requests==2.22.0
 art==4.5
 cloudscraper==1.2.33

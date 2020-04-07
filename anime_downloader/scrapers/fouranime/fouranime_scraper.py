@@ -1,7 +1,9 @@
+import re
 from bs4 import BeautifulSoup
 from util.Episode import Episode
 from util import Color
 from scrapers.base_scraper import BaseScraper
+from util.js_unpacker import JsUnpacker
 
 
 class FourAnimeScraper(BaseScraper):
@@ -39,6 +41,10 @@ class FourAnimeScraper(BaseScraper):
 
         return self.episodes
 
+    def __get_packed(self, page):
+        pack_links = [match.group(0) for match in re.finditer("eval\(.*\)", page)]
+        return pack_links
+
     def __extract_download_urls(self):
         Color.printer("INFO", "Extracting download URLs...", self.gui)
         success = True
@@ -46,6 +52,8 @@ class FourAnimeScraper(BaseScraper):
             page = self.session.get(episode.page_url).content
 
             soup_html = BeautifulSoup(page, "html.parser")
+
+            # print(soup_html)
 
             video_tag = soup_html.find("video", attrs={"id": "video1"})
 
@@ -60,6 +68,32 @@ class FourAnimeScraper(BaseScraper):
                 # print("checking video")
                 video_tag = soup_html.find("video")
                 # print(video_tag)
+
+            if video_tag is None or video_tag["src"] == '':
+                print("checking for packed data")
+                packed_funcs = self.__get_packed(page.decode('utf-8'))
+                # print(packed_funcs)
+
+                if len(packed_funcs) > 0:
+                    src = JsUnpacker().extract_link(packed_funcs[0])
+                    if src is not None:
+                        episode.download_url = src
+                        success = True
+                    else:
+                        try:
+                            src = JsUnpacker().extract_link(packed_funcs[1])
+                            if src is not None:
+                                episode.download_url = src
+                                success = True
+                                continue
+                        except:
+                            Color.printer("ERROR", "Download link not found for " + episode.episode, self.gui)
+                            success = False
+                else:
+                    Color.printer("ERROR", "Download link not found for " + episode.episode, self.gui)
+                    success = False
+
+                continue
 
             if video_tag is None:
                 Color.printer("ERROR", "Download link not found for " + episode.episode, self.gui)

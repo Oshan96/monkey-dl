@@ -3,6 +3,7 @@ from util.Episode import Episode
 from bs4 import BeautifulSoup
 from extractors.jwplayer_extractor import JWPlayerExtractor
 from scrapers.base_scraper import BaseScraper
+from util.Color import printer
 
 
 class GoGoAnimeScraper(BaseScraper):
@@ -69,6 +70,7 @@ class GoGoAnimeScraper(BaseScraper):
         return False
 
     def __collect_episodes(self):
+        printer("INFO", "Extracting page URLs...", self.gui)
         episodes = []
         if self.anime_id is not None:
             data = self.__get_episode_data()
@@ -89,15 +91,15 @@ class GoGoAnimeScraper(BaseScraper):
                     if val:
                         episodes.append(episode)
                     else:
-                        print("Failed to collect download link for", episode.title)
+                        printer("ERROR", "Failed to collect download link for " + episode.title, self.gui)
 
         return episodes
 
     def get_direct_links(self):
         try:
-            epispdes = self.__collect_episodes()
-            if len(epispdes) > 0:
-                return epispdes
+            episodes = self.__collect_episodes()
+            if len(episodes) > 0:
+                return episodes
             else:
                 return None
 

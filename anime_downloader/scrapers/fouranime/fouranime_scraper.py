@@ -53,7 +53,7 @@ class FourAnimeScraper(BaseScraper):
 
             soup_html = BeautifulSoup(page, "html.parser")
 
-            print(soup_html)
+            # print(soup_html)
 
             video_tag = soup_html.find("video", attrs={"id": "video1"})
 
@@ -71,22 +71,29 @@ class FourAnimeScraper(BaseScraper):
 
             if video_tag is None or video_tag["src"] == '':
                 print("checking for packed data")
-                packed_funcs = self.__get_packed(soup_html)
-                print(packed_funcs)
+                packed_funcs = self.__get_packed(page.decode('utf-8'))
+                # print(packed_funcs)
 
                 if len(packed_funcs) > 0:
                     src = JsUnpacker().extract_link(packed_funcs[0])
                     if src is not None:
                         episode.download_url = src
-                        return True
+                        success = True
                     else:
-                        src = JsUnpacker().extract_link(packed_funcs[1])
-                        if src is not None:
-                            episode.download_url = src
-                            return True
+                        try:
+                            src = JsUnpacker().extract_link(packed_funcs[1])
+                            if src is not None:
+                                episode.download_url = src
+                                success = True
+                                continue
+                        except:
+                            Color.printer("ERROR", "Download link not found for " + episode.episode, self.gui)
+                            success = False
+                else:
+                    Color.printer("ERROR", "Download link not found for " + episode.episode, self.gui)
+                    success = False
 
-                return False
-
+                continue
 
             if video_tag is None:
                 Color.printer("ERROR", "Download link not found for " + episode.episode, self.gui)

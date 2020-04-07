@@ -47,11 +47,13 @@ class AnimeFreakScraper(BaseScraper):
         response = self.session.get(self.url)
         if response.status_code == 200:
             soup_html = BeautifulSoup(response.content, "html.parser")
-            epi_tags = soup_html.find("ul", attrs={"class": "check-list"}).findAll("a", href=True)
+            epi_tags = soup_html.findAll("ul", attrs={"class": "check-list"})[1].findAll("a", href=True)
 
             for epi_tag in epi_tags:
                 href = epi_tag["href"]
+                # print(href)
                 epi_no = int(href.split("-")[-1])
+                # print(epi_no)
 
                 if epi_no < self.start_episode or epi_no > self.end_episode:
                     continue
@@ -80,5 +82,5 @@ class AnimeFreakScraper(BaseScraper):
                 return None
 
         except Exception as ex:
-            print(ex)
+            printer("ERROR", str(ex), self.gui)
             return None

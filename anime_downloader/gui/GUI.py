@@ -12,6 +12,7 @@ from scrapers.nineanime.nineanime_scraper import NineAnimeScraper
 from scrapers.animeultima.animeultima_scraper import AnimeUltimaScraper
 from scrapers.animepahe.animepahe_scraper import AnimePaheScraper
 from scrapers.gogoanime.gogoanime_scraper import GoGoAnimeScraper
+from scrapers.animefreak.animefreak_scraper import AnimeFreakScraper
 
 sg.theme('Dark Amber')
 i = 0
@@ -42,7 +43,15 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
 
         elif "gogoanime" in anime_url:
             printer("INFO", "GoGoAnime URL detected...", gui)
+            if "gogoanime.pro" in anime_url:
+                printer("ERROR", "goganime.pro links are not supported yet try gogoanime.io or gogoanime.video", gui)
+                return
+
             scraper = GoGoAnimeScraper(anime_url, start_epi, end_epi, session, gui, resolution)
+
+        elif "animefreak" in anime_url:
+            printer("INFO", "AnimeFreak URL detected...", gui)
+            scraper = AnimeFreakScraper(anime_url, start_epi, end_epi, session, gui, is_dub)
 
         elif "animepahe.com" in anime_url:
             printer("INFO", "AnimePahe URL detected...", gui)

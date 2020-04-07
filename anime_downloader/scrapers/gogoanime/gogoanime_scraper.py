@@ -37,9 +37,9 @@ class GoGoAnimeScraper(BaseScraper):
 
     def __get_page_url(self, href):
         base_url = re.search("(.*)/category/", self.url).group(1)
-        print(base_url)
+        # print(base_url)
         src = base_url + href
-        print(src)
+        # print(src)
 
         return src
 
@@ -48,7 +48,9 @@ class GoGoAnimeScraper(BaseScraper):
         if response.status_code == 200:
             soup_html = BeautifulSoup(response.content, "html.parser")
             item_tag = soup_html.find("li", attrs={"class": "anime"}).find("a")
-            streamer_url = "https:" + item_tag["data-video"]
+            streamer_url = item_tag["data-video"]
+            if "https" not in streamer_url:
+                streamer_url = "https:" + streamer_url
 
             streamer_resp = self.session.get(streamer_url)
             if streamer_resp.status_code == 200:
@@ -78,7 +80,7 @@ class GoGoAnimeScraper(BaseScraper):
                 soup_html = BeautifulSoup(data, "html.parser")
                 anchor_tags = soup_html.findAll("a", href=True)
                 for anchor in anchor_tags:
-                    href = anchor["href"]
+                    href = anchor["href"].strip()
                     epi_no = int(href.split("-")[-1])
 
                     if epi_no < self.start_episode or epi_no > self.end_episode:
@@ -104,5 +106,5 @@ class GoGoAnimeScraper(BaseScraper):
                 return None
 
         except Exception as ex:
-            print(ex)
+            printer("ERROR", str(ex), self.gui)
             return None

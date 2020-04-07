@@ -14,6 +14,7 @@ If this project is helpful to you and love my work and feel like showing love/ap
 | [9Anime](https://9anime.to/)                  | Yes                   | Default only                  | No                | 500-600MB                     | Will always work, provided token                                                                  |
 | [4Anime](https://4anime.to/)                  | No                    | Default only                  | No                | Around 150MB                  | Upon failure, visit 4anime website and restart anime downloader                                   |
 | [AnimePahe](https://animepahe.com/)           | No                    | 720p, 1080p                   | No                | 720p: ~150MB, 1080p: ~200MB   | 2captcha API key is needed to download from AnimePahe. Also download speed is capped by host      |
+| [GoGoAnime](https://gogoanime.pro/)           | No                    | Mostly 360p, 480p             | Yes               | -                             | If the video in resolution you provided is not there, the available resolution will be downloaded |
 | [AnimeUltima](https://www.animeultima.to/)    | No                    | 240p, 360p, 480p, 720p, 1080p | Yes               | 1080p is around 1GB           | AnimeUltima is having issues in their end. Will be supported again once they are backup           |
 
 ## Download Anime Downloader [Windows]

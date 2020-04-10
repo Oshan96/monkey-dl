@@ -105,7 +105,7 @@ Explantion of the commands used :
 ### Q - How can I download one piece anime episodes 30 to 70 into "D:\Anime\One Piece" folder?
 
 ```bash
-./anime-dl.exe -u https://9anime.to/watch/one-piece.ov8/169lyx -s 10 -e 20 -n https://www.animefillerlist.com/shows/one-piece -d "D:\Anime\One Piece" 
+./anime-dl.exe -u https://9anime.to/watch/one-piece.ov8/169lyx -s 30 -e 70 -n https://www.animefillerlist.com/shows/one-piece -d "D:\Anime\One Piece" 
 ```
 
 Explanation of commands : 

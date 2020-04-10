@@ -72,15 +72,15 @@ class Downloader:
         return file_name
 
     def __download_episode(self, episode):
+        if system() == "Windows":
+            episode.title = self.__clean_file_name(episode.title)
+
         if episode.is_direct:
             if episode.download_url is None:
                 Color.printer("ERROR", "Download URL is not set for " + episode.episode + ", skipping...", self.gui)
                 return
 
             Color.printer("INFO", "Downloading " + episode.episode + "...", self.gui)
-
-            if system() == "Windows":
-                episode.title = self.__clean_file_name(episode.title)
 
             # print(self.is_titles)
             # print(episode.title)

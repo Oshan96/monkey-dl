@@ -124,16 +124,18 @@ class AnimeGUI:
             [sg.Text("Save To", size=(25, 1), text_color="white"), sg.InputText(key="location"), sg.FolderBrowse()],
 
             [sg.Text("Episodes Details", size=(15, 1)), sg.Text("_" * 60, pad=(0, 15))],
-            [sg.Text("From", text_color="white"), sg.InputText(key="start_epi", size=(5, 1)),
-             sg.Text("To", text_color="white"), sg.InputText(key="end_epi", size=(5, 1)),
+            [sg.Text("From", text_color="white", size=(8, 1)), sg.InputText(key="start_epi", size=(6, 1)),
+             sg.Text("To", text_color="white", size=(8, 1)), sg.InputText(key="end_epi", size=(5, 1)),
              sg.Text("Download Fillers?", text_color="white"),
              sg.Combo(["Yes", "No"], size=(4, 1), default_value="Yes", key="isFiller"),
              sg.Text("Threads", text_color="white"),
-             sg.Spin([i for i in range(1, 21)], initial_value=1, size=(3, 1), key="threads"),
-             sg.Text("Resolution", text_color="white"),
-             sg.Combo(["240", "360", "480", "720", "1080"], size=(4, 1), default_value="1080", key="resolution")],
+             sg.Spin([i for i in range(1, 21)], initial_value=1, size=(3, 1), key="threads")],
             [],
-
+            [sg.Text("Resolution", text_color="white", size=(8, 1)),
+             sg.Combo(["240", "360", "480", "720", "1080"], size=(4, 1), default_value="1080", key="resolution"),
+             sg.Text("Sub/Dub", text_color="white", size=(8, 1)),
+             sg.Combo(["Sub", "Dub"], size=(4, 1), default_value="Sub", key="is_dub")],
+            [],
             [sg.Text("Optional Settings (Fill this if you don't have 2captcha key)", size=(45, 1)),
              sg.Text("_" * 25, pad=(0, 15))],
             [sg.Text("Recaptcha Token (Optional)", text_color="white", size=(25, 1)),
@@ -188,6 +190,7 @@ class AnimeGUI:
                 names_url = values["names_url"]
                 is_titles = True if names_url != "" else False
                 is_filler = True if values["isFiller"] == "Yes" else False
+                is_dub = True if values["is_dub"] == "Dub" else False
 
                 tok = values["token"].rstrip()
                 token = tok if tok != "" else None
@@ -213,7 +216,7 @@ class AnimeGUI:
                 self.window["txt_msg"].update("")
                 self.window.refresh()
 
-                thread = Thread(target=download, args=(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, self, resolution), daemon=True)
+                thread = Thread(target=download, args=(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, self, resolution, is_dub), daemon=True)
                 thread.start()
 
             self.check_messages(values)

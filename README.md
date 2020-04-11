@@ -16,7 +16,7 @@ If this project is helpful to you and love my work and feel like showing love/ap
 | [AnimePahe](https://animepahe.com/)           | No                    | 720p, 1080p                   | No                | 720p: ~150MB, 1080p: ~200MB   | 2captcha API key is needed to download from AnimePahe. Also download speed is capped by host      |
 | [AnimeFreak](https://www.animefreak.tv/)      | No                    | Default only                  | No                | ~90-100MB                     | Downloading from AnimeFreak would be a bit slow at times                                          |
 | [GoGoAnime](https://gogoanime.io/)            | No                    | Mostly 360p, 480p             | Yes               | -                             | gogoanime.io and gogoanime.video are supported. gogoanime.pro support will be added in future     |
-| [AnimeUltima](https://www.animeultima.to/)    | No                    | 240p, 360p, 480p, 720p, 1080p | Yes               | 1080p is around 1GB           | AnimeUltima is having issues in their end. Will be supported again once they are backup           |
+| [AnimeUltima](https://www.animeultima.to/)    | No                    | 240p, 360p, 480p, 720p, 1080p | Yes               | 1080p is around 1GB           | File sizes are relatively large                                                                   |
 
 ## Download Anime Downloader [Windows]
 > Note : Currently only windows executable is provided (Linux, Mac users go to [Build from source](#Building-from-source))
@@ -105,7 +105,7 @@ Explantion of the commands used :
 ### Q - How can I download one piece anime episodes 30 to 70 into "D:\Anime\One Piece" folder?
 
 ```bash
-./anime-dl.exe -u https://9anime.to/watch/one-piece.ov8/169lyx -s 10 -e 20 -n https://www.animefillerlist.com/shows/one-piece -d "D:\Anime\One Piece" 
+./anime-dl.exe -u https://9anime.to/watch/one-piece.ov8/169lyx -s 30 -e 70 -n https://www.animefillerlist.com/shows/one-piece -d "D:\Anime\One Piece" 
 ```
 
 Explanation of commands : 

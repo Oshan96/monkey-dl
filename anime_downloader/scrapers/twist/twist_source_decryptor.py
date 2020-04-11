@@ -1,4 +1,4 @@
-from requests.utils import quote
+from requests.utils import requote_uri
 from base64 import b64decode
 from hashlib import md5
 from Crypto.Cipher import AES
@@ -46,8 +46,8 @@ class TwistSourceDecryptor:
 
         decrypt_data = aes.decrypt(enc_data[16:])               # actual data are after first 16bytes (which is salt)
         decrypt_data =  self.__unpad(decrypt_data).decode('utf-8').lstrip(' ')
-        # print(decrypt_data)
-        return quote(decrypt_data, safe="~@#$&()*!+=:;,.?/\'")  # parse to url safe value
+        print(decrypt_data)
+        return requote_uri(decrypt_data)  # parse to url safe value
 
 
 # if __name__ == "__main__":

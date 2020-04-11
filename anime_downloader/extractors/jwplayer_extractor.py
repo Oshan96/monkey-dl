@@ -11,7 +11,7 @@ class JWPlayerExtractor(BaseExtractor):
         if page_content is None:
             page_content = self.extract_page_content()
 
-        # print(page_content)
+        # print(page_content)     #direct_url for anime_ultima is here test and fix
 
         link_sources = [match.group(1) for match in
                         re.finditer("{\s*file\s*:\s*[\"\']\s*([htps][^\"\']+)", page_content)]

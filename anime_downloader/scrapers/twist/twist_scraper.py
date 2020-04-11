@@ -10,6 +10,7 @@ class TwistScraper(BaseScraper):
         super().__init__(url, start_episode, end_episode, session, gui)
 
         url_data = re.search("(.*)/a/(.*)", self.url)
+        print(url_data.group(2))
         self.anime_name = url_data.group(2).split("/")[0]
         self.twist_url_base = url_data.group(1)
 
@@ -29,7 +30,13 @@ class TwistScraper(BaseScraper):
                 continue
 
             episode = Episode("Episode - " + str(epi_no), "Episode - " + str(epi_no))
-            episode.download_url = self.twist_url_base + TwistSourceDecryptor(epi["source"]).decrypt()
+            url = "https://twistcdn.bunny.sh" + TwistSourceDecryptor(epi["source"]).decrypt()
+
+            episode.download_url = self.session.get(url, headers={"referer": self.twist_url_base}, allow_redirects=False).headers["location"]
+
+            episode.request_headers = {"referer": "{base}/a/{name}/{id}".format(base=self.twist_url_base, name=self.anime_name, id=str(epi_no))}
+
+            print(episode.download_url)
 
             episodes.append(episode)
 

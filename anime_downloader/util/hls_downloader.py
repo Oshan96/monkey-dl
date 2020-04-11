@@ -32,8 +32,11 @@ class HLSDownloader:
         return data
 
     def __is_encrypted(self, m3u8_data):
-        method = re.search('#EXT-X-KEY:METHOD=(.*),', m3u8_data).group(1)
-        if method == "NONE":
+        method = re.search('#EXT-X-KEY:METHOD=(.*),', m3u8_data)
+        if method is None:
+            return False
+
+        if method.group(1) == "NONE":
             return False
 
         return True
@@ -64,6 +67,7 @@ class HLSDownloader:
         key = ""
         iv = None
 
+        print(self.episode.download_url)
         m3u8_data = self.session.get(self.episode.download_url).text
 
         is_encrypted = self.__is_encrypted(m3u8_data)
@@ -87,7 +91,6 @@ class HLSDownloader:
                     # print("decrypted")
                 # print("writing")
                 epi_file.write(ts_data)
-                break
 
 # if __name__ == "__main__":
 #     import cloudscraper as cs

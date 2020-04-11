@@ -5,6 +5,7 @@ import requests
 import shutil
 import os
 import sys
+import traceback
 from platform import system
 from threading import Thread
 from queue import Queue
@@ -93,7 +94,7 @@ class Downloader:
                 # print("without title")
                 file_name = self.directory + episode.episode + ".mp4"
 
-            with requests.get(episode.download_url, stream=True, verify=False) as r:
+            with requests.get(episode.download_url, headers=episode.request_headers, stream=True, verify=False) as r:
                 with open(file_name, 'wb') as f:
                     shutil.copyfileobj(r.raw, f, length=16 * 1024 * 1024)
 
@@ -102,9 +103,10 @@ class Downloader:
         else:
             Color.printer("INFO", "HLS link found. Using custom HLSDownloader to download...", self.gui)
             try:
-                HLSDownloader(episode, self.directory, self.gui).download()
+                HLSDownloader(episode, self.directory, requests.session(), self.gui).download()
             except Exception as ex:
-                print(ex)
+                trace = traceback.format_exc()
+                print(trace)
                 Color.printer("ERROR", "Custom HLS Downloader failed! Using FFMPEG to download...", self.gui)
                 FFMPEGDownloader(episode, self.directory, self.gui).download()
 

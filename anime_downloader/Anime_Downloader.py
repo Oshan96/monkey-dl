@@ -11,6 +11,7 @@ from queue import Queue
 from art import text2art
 from util import Color
 from util.ffmpeg_downloader import FFMPEGDownloader
+from util.hls_downloader import HLSDownloader
 from scrapers.nineanime import Anime_Scraper
 
 directory = ""
@@ -99,8 +100,13 @@ class Downloader:
             Color.printer("INFO", episode.episode + " finished downloading...", self.gui)
 
         else:
-            Color.printer("INFO", "HLS link found. Using FFMPEG to download...", self.gui)
-            FFMPEGDownloader(episode, self.directory, self.gui).download()
+            Color.printer("INFO", "HLS link found. Using custom HLSDownloader to download...", self.gui)
+            try:
+                HLSDownloader(episode, self.directory, self.gui).download()
+            except Exception as ex:
+                print(ex)
+                Color.printer("ERROR", "Custom HLS Downloader failed! Using FFMPEG to download...", self.gui)
+                FFMPEGDownloader(episode, self.directory, self.gui).download()
 
     def download(self):
 

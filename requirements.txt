@@ -1,3 +1,4 @@
+Crypto
 jsbeautifier
 requests==2.22.0
 art==4.5

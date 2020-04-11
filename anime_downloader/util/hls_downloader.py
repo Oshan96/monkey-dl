@@ -52,7 +52,12 @@ class HLSDownloader:
         return uri, iv
 
     def __collect_ts_urls(self, m3u8_data):
-        urls = [url.group(0) for url in re.finditer('https://(.*)\.ts(.*)', m3u8_data)]
+        urls = [url.group(0) for url in re.finditer("https://(.*)\.ts(.*)", m3u8_data)]
+        if len(urls) == 0:
+            print("Relative paths")
+            base_url = re.search("(.*)/\S\.m3u8", self.episode.download_url).group(1)
+            urls = [base_url + "/" + url.group(0) for url in re.finditer("(.*)\.ts(.*)", m3u8_data)]
+
         return urls
 
     def download(self):

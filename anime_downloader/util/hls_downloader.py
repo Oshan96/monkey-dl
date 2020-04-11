@@ -10,14 +10,19 @@ class HLSDownloader:
         self.directory = directory
         self.session = session
         self.gui = gui
+        self.count = 0
+
+    def __get_default_iv(self):
+        """When IV is not passed, m3u8 use incremental 16byte iv key starting from 1 for each segment"""
+        self.count += 1
+        return self.count.to_bytes(16, 'big')
 
     def __decrypt(self, data, key, iv=None):
         if iv is None:
-            iv = data[:16]  # when iv is not given, the first 16bytes are used as the iv (default)
-            # iv = b'0000000000000000'
+            iv = self.__get_default_iv()    # get the default iv value for the segment
 
         print(len(iv))
-        print(data[:16])
+        # print(data[:16])
         print(iv)
         decryptor = AES.new(key, AES.MODE_CBC, IV=iv)
         return decryptor.decrypt(data)
@@ -400,6 +405,7 @@ class HLSDownloader:
                     print("decrypted")
                 print("writing")
                 epi_file.write(ts_data)
+
 
 # if __name__ == "__main__":
 #     import cloudscraper as cs

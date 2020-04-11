@@ -16,7 +16,7 @@ class TwistScraper(BaseScraper):
         self.head = {"x-access-token": "1rj2vRtegS8Y60B3w3qNZm5T2Q0TN2NR"}
 
     def __get_source_data(self):
-        sources_url = "https://twist.moe/api/anime/{anime_name}/sources".format(anime_name=self.anime_name)
+        sources_url = "{base_url}/api/anime/{anime_name}/sources".format(base_url=self.twist_url_base, anime_name=self.anime_name)
         return self.session.get(sources_url, headers=self.head).json()
 
     def __extract_download_urls(self):

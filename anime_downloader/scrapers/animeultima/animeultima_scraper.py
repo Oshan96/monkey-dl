@@ -1,7 +1,10 @@
+import re
+import traceback
 from bs4 import BeautifulSoup
 from scrapers.base_scraper import BaseScraper
 from util.Episode import Episode
 from extractors.jwplayer_extractor import JWPlayerExtractor
+from util.js_unpacker import JsUnpacker
 
 
 class AnimeUltimaScraper(BaseScraper):
@@ -11,7 +14,7 @@ class AnimeUltimaScraper(BaseScraper):
         self.is_dub = is_dub
         self.resolution = resolution
         self.base_url = "https://www1.animeultima.to"
-        self.extractor = JWPlayerExtractor(None, self.session)
+        self.extractor = JWPlayerExtractor(None, None)
 
     def get_anime_id(self):
         page = self.session.get(self.url).content
@@ -29,6 +32,8 @@ class AnimeUltimaScraper(BaseScraper):
             if meta_tag:
                 content_data = meta_tag["content"].split("/")
                 return content_data[-2]
+
+        return None
 
     def get_start_and_end_page(self, anime_id):
         # print("start end page")
@@ -68,6 +73,21 @@ class AnimeUltimaScraper(BaseScraper):
 
         return None
 
+    def set_stream_url(self, episode):
+        # print("set stream")
+        self.extractor.url = episode.page_url
+        stream_url = self.extractor.extract_stream_link(self.resolution)
+        print("Stream URL : " + stream_url)
+        episode.download_url = stream_url
+
+    def set_direct_url(self, episode, page_url):
+        page = self.session.get(page_url).text
+        func = re.search("eval\(.*\)", page).group(0)
+        eval_data = JsUnpacker().eval(func)
+        link = re.search('fone\s+=\s+\"(.*)\"', eval_data).group(1)
+        # print(link)
+        episode.download_url = link
+
     def collect_episodes(self, anime_id, start_page, end_page):
         # print("collect epis")
         base_url = "https://www1.animeultima.to/api/episodeList?animeId=" + anime_id + "&page="
@@ -105,8 +125,13 @@ class AnimeUltimaScraper(BaseScraper):
 
                 episode = Episode(title, "Episode - " + str(epi_no))
                 episode.page_url = page_url
-                episode.is_direct = False
-                self.set_stream_url(episode)
+                # print(episode.page_url)
+                if "animeultima.to/e/" not in page_url:
+                    episode.is_direct = False
+                    self.set_stream_url(episode)
+                else:
+                    print("Only direct url found, will use default resolution to download")
+                    self.set_direct_url(episode, page_url)
 
                 self.episodes.append(episode)
 
@@ -114,26 +139,18 @@ class AnimeUltimaScraper(BaseScraper):
 
             page_counter += 1
 
-    def set_stream_url(self, episode):
-        # print("set stream")
-        self.extractor.url = episode.page_url
-        stream_url = self.extractor.extract_stream_link(self.resolution)
-        print("Stream URL : " + stream_url)
-        episode.download_url = stream_url
-
-    def set_stream_urls(self):
-        extractor = JWPlayerExtractor(None, self.session)
-        for episode in self.episodes:
-            extractor.url = episode.page_url
-            stream_url = extractor.extract_stream_link(self.resolution)
-            episode.dowload_url = stream_url
-
     def get_direct_links(self):
         # print("direct links")
         anime_id = self.get_anime_id()
-        start_page, end_page = self.get_start_and_end_page(anime_id)
+        # print("anime id :", anime_id)
+        if anime_id is None:
+            anime_id = self.get_anime_id()
+            if anime_id is None:
+                anime_id = self.get_anime_id()
 
         # print(anime_id)
+        start_page, end_page = self.get_start_and_end_page(anime_id)
+
         # print(start_page, end_page)
 
         try:
@@ -141,6 +158,7 @@ class AnimeUltimaScraper(BaseScraper):
 
             return self.episodes
         except Exception as ex:
-            print(ex)
+            trace = traceback.format_exc()
+            print(trace)
             return None
 

@@ -17,7 +17,7 @@ If this project is helpful to you and love my work and feel like showing love/ap
 | [Twist](https://twist.moe/)                   | No                    | 1080p                         | No                | 500MB+                        | Files are very high quality and fast downloads. Seems to be raw HorribleSub content               |
 | [AnimeFreak](https://www.animefreak.tv/)      | No                    | Default only                  | No                | ~90-100MB                     | Downloading from AnimeFreak is generally fast                                                     |
 | [GoGoAnime](https://gogoanime.io/)            | No                    | Mostly 360p, 480p             | Optional          | -                             | gogoanime.io and gogoanime.video are supported. gogoanime.pro support will be added in future     |
-| [AnimeUltima](https://www.animeultima.to/)    | No                    | 240p, 360p, 480p, 720p, 1080p | Optional          | 1080p is around 1GB           | File sizes are relatively large                                                                   |
+| [AnimeUltima](https://www.animeultima.to/)    | No                    | Sub: 240p, 360p, 480p, 720p, 1080p<br><br> Dub: Default only | Optional          | 1080p is around 1GB           | File sizes are relatively large                                                                   |
 
 ## Download Anime Downloader [Windows]
 > Note : Currently only windows executable is provided (Linux, Mac users go to [Build from source](#Building-from-source))

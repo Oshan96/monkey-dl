@@ -1,6 +1,7 @@
 import queue
 import json
 import cloudscraper
+import traceback
 import PySimpleGUI as sg
 from threading import Thread
 from time import sleep
@@ -20,7 +21,8 @@ i = 0
 max_val = 100
 
 
-def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, gui, resolution="720", is_dub=False):
+def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, gui,
+             resolution="720", is_dub=False):
     global max_val
 
     session = cloudscraper.create_scraper()
@@ -98,7 +100,8 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
         if episodes:
             if is_titles:
                 printer("INFO", "Setting episode titles...", gui)
-                episodes = EpisodeNamesCollector(names_url, start_epi, end_epi, is_filler, episodes).collect_episode_names()
+                episodes = EpisodeNamesCollector(names_url, start_epi, end_epi, is_filler,
+                                                 episodes).collect_episode_names()
 
         else:
             printer("ERROR", "Failed to retrieve download links!", gui)
@@ -110,6 +113,8 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
         downloader.download()
 
     except Exception as ex:
+        trace = traceback.format_exc()
+        print(trace)
         printer("ERROR", ex, gui)
         printer("ERROR", "Something went wrong! Please close and restart Anime Downloader to retry!", gui)
 
@@ -169,7 +174,7 @@ class AnimeGUI:
                 txt += "\n" + message
 
                 if "finished downloading..." in message or "failed to download!" in message:
-                    i+=1
+                    i += 1
                     self.window["progress"].UpdateBar(i, max=max_val)
 
                 self.window['txt_msg'].update(txt)
@@ -221,7 +226,9 @@ class AnimeGUI:
                 self.window["txt_msg"].update("")
                 self.window.refresh()
 
-                thread = Thread(target=download, args=(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, self, resolution, is_dub), daemon=True)
+                thread = Thread(target=download, args=(
+                    anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, self,
+                    resolution, is_dub), daemon=True)
                 thread.start()
 
             self.check_messages(values)

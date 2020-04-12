@@ -3,7 +3,10 @@ class BaseExtractor:
 
     def __init__(self, url, session):
         self.url = url
-        self.session = session
+        if session is None:
+            self.session = cloudscraper.create_scraper()
+        else:
+            self.session = session
 
     def extract_page_content(self):
         video_page = self.session.get(self.url)

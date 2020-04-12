@@ -11,7 +11,7 @@ class JWPlayerExtractor(BaseExtractor):
         if page_content is None:
             page_content = self.extract_page_content()
 
-        # print(page_content)     #direct_url for anime_ultima is here test and fix
+        # print(page_content)
 
         link_sources = [match.group(1) for match in
                         re.finditer("{\s*file\s*:\s*[\"\']\s*([htps][^\"\']+)", page_content)]
@@ -33,7 +33,12 @@ class JWPlayerExtractor(BaseExtractor):
     # if the given resolution is not found, the first available link would be given
     def get_resolution_link(self, master_url, resolution):
         count = 0
-        content = self.session.get(master_url).text
+        try:
+            content = self.session.get(master_url).text
+        except:
+            print("retry")
+            content = self.session.get(master_url).text
+
         data_list = content.split("\n")
 
         link = None

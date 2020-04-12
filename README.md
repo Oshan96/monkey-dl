@@ -284,6 +284,8 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 Anime Downloader wouldn't be possible without these awesome free and opensource projects!
 - [CloudScraper](https://github.com/VeNoMouS/cloudscraper)
 - [Js2Py](https://github.com/PiotrDabkowski/Js2Py)
+- [JsBeautifier](https://github.com/beautify-web/js-beautify)
+- [PyCryptodome](https://github.com/Legrandin/pycryptodome)
 - [PySimpleGUI](https://github.com/PySimpleGUI/PySimpleGUI)
 - [FFMPEG](https://ffmpeg.org/)
 

@@ -10,12 +10,12 @@ class AnimeFlixScraper(BaseScraper):
         super().__init__(url, start_episode, end_episode, session, gui)
         self.resolution = resolution
         self.is_dub = is_dub
-        url_data = re.search("(.*)/shows/(.*)/", self.url)
+        url_data = re.search("(.*)/shows/(.*)", self.url)
         self.url_base = url_data.group(1)
-        self.slug = url_data.group(2)
-        self.extractor = JWPlayerExtractor(None, self.session)
+        self.slug = url_data.group(2).split("/")[0]
+        self.extractor = JWPlayerExtractor(None, None)
 
-        self.anime_id = ""
+        self.anime_id = None
         self.__set_anime_id()
 
     def __set_anime_id(self):
@@ -51,6 +51,8 @@ class AnimeFlixScraper(BaseScraper):
             else:
                 if src_data["lang"] == "sub" and src_data["hardsub"] and src_data["type"] == "hls":
                     master = src_data["file"]
+                    # print("master")
+                    # print(master)
                     res_stream_link = self.extractor.get_resolution_link(master, self.resolution)
                     episode.download_url = res_stream_link
                     episode.is_direct = False
@@ -69,6 +71,8 @@ class AnimeFlixScraper(BaseScraper):
                                                                                            id=self.anime_id,
                                                                                            limit=str(limit),
                                                                                            page=str(curr_page))
+            curr_page += 1
+
             api_data = self.session.get(api_url).json()
             for epi in api_data["data"]:
                 epi_no = int(epi["episode_num"])

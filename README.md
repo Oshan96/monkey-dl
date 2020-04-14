@@ -290,6 +290,8 @@ Anime Downloader wouldn't be possible without these awesome free and opensource 
 - [PySimpleGUI](https://github.com/PySimpleGUI/PySimpleGUI)
 - [FFMPEG](https://ffmpeg.org/)
 
+Special thanks to [u/sln0913](https://www.reddit.com/user/sln0913) for the awesome logo and banner designs!
+
 ## Disclaimer
 
 This software has been developed only for educational purposes by the [Author](https://github.com/Oshan96). By no means this encourage content piracy. Please support original content creators!

@@ -164,7 +164,7 @@ class AnimeGUI:
             [sg.ProgressBar(100, key="progress", orientation="h", size=(45, 15))]
         ]
 
-        self.window = sg.Window("Anime Downloader v1.0.4", layout, icon="app.ico")
+        self.window = sg.Window("Monkey-DL v1.0.4", layout, icon="app.ico")
 
     def check_messages(self, values):
         global i, max_val

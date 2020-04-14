@@ -25,6 +25,7 @@ class HLSDownloader:
         return decryptor.decrypt(data)
 
     def __collect_stream_data(self, ts_url):
+        # return self.session.get(ts_url).content
         data = b''
         for chunk in self.session.get(ts_url, stream=True):
             data += chunk

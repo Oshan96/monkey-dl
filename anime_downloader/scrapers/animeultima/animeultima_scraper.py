@@ -148,12 +148,11 @@ class AnimeUltimaScraper(BaseScraper):
             if anime_id is None:
                 anime_id = self.get_anime_id()
 
-        # print(anime_id)
-        start_page, end_page = self.get_start_and_end_page(anime_id)
-
-        # print(start_page, end_page)
-
         try:
+            # print(anime_id)
+            start_page, end_page = self.get_start_and_end_page(anime_id)
+
+            # print(start_page, end_page)
             self.collect_episodes(anime_id, start_page, end_page)
 
             return self.episodes

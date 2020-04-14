@@ -25,12 +25,7 @@ class HLSDownloader:
         return decryptor.decrypt(data)
 
     def __collect_stream_data(self, ts_url):
-        # return self.session.get(ts_url).content
-        data = b''
-        for chunk in self.session.get(ts_url, stream=True):
-            data += chunk
-
-        return data
+        return self.session.get(ts_url).content
 
     def __is_encrypted(self, m3u8_data):
         method = re.search('#EXT-X-KEY:METHOD=(.*),', m3u8_data)

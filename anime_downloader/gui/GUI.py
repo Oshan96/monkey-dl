@@ -1,6 +1,8 @@
+import sys
 import queue
 import json
 import cloudscraper
+import traceback
 import PySimpleGUI as sg
 from threading import Thread
 from time import sleep
@@ -10,16 +12,19 @@ from util.name_collector import EpisodeNamesCollector
 from scrapers.fouranime.fouranime_scraper import FourAnimeScraper
 from scrapers.nineanime.nineanime_scraper import NineAnimeScraper
 from scrapers.animeultima.animeultima_scraper import AnimeUltimaScraper
+from scrapers.animeflix.animeflix_scraper import AnimeFlixScraper
 from scrapers.animepahe.animepahe_scraper import AnimePaheScraper
 from scrapers.gogoanime.gogoanime_scraper import GoGoAnimeScraper
 from scrapers.animefreak.animefreak_scraper import AnimeFreakScraper
+from scrapers.twist.twist_scraper import TwistScraper
 
 sg.theme('Dark Amber')
 i = 0
 max_val = 100
 
 
-def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, gui, resolution="720", is_dub=False):
+def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, gui,
+             resolution="720", is_dub=False):
     global max_val
 
     session = cloudscraper.create_scraper()
@@ -41,6 +46,10 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
             printer("INFO", "AnimeUltima URL detected...", gui)
             scraper = AnimeUltimaScraper(anime_url, start_epi, end_epi, session, gui, resolution, is_dub)
 
+        elif "animeflix" in anime_url:
+            printer("INFO", "AnimeFlix URL detected...", gui)
+            scraper = AnimeFlixScraper(anime_url, start_epi, end_epi, session, gui, resolution, is_dub)
+
         elif "gogoanime" in anime_url:
             printer("INFO", "GoGoAnime URL detected...", gui)
             if "gogoanime.pro" in anime_url:
@@ -52,6 +61,10 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
         elif "animefreak" in anime_url:
             printer("INFO", "AnimeFreak URL detected...", gui)
             scraper = AnimeFreakScraper(anime_url, start_epi, end_epi, session, gui, is_dub)
+
+        elif "twist" in anime_url:
+            printer("INFO", "Twist URL detected...", gui)
+            scraper = TwistScraper(anime_url, start_epi, end_epi, session, gui)
 
         elif "animepahe.com" in anime_url:
             printer("INFO", "AnimePahe URL detected...", gui)
@@ -93,7 +106,8 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
         if episodes:
             if is_titles:
                 printer("INFO", "Setting episode titles...", gui)
-                episodes = EpisodeNamesCollector(names_url, start_epi, end_epi, is_filler, episodes).collect_episode_names()
+                episodes = EpisodeNamesCollector(names_url, start_epi, end_epi, is_filler,
+                                                 episodes).collect_episode_names()
 
         else:
             printer("ERROR", "Failed to retrieve download links!", gui)
@@ -105,6 +119,8 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
         downloader.download()
 
     except Exception as ex:
+        trace = traceback.format_exc()
+        print(trace)
         printer("ERROR", ex, gui)
         printer("ERROR", "Something went wrong! Please close and restart Anime Downloader to retry!", gui)
 
@@ -124,16 +140,18 @@ class AnimeGUI:
             [sg.Text("Save To", size=(25, 1), text_color="white"), sg.InputText(key="location"), sg.FolderBrowse()],
 
             [sg.Text("Episodes Details", size=(15, 1)), sg.Text("_" * 60, pad=(0, 15))],
-            [sg.Text("From", text_color="white"), sg.InputText(key="start_epi", size=(5, 1)),
-             sg.Text("To", text_color="white"), sg.InputText(key="end_epi", size=(5, 1)),
+            [sg.Text("From", text_color="white", size=(8, 1)), sg.InputText(key="start_epi", size=(6, 1)),
+             sg.Text("To", text_color="white", size=(8, 1)), sg.InputText(key="end_epi", size=(5, 1)),
              sg.Text("Download Fillers?", text_color="white"),
              sg.Combo(["Yes", "No"], size=(4, 1), default_value="Yes", key="isFiller"),
              sg.Text("Threads", text_color="white"),
-             sg.Spin([i for i in range(1, 21)], initial_value=1, size=(3, 1), key="threads"),
-             sg.Text("Resolution", text_color="white"),
-             sg.Combo(["240", "360", "480", "720", "1080"], size=(4, 1), default_value="1080", key="resolution")],
+             sg.Spin([i for i in range(1, 21)], initial_value=1, size=(3, 1), key="threads")],
             [],
-
+            [sg.Text("Resolution", text_color="white", size=(8, 1)),
+             sg.Combo(["240", "360", "480", "720", "1080"], size=(4, 1), default_value="1080", key="resolution"),
+             sg.Text("Sub/Dub", text_color="white", size=(8, 1)),
+             sg.Combo(["Sub", "Dub"], size=(4, 1), default_value="Sub", key="is_dub")],
+            [],
             [sg.Text("Optional Settings (Fill this if you don't have 2captcha key)", size=(45, 1)),
              sg.Text("_" * 25, pad=(0, 15))],
             [sg.Text("Recaptcha Token (Optional)", text_color="white", size=(25, 1)),
@@ -147,7 +165,10 @@ class AnimeGUI:
             [sg.ProgressBar(100, key="progress", orientation="h", size=(45, 15))]
         ]
 
-        self.window = sg.Window("Anime Downloader v1.0.3", layout)
+        if sys.platform.lower() == "win32":
+            self.window = sg.Window("Monkey-DL v1.0.4", layout, icon="app.ico")
+        else:
+            self.window = sg.Window("Monkey-DL v1.0.4", layout, icon="app.png")
 
     def check_messages(self, values):
         global i, max_val
@@ -162,7 +183,7 @@ class AnimeGUI:
                 txt += "\n" + message
 
                 if "finished downloading..." in message or "failed to download!" in message:
-                    i+=1
+                    i += 1
                     self.window["progress"].UpdateBar(i, max=max_val)
 
                 self.window['txt_msg'].update(txt)
@@ -188,6 +209,7 @@ class AnimeGUI:
                 names_url = values["names_url"]
                 is_titles = True if names_url != "" else False
                 is_filler = True if values["isFiller"] == "Yes" else False
+                is_dub = True if values["is_dub"] == "Dub" else False
 
                 tok = values["token"].rstrip()
                 token = tok if tok != "" else None
@@ -213,7 +235,9 @@ class AnimeGUI:
                 self.window["txt_msg"].update("")
                 self.window.refresh()
 
-                thread = Thread(target=download, args=(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, self, resolution), daemon=True)
+                thread = Thread(target=download, args=(
+                    anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, self,
+                    resolution, is_dub), daemon=True)
                 thread.start()
 
             self.check_messages(values)

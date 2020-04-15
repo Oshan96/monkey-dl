@@ -33,7 +33,12 @@ class JWPlayerExtractor(BaseExtractor):
     # if the given resolution is not found, the first available link would be given
     def get_resolution_link(self, master_url, resolution):
         count = 0
-        content = self.session.get(master_url).text
+        try:
+            content = self.session.get(master_url).text
+        except:
+            print("retry")
+            content = self.session.get(master_url).text
+
         data_list = content.split("\n")
 
         link = None

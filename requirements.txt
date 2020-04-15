@@ -1,5 +1,6 @@
+pycryptodome==3.9.7
 jsbeautifier
-requests==2.22.0
+requests==2.23.0
 art==4.5
 cloudscraper==1.2.33
 beautifulsoup4==4.8.2

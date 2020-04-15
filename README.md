@@ -1,4 +1,5 @@
-# Anime Downloader [![Total Downloads](https://img.shields.io/github/downloads/Oshan96/Anime-Downloader/total.svg?style=for-the-badge)](https://github.com/Oshan96/Anime-Downloader/releases)
+![Banner](docs/images/banner.png)<br>
+# Monkey-DL (Anime Downloader) [![Total Downloads](https://img.shields.io/github/downloads/Oshan96/Anime-Downloader/total.svg?style=for-the-badge)](https://github.com/Oshan96/Anime-Downloader/releases)
 
 You can now bulk download your favourite anime episodes for various websites, in various resolutions, with or without filler episodes
 
@@ -6,17 +7,37 @@ You can now bulk download your favourite anime episodes for various websites, in
 
 ## Donations
 If this project is helpful to you and love my work and feel like showing love/appreciation, would you like to buy me a coffee?<br>
-<a href="https://www.buymeacoffee.com/Oshan96" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+<a href="https://buymeacoff.ee/Oshan96" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+
+## Features
+* Download Anime from various [supported websites](#Supported-Websites)
+* Batch download episodes in the given range at once
+* High speed downloads
+* Download multiple episodes at once
+* Select the resolution (from the available resolutions for the website)
+* Select sub/dub (Check whether the website supports selective sub/dub downloads from [here](#Supported-Websites))
+* Choose whether filler episodes need to be downloaded or not by selecting "Download fillers" (By providing animefillerlist URL)
+* Name the files in "Episode - {episode_number} - {episode_title}" format by providing animefillerlist URL
+* Choose the directory files need to be downloaded into
+* Custom HLSDownloader (Now FFMPEG installation is optional from v1.0.4 upwards)
+* Custom decryptors for encrypted websites
 
 ## Supported Websites
-| Website                                       | Need recaptcha token? | Supported resolutions         | FFMPEG needed?    | File Size                     | Additional Notes                                                                                  |
-|---                                            |---                    |---                            |---                |---                            |---                                                                                                |        
-| [9Anime](https://9anime.to/)                  | Yes                   | Default only                  | No                | 500-600MB                     | Will always work, provided token                                                                  |
-| [4Anime](https://4anime.to/)                  | No                    | Default only                  | No                | Around 150MB                  | Upon failure, visit 4anime website and restart anime downloader. Fastest downloads                |
-| [AnimePahe](https://animepahe.com/)           | No                    | 720p, 1080p                   | No                | 720p: ~150MB, 1080p: ~200MB   | 2captcha API key is needed to download from AnimePahe. Also download speed is capped by host      |
-| [AnimeFreak](https://www.animefreak.tv/)      | No                    | Default only                  | No                | ~90-100MB                     | Downloading from AnimeFreak would be a bit slow at times                                          |
-| [GoGoAnime](https://gogoanime.io/)            | No                    | Mostly 360p, 480p             | Yes               | -                             | gogoanime.io and gogoanime.video are supported. gogoanime.pro support will be added in future     |
-| [AnimeUltima](https://www.animeultima.to/)    | No                    | 240p, 360p, 480p, 720p, 1080p | Yes               | 1080p is around 1GB           | AnimeUltima is having issues in their end. Will be supported again once they are backup           |
+
+#### Note
+After v1.0.4 release, Monkey-DL now uses a custom HLSDownloader to download from streams, which is over 10x faster than downloading from FFMPEG. FFMPEG is now optional to be installed in system. FFMPEG will only be used if there is any error occured. So for now, it is safe FFMPEG to be installed as well.
+FFMPEG dependency will be removed completely soon in a later release
+
+| Website                                       |Sub/Dub selection      | Need recaptcha token? | Supported resolutions                                         | FFMPEG needed?    | File Size                     | Additional Notes                                                                                  |
+|---                                            |---                    |---                    |---                                                            |---                |---                            |---                                                                                                |        
+| [9Anime](https://9anime.to/)                  | No                    | Yes                   | Default only                                                  | No                | 500-600MB                     | Will always work, provided token                                                                  |
+| [4Anime](https://4anime.to/)                  | No                    | No                    | Default only                                                  | No                | Around 150MB                  | Upon failure, visit 4anime website and restart anime downloader. Fastest downloads                |
+| [AnimePahe](https://animepahe.com/)           | No                    | No                    | 720p, 1080p                                                   | No                | 720p: ~150MB, 1080p: ~200MB   | 2captcha API key is needed to download from AnimePahe. Also download speed is capped by host      |
+| [Twist](https://twist.moe/)                   | No                    | No                    | 1080p                                                         | No                | 500MB+                        | Files are very high quality and fast downloads. Seems to be raw HorribleSub content               |
+| [AnimeFreak](https://www.animefreak.tv/)      | Yes                   | No                    | Default only                                                  | No                | ~90-100MB                     | Downloading from AnimeFreak is generally fast                                                     |
+| [GoGoAnime](https://gogoanime.io/)            | No                    | No                    | Mostly 360p, 480p                                             | Optional          | -                             | gogoanime.io and gogoanime.video are supported. gogoanime.pro support will be added in future     |
+| [AnimeUltima](https://www.animeultima.to/)    | Yes                   | No                    | Sub: 240p, 360p, 480p, 720p, 1080p<br><br> Dub: Default only  | Optional          | 1080p is 1GB+                 | File sizes are relatively large                                                                   |
+| [AnimeFlix](https://animeflix.io/)            | Yes                   | No                    | Sub: 240p, 360p, 480p, 720p, 1080p<br><br> Dub: Default only  | Optional          | 1080p is 1GB+                 | File sizes are relatively large                                                                   |
 
 ## Download Anime Downloader [Windows]
 > Note : Currently only windows executable is provided (Linux, Mac users go to [Build from source](#Building-from-source))
@@ -35,7 +56,7 @@ Open settings.json and set [2captcha](https://2captcha.com/) API key in "api_key
 
 *Don't have 2captcha API key? Don't worry! You can still use this to download anime. Check the "FAQ" section on [how to download if you don't have a 2captcha API key](#Q---I-don't-have-a-2captcha-API-key,-is-there-any-workaround-for-that?)*
 
-##### And in order to download from some websites (like animeultima.to) Anime Downloader requires you to have [FFMPEG](https://www.ffmpeg.org/) to be downloaded ([Check whether your anime website needs FFMPEG](#Supported-Websites))
+##### In order to download from some websites (like animeultima.to) Anime Downloader requires you to have [FFMPEG](https://www.ffmpeg.org/) to be downloaded ([Check whether your anime website needs FFMPEG](#Supported-Websites))
 
 - You can download FFMPEG from [here](https://www.ffmpeg.org/download.html)
 - And then add the ffmpeg executable to system path
@@ -49,12 +70,18 @@ sudo apt install ffmpeg
 #### Still not able to download? Go ahead and post your issue [here](https://github.com/Oshan96/Anime-Downloader/issues). And I will look into the error and give necessary fixes!
 
 ## Running the application
-Navigate to the extracted folder and open a cmd or powershell window from that folder and execute "anime-dl.exe" from command line.
+Navigate to the extracted folder and open a cmd or powershell window from that folder and execute "monkey-dl.exe" from command line.
 
 ## How to download using GUI version (v0.1.1-alpha upwards)
 It is same as the CLI version, but provided a graphical user interface to collect necessary parameters.
 
-Execute the "anime-dl.exe" to start.
+Note : After v1.0.4 and anove, Anime Downloader was named as "Monkey-DL" and the executable is called "monkey-dl.exe"
+
+* v1.0.4 and above:
+    Execute the "monkey-dl.exe" to start.
+
+* v1.0.3 and lower:
+    Execute the "anime-dl.exe" to start.
 
 If you're running from source files, execute the "anime-dl.py" script
 
@@ -93,7 +120,7 @@ Above mentioned are the arguments you should use in order to download anime.
 ### Q - How can I download one piece anime episodes from 10 to 20?
 
 ```bash
-./anime-dl.exe -u https://9anime.to/watch/one-piece.ov8/169lyx -s 10 -e 20 -n https://www.animefillerlist.com/shows/one-piece 
+./anime-dl.py -u https://9anime.to/watch/one-piece.ov8/169lyx -s 10 -e 20 -n https://www.animefillerlist.com/shows/one-piece 
 ```
 
 Explantion of the commands used : 
@@ -105,7 +132,7 @@ Explantion of the commands used :
 ### Q - How can I download one piece anime episodes 30 to 70 into "D:\Anime\One Piece" folder?
 
 ```bash
-./anime-dl.exe -u https://9anime.to/watch/one-piece.ov8/169lyx -s 30 -e 70 -n https://www.animefillerlist.com/shows/one-piece -d "D:\Anime\One Piece" 
+./anime-dl.py -u https://9anime.to/watch/one-piece.ov8/169lyx -s 30 -e 70 -n https://www.animefillerlist.com/shows/one-piece -d "D:\Anime\One Piece" 
 ```
 
 Explanation of commands : 
@@ -114,7 +141,7 @@ Explanation of commands :
 ### Q - How can I download bleach episodes 100 to 130 into "D:\Anime\Bleach" folder and download 4 episodes at once?
 
 ```bash
-./anime-dl.exe -u https://9anime.to/watch/bleach.6j9/lz7wvq -s 100 -e 130 -n https://www.animefillerlist.com/shows/bleach -d "D:\Anime\Bleach" -t 4
+./anime-dl.py -u https://9anime.to/watch/bleach.6j9/lz7wvq -s 100 -e 130 -n https://www.animefillerlist.com/shows/bleach -d "D:\Anime\Bleach" -t 4
 ```
 
 Explanation of commands : 
@@ -123,7 +150,7 @@ Explanation of commands :
 ### Q - How can I download bleach episodes 100 to 130 without filler episodes into "D:\Anime\Bleach" folder and download 3 episodes at once?
 
 ```bash
-./anime-dl.exe -u https://9anime.to/watch/bleach.6j9/lz7wvq -s 100 -e 130 -n https://www.animefillerlist.com/shows/bleach -d "D:\Anime\Bleach" -t 3 -f False
+./anime-dl.py -u https://9anime.to/watch/bleach.6j9/lz7wvq -s 100 -e 130 -n https://www.animefillerlist.com/shows/bleach -d "D:\Anime\Bleach" -t 3 -f False
 ```
 
 Explanation of commands : 
@@ -172,7 +199,7 @@ Now we have what we need!
 All you have to do is, add -c or --code command to the previous example's code like below
 
 ```bash
-./anime-dl.exe -u https://9anime.to/watch/bleach.6j9/lz7wvq -s 100 -e 130 -n https://www.animefillerlist.com/shows/bleach -d "D:\Anime\Bleach" -t 4 -f False -c 03AERD8Xode9TV-gFkG-7CNkllpKoiXfDKVEZ0Lu9NjGpxVv89bjwNHkS5bcfXHqKXx746tsNW_IUMhSVV7Aym-lcvdn6jd5Ggy1a28AQ_BI1K380joLpYReKB0EOjJjO2oVEUpOgtPu0fgfjxABKpI9EjrDZ0T7iSsKDPfhnXebQcZxIbAwelADkZ8m4qYojn3J_-kQyreIRCEztWyTTpm_SoNt6lIpFxG-egDFqVF6Sg7ICPp0QQrPa5UC-6pecgs_3xspg7PN48VOXGfHH4PCARIaGVL-J5CYNsesqUuZ4t_4kni9euduhtB3KCrV1_IYOhymepwczWIKKPGmze2DKVddoDBABlS8NZaxHRFAzNjjJHOhlRyblBMlmerK_Mu5N25bZeY5ZZ
+./anime-dl.py -u https://9anime.to/watch/bleach.6j9/lz7wvq -s 100 -e 130 -n https://www.animefillerlist.com/shows/bleach -d "D:\Anime\Bleach" -t 4 -f False -c 03AERD8Xode9TV-gFkG-7CNkllpKoiXfDKVEZ0Lu9NjGpxVv89bjwNHkS5bcfXHqKXx746tsNW_IUMhSVV7Aym-lcvdn6jd5Ggy1a28AQ_BI1K380joLpYReKB0EOjJjO2oVEUpOgtPu0fgfjxABKpI9EjrDZ0T7iSsKDPfhnXebQcZxIbAwelADkZ8m4qYojn3J_-kQyreIRCEztWyTTpm_SoNt6lIpFxG-egDFqVF6Sg7ICPp0QQrPa5UC-6pecgs_3xspg7PN48VOXGfHH4PCARIaGVL-J5CYNsesqUuZ4t_4kni9euduhtB3KCrV1_IYOhymepwczWIKKPGmze2DKVddoDBABlS8NZaxHRFAzNjjJHOhlRyblBMlmerK_Mu5N25bZeY5ZZ
 ```
 
 ### Recaptcha does not appear even in private browsing. What can I do?
@@ -282,8 +309,12 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 Anime Downloader wouldn't be possible without these awesome free and opensource projects!
 - [CloudScraper](https://github.com/VeNoMouS/cloudscraper)
 - [Js2Py](https://github.com/PiotrDabkowski/Js2Py)
+- [JsBeautifier](https://github.com/beautify-web/js-beautify)
+- [PyCryptodome](https://github.com/Legrandin/pycryptodome)
 - [PySimpleGUI](https://github.com/PySimpleGUI/PySimpleGUI)
 - [FFMPEG](https://ffmpeg.org/)
+
+Special thanks to [u/sln0913](https://www.reddit.com/user/sln0913) for the awesome logo and banner designs!
 
 ## Disclaimer
 

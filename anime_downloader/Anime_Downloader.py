@@ -5,12 +5,14 @@ import requests
 import shutil
 import os
 import sys
+import traceback
 from platform import system
 from threading import Thread
 from queue import Queue
 from art import text2art
 from util import Color
 from util.ffmpeg_downloader import FFMPEGDownloader
+from util.hls_downloader import HLSDownloader
 from scrapers.nineanime import Anime_Scraper
 
 directory = ""
@@ -72,15 +74,15 @@ class Downloader:
         return file_name
 
     def __download_episode(self, episode):
+        if system() == "Windows":
+            episode.title = self.__clean_file_name(episode.title)
+
         if episode.is_direct:
             if episode.download_url is None:
                 Color.printer("ERROR", "Download URL is not set for " + episode.episode + ", skipping...", self.gui)
                 return
 
             Color.printer("INFO", "Downloading " + episode.episode + "...", self.gui)
-
-            if system() == "Windows":
-                episode.title = self.__clean_file_name(episode.title)
 
             # print(self.is_titles)
             # print(episode.title)
@@ -92,15 +94,21 @@ class Downloader:
                 # print("without title")
                 file_name = self.directory + episode.episode + ".mp4"
 
-            with requests.get(episode.download_url, stream=True, verify=False) as r:
+            with requests.get(episode.download_url, headers=episode.request_headers, stream=True, verify=False) as r:
                 with open(file_name, 'wb') as f:
                     shutil.copyfileobj(r.raw, f, length=16 * 1024 * 1024)
 
             Color.printer("INFO", episode.episode + " finished downloading...", self.gui)
 
         else:
-            Color.printer("INFO", "HLS link found. Using FFMPEG to download...", self.gui)
-            FFMPEGDownloader(episode, self.directory, self.gui).download()
+            Color.printer("INFO", "HLS link found. Using custom HLSDownloader to download...", self.gui)
+            try:
+                HLSDownloader(episode, self.directory, requests.session(), self.gui).download()
+            except Exception as ex:
+                trace = traceback.format_exc()
+                print(trace)
+                Color.printer("ERROR", "Custom HLS Downloader failed! Using FFMPEG to download...", self.gui)
+                FFMPEGDownloader(episode, self.directory, self.gui).download()
 
     def download(self):
 

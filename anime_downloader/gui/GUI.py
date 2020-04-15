@@ -1,3 +1,4 @@
+import sys
 import queue
 import json
 import cloudscraper
@@ -164,7 +165,10 @@ class AnimeGUI:
             [sg.ProgressBar(100, key="progress", orientation="h", size=(45, 15))]
         ]
 
-        self.window = sg.Window("Monkey-DL v1.0.4", layout, icon="app.ico")
+        if sys.platform.lower() == "win32":
+            self.window = sg.Window("Monkey-DL v1.0.4", layout, icon="app.ico")
+        else:
+            self.window = sg.Window("Monkey-DL v1.0.4", layout, icon="app.png")
 
     def check_messages(self, values):
         global i, max_val

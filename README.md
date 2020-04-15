@@ -56,7 +56,7 @@ Open settings.json and set [2captcha](https://2captcha.com/) API key in "api_key
 
 *Don't have 2captcha API key? Don't worry! You can still use this to download anime. Check the "FAQ" section on [how to download if you don't have a 2captcha API key](#Q---I-don't-have-a-2captcha-API-key,-is-there-any-workaround-for-that?)*
 
-##### And in order to download from some websites (like animeultima.to) Anime Downloader requires you to have [FFMPEG](https://www.ffmpeg.org/) to be downloaded ([Check whether your anime website needs FFMPEG](#Supported-Websites))
+##### In order to download from some websites (like animeultima.to) Anime Downloader requires you to have [FFMPEG](https://www.ffmpeg.org/) to be downloaded ([Check whether your anime website needs FFMPEG](#Supported-Websites))
 
 - You can download FFMPEG from [here](https://www.ffmpeg.org/download.html)
 - And then add the ffmpeg executable to system path
@@ -70,12 +70,18 @@ sudo apt install ffmpeg
 #### Still not able to download? Go ahead and post your issue [here](https://github.com/Oshan96/Anime-Downloader/issues). And I will look into the error and give necessary fixes!
 
 ## Running the application
-Navigate to the extracted folder and open a cmd or powershell window from that folder and execute "anime-dl.exe" from command line.
+Navigate to the extracted folder and open a cmd or powershell window from that folder and execute "monkey-dl.exe" from command line.
 
 ## How to download using GUI version (v0.1.1-alpha upwards)
 It is same as the CLI version, but provided a graphical user interface to collect necessary parameters.
 
-Execute the "anime-dl.exe" to start.
+Note : After v1.0.4 and anove, Anime Downloader was named as "Monkey-DL" and the executable is called "monkey-dl.exe"
+
+* v1.0.4 and above:
+    Execute the "monkey-dl.exe" to start.
+
+* v1.0.3 and lower:
+    Execute the "anime-dl.exe" to start.
 
 If you're running from source files, execute the "anime-dl.py" script
 
@@ -114,7 +120,7 @@ Above mentioned are the arguments you should use in order to download anime.
 ### Q - How can I download one piece anime episodes from 10 to 20?
 
 ```bash
-./anime-dl.exe -u https://9anime.to/watch/one-piece.ov8/169lyx -s 10 -e 20 -n https://www.animefillerlist.com/shows/one-piece 
+./anime-dl.py -u https://9anime.to/watch/one-piece.ov8/169lyx -s 10 -e 20 -n https://www.animefillerlist.com/shows/one-piece 
 ```
 
 Explantion of the commands used : 
@@ -126,7 +132,7 @@ Explantion of the commands used :
 ### Q - How can I download one piece anime episodes 30 to 70 into "D:\Anime\One Piece" folder?
 
 ```bash
-./anime-dl.exe -u https://9anime.to/watch/one-piece.ov8/169lyx -s 30 -e 70 -n https://www.animefillerlist.com/shows/one-piece -d "D:\Anime\One Piece" 
+./anime-dl.py -u https://9anime.to/watch/one-piece.ov8/169lyx -s 30 -e 70 -n https://www.animefillerlist.com/shows/one-piece -d "D:\Anime\One Piece" 
 ```
 
 Explanation of commands : 
@@ -135,7 +141,7 @@ Explanation of commands :
 ### Q - How can I download bleach episodes 100 to 130 into "D:\Anime\Bleach" folder and download 4 episodes at once?
 
 ```bash
-./anime-dl.exe -u https://9anime.to/watch/bleach.6j9/lz7wvq -s 100 -e 130 -n https://www.animefillerlist.com/shows/bleach -d "D:\Anime\Bleach" -t 4
+./anime-dl.py -u https://9anime.to/watch/bleach.6j9/lz7wvq -s 100 -e 130 -n https://www.animefillerlist.com/shows/bleach -d "D:\Anime\Bleach" -t 4
 ```
 
 Explanation of commands : 
@@ -144,7 +150,7 @@ Explanation of commands :
 ### Q - How can I download bleach episodes 100 to 130 without filler episodes into "D:\Anime\Bleach" folder and download 3 episodes at once?
 
 ```bash
-./anime-dl.exe -u https://9anime.to/watch/bleach.6j9/lz7wvq -s 100 -e 130 -n https://www.animefillerlist.com/shows/bleach -d "D:\Anime\Bleach" -t 3 -f False
+./anime-dl.py -u https://9anime.to/watch/bleach.6j9/lz7wvq -s 100 -e 130 -n https://www.animefillerlist.com/shows/bleach -d "D:\Anime\Bleach" -t 3 -f False
 ```
 
 Explanation of commands : 
@@ -193,7 +199,7 @@ Now we have what we need!
 All you have to do is, add -c or --code command to the previous example's code like below
 
 ```bash
-./anime-dl.exe -u https://9anime.to/watch/bleach.6j9/lz7wvq -s 100 -e 130 -n https://www.animefillerlist.com/shows/bleach -d "D:\Anime\Bleach" -t 4 -f False -c 03AERD8Xode9TV-gFkG-7CNkllpKoiXfDKVEZ0Lu9NjGpxVv89bjwNHkS5bcfXHqKXx746tsNW_IUMhSVV7Aym-lcvdn6jd5Ggy1a28AQ_BI1K380joLpYReKB0EOjJjO2oVEUpOgtPu0fgfjxABKpI9EjrDZ0T7iSsKDPfhnXebQcZxIbAwelADkZ8m4qYojn3J_-kQyreIRCEztWyTTpm_SoNt6lIpFxG-egDFqVF6Sg7ICPp0QQrPa5UC-6pecgs_3xspg7PN48VOXGfHH4PCARIaGVL-J5CYNsesqUuZ4t_4kni9euduhtB3KCrV1_IYOhymepwczWIKKPGmze2DKVddoDBABlS8NZaxHRFAzNjjJHOhlRyblBMlmerK_Mu5N25bZeY5ZZ
+./anime-dl.py -u https://9anime.to/watch/bleach.6j9/lz7wvq -s 100 -e 130 -n https://www.animefillerlist.com/shows/bleach -d "D:\Anime\Bleach" -t 4 -f False -c 03AERD8Xode9TV-gFkG-7CNkllpKoiXfDKVEZ0Lu9NjGpxVv89bjwNHkS5bcfXHqKXx746tsNW_IUMhSVV7Aym-lcvdn6jd5Ggy1a28AQ_BI1K380joLpYReKB0EOjJjO2oVEUpOgtPu0fgfjxABKpI9EjrDZ0T7iSsKDPfhnXebQcZxIbAwelADkZ8m4qYojn3J_-kQyreIRCEztWyTTpm_SoNt6lIpFxG-egDFqVF6Sg7ICPp0QQrPa5UC-6pecgs_3xspg7PN48VOXGfHH4PCARIaGVL-J5CYNsesqUuZ4t_4kni9euduhtB3KCrV1_IYOhymepwczWIKKPGmze2DKVddoDBABlS8NZaxHRFAzNjjJHOhlRyblBMlmerK_Mu5N25bZeY5ZZ
 ```
 
 ### Recaptcha does not appear even in private browsing. What can I do?

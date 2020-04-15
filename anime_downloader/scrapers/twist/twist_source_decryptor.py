@@ -35,23 +35,21 @@ class TwistSourceDecryptor:
         # print("b64decode enc :", enc_data)
         assert enc_data[:8] == b'Salted__'
 
-        salt = enc_data[8:16]                                   # 8byte salt
-        key_iv = self.__get_key_iv(self.SECRET_KEY, salt)       # key+iv is 48bytes
-        key = key_iv[:32]                                       # key is 32byte
-        iv = key_iv[32:]                                        # 16byte iv
+        salt = enc_data[8:16]  # 8byte salt
+        key_iv = self.__get_key_iv(self.SECRET_KEY, salt)  # key+iv is 48bytes
+        key = key_iv[:32]  # key is 32byte
+        iv = key_iv[32:]  # 16byte iv
         # print("key :", key)
         # print("iv :", iv)
 
         aes = AES.new(key, AES.MODE_CBC, iv)
 
-        decrypt_data = aes.decrypt(enc_data[16:])               # actual data are after first 16bytes (which is salt)
-        decrypt_data =  self.__unpad(decrypt_data).decode('utf-8').lstrip(' ')
-        print(decrypt_data)
+        decrypt_data = aes.decrypt(enc_data[16:])  # actual data are after first 16bytes (which is salt)
+        decrypt_data = self.__unpad(decrypt_data).decode('utf-8').lstrip(' ')
+        # print(decrypt_data)
         return requote_uri(decrypt_data)  # parse to url safe value
-
 
 # if __name__ == "__main__":
 #     enc = "U2FsdGVkX19HQClvPEOzwC/GB0VRwqWykgOTB+xGwpi7Tu6uTdSUbBsiKOJ5KH0udjYE/10xinA7Km/nGm88txhTYb/oqSksAaBBV8xM0XQ="
 #     dec = TwistSourceDecryptor(enc).decrypt()
 #     print(dec)
-

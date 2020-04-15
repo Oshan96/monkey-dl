@@ -7,19 +7,37 @@ You can now bulk download your favourite anime episodes for various websites, in
 
 ## Donations
 If this project is helpful to you and love my work and feel like showing love/appreciation, would you like to buy me a coffee?<br>
-<a href="https://www.buymeacoffee.com/Oshan96" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+<a href="https://buymeacoff.ee/Oshan96" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+
+## Features
+* Download Anime from various [supported websites](#Supported-Websites)
+* Batch download episodes in the given range at once
+* High speed downloads
+* Download multiple episodes at once
+* Select the resolution (from the available resolutions for the website)
+* Select sub/dub (Check whether the website supports selective sub/dub downloads from [here](#Supported-Websites))
+* Choose whether filler episodes need to be downloaded or not by selecting "Download fillers" (By providing animefillerlist URL)
+* Name the files in "Episode - {episode_number} - {episode_title}" format by providing animefillerlist URL
+* Choose the directory files need to be downloaded into
+* Custom HLSDownloader (Now FFMPEG installation is optional from v1.0.4 upwards)
+* Custom decryptors for encrypted websites
 
 ## Supported Websites
-| Website                                       | Need recaptcha token? | Supported resolutions                                         | FFMPEG needed?    | File Size                     | Additional Notes                                                                                  |
-|---                                            |---                    |---                                                            |---                |---                            |---                                                                                                |        
-| [9Anime](https://9anime.to/)                  | Yes                   | Default only                                                  | No                | 500-600MB                     | Will always work, provided token                                                                  |
-| [4Anime](https://4anime.to/)                  | No                    | Default only                                                  | No                | Around 150MB                  | Upon failure, visit 4anime website and restart anime downloader. Fastest downloads                |
-| [AnimePahe](https://animepahe.com/)           | No                    | 720p, 1080p                                                   | No                | 720p: ~150MB, 1080p: ~200MB   | 2captcha API key is needed to download from AnimePahe. Also download speed is capped by host      |
-| [Twist](https://twist.moe/)                   | No                    | 1080p                                                         | No                | 500MB+                        | Files are very high quality and fast downloads. Seems to be raw HorribleSub content               |
-| [AnimeFreak](https://www.animefreak.tv/)      | No                    | Default only                                                  | No                | ~90-100MB                     | Downloading from AnimeFreak is generally fast                                                     |
-| [GoGoAnime](https://gogoanime.io/)            | No                    | Mostly 360p, 480p                                             | Optional          | -                             | gogoanime.io and gogoanime.video are supported. gogoanime.pro support will be added in future     |
-| [AnimeUltima](https://www.animeultima.to/)    | No                    | Sub: 240p, 360p, 480p, 720p, 1080p<br><br> Dub: Default only  | Optional          | 1080p is around 1GB           | File sizes are relatively large                                                                   |
-| [AnimeFlix](https://animeflix.io/)            | No                    | Sub: 240p, 360p, 480p, 720p, 1080p<br><br> Dub: Default only  | Optional          | 1080p is around 1GB           | File sizes are relatively large                                                                   |
+
+#### Note
+After v1.0.4 release, Monkey-DL now uses a custom HLSDownloader to download from streams, which is over 10x faster than downloading from FFMPEG. FFMPEG is now optional to be installed in system. FFMPEG will only be used if there is any error occured. So for now, it is safe FFMPEG to be installed as well.
+FFMPEG dependency will be removed completely soon in a later release
+
+| Website                                       |Sub/Dub selection      | Need recaptcha token? | Supported resolutions                                         | FFMPEG needed?    | File Size                     | Additional Notes                                                                                  |
+|---                                            |---                    |---                    |---                                                            |---                |---                            |---                                                                                                |        
+| [9Anime](https://9anime.to/)                  | No                    | Yes                   | Default only                                                  | No                | 500-600MB                     | Will always work, provided token                                                                  |
+| [4Anime](https://4anime.to/)                  | No                    | No                    | Default only                                                  | No                | Around 150MB                  | Upon failure, visit 4anime website and restart anime downloader. Fastest downloads                |
+| [AnimePahe](https://animepahe.com/)           | No                    | No                    | 720p, 1080p                                                   | No                | 720p: ~150MB, 1080p: ~200MB   | 2captcha API key is needed to download from AnimePahe. Also download speed is capped by host      |
+| [Twist](https://twist.moe/)                   | No                    | No                    | 1080p                                                         | No                | 500MB+                        | Files are very high quality and fast downloads. Seems to be raw HorribleSub content               |
+| [AnimeFreak](https://www.animefreak.tv/)      | Yes                   | No                    | Default only                                                  | No                | ~90-100MB                     | Downloading from AnimeFreak is generally fast                                                     |
+| [GoGoAnime](https://gogoanime.io/)            | No                    | No                    | Mostly 360p, 480p                                             | Optional          | -                             | gogoanime.io and gogoanime.video are supported. gogoanime.pro support will be added in future     |
+| [AnimeUltima](https://www.animeultima.to/)    | Yes                   | No                    | Sub: 240p, 360p, 480p, 720p, 1080p<br><br> Dub: Default only  | Optional          | 1080p is 1GB+                 | File sizes are relatively large                                                                   |
+| [AnimeFlix](https://animeflix.io/)            | Yes                   | No                    | Sub: 240p, 360p, 480p, 720p, 1080p<br><br> Dub: Default only  | Optional          | 1080p is 1GB+                 | File sizes are relatively large                                                                   |
 
 ## Download Anime Downloader [Windows]
 > Note : Currently only windows executable is provided (Linux, Mac users go to [Build from source](#Building-from-source))

@@ -1,4 +1,5 @@
 import re
+import traceback
 from bs4 import BeautifulSoup
 from util.Episode import Episode
 from util import Color
@@ -16,6 +17,7 @@ class FourAnimeScraper(BaseScraper):
         page = self.session.get(self.url).content
 
         soup_html = BeautifulSoup(page, "html.parser")
+        # print(page)
 
         try:
             server = soup_html.findAll("div", attrs={"class": "server"})[0]
@@ -35,7 +37,9 @@ class FourAnimeScraper(BaseScraper):
 
                     self.episodes.append(episode)
 
-        except Exception as ex :
+        except Exception as ex:
+            trace = traceback.format_exc()
+            print(trace)
             print(ex)
             return None
 

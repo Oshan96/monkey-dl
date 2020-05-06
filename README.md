@@ -1,5 +1,5 @@
 ![Banner](docs/images/banner.png)<br>
-# Monkey-DL (Anime Downloader) [![Total Downloads](https://img.shields.io/github/downloads/Oshan96/Anime-Downloader/total.svg?style=for-the-badge)](https://github.com/Oshan96/Anime-Downloader/releases)
+# Monkey-DL (Anime Downloader) [![Total Downloads](https://img.shields.io/github/downloads/Oshan96/monkey-dl/total.svg?style=for-the-badge)](https://github.com/Oshan96/monkey-dl/releases)
 
 You can now bulk download your favourite anime episodes for various websites, in various resolutions, with or without filler episodes
 

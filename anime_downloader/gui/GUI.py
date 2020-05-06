@@ -3,6 +3,7 @@ import queue
 import json
 import cloudscraper
 import traceback
+import anime_downloader
 import PySimpleGUI as sg
 from threading import Thread
 from time import sleep
@@ -28,6 +29,22 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
     global max_val
 
     session = cloudscraper.create_scraper()
+    api_key = ""
+    try:
+        with open("settings.json") as (json_file):
+            data = json.load(json_file)
+            api_key = data["api_key"]
+    except:
+        api_key = ""
+
+    if api_key != "" and api_key != "insert_2captcha_api_key":
+        session = cloudscraper.create_scraper(
+            recaptcha={
+                'provider': '2captcha',
+                'api_key': api_key
+            }
+        )
+
     scraper = None
     episodes = []
 
@@ -68,23 +85,8 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
 
         elif "animepahe.com" in anime_url:
             printer("INFO", "AnimePahe URL detected...", gui)
-            api_key = ""
-            try:
-                with open("settings.json") as (json_file):
-                    data = json.load(json_file)
-                    api_key = data["api_key"]
-            except:
-                api_key = ""
 
-            if api_key != "" and api_key != "insert_2captcha_api_key":
-                session = cloudscraper.create_scraper(
-                    recaptcha={
-                        'provider': '2captcha',
-                        'api_key': api_key
-                    }
-                )
-
-            else:
+            if api_key == "" or api_key == "insert_2captcha_api_key":
                 printer("ERROR", "You need 2captcha API key to download from AnimePahe!", gui)
                 printer("ERROR", "Set 2captcha API key in 'settings.json' file to download from AnimePahe!", gui)
                 return
@@ -166,9 +168,9 @@ class AnimeGUI:
         ]
 
         if sys.platform.lower() == "win32":
-            self.window = sg.Window("Monkey-DL v1.0.4", layout, icon="app.ico")
+            self.window = sg.Window("Monkey-DL v"+anime_downloader.__version__, layout, icon="app.ico")
         else:
-            self.window = sg.Window("Monkey-DL v1.0.4", layout, icon="app.png")
+            self.window = sg.Window("Monkey-DL v"+anime_downloader.__version__, layout, icon="app.png")
 
     def check_messages(self, values):
         global i, max_val

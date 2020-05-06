@@ -10,11 +10,12 @@ from util.js_unpacker import JsUnpacker
 class FourAnimeScraper(BaseScraper):
     def __init__(self, url, start_episode, end_episode, session, gui=None):
         super().__init__(url, start_episode, end_episode, session, gui)
+        self.domain_name = ".4anime.to"
 
     def __extract_page_urls(self):
         Color.printer("INFO", "Extracting page URLs...", self.gui)
 
-        page = self.session.get(self.url).content
+        page = self.get_url_content()
 
         soup_html = BeautifulSoup(page, "html.parser")
         # print(page)

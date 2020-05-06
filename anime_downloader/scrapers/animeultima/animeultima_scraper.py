@@ -11,16 +11,17 @@ class AnimeUltimaScraper(BaseScraper):
 
     def __init__(self, url, start_episode, end_episode, session, gui=None, resolution="720", is_dub=False):
         super().__init__(url, start_episode, end_episode, session, gui)
+        self.domain_name = ".animeultima.to"
         self.is_dub = is_dub
         self.resolution = resolution
         self.base_url = "https://www1.animeultima.to"
         self.extractor = JWPlayerExtractor(None, None)
 
     def get_anime_id(self):
-        page = self.session.get(self.url).content
+        page = self.get_url_content()
         soup_html = BeautifulSoup(page, "html.parser")
 
-        # print(soup_html)
+        print(soup_html)
 
         button_with_id = soup_html.find("button", attrs={"class": "button"})
 

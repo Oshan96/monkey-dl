@@ -51,7 +51,7 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
     anime_url = anime_url.lower()
 
     try:
-        if "9anime.to" in anime_url:
+        if "9anime" in anime_url:
             printer("INFO", "9Anime URL detected...", gui)
             scraper = NineAnimeScraper(anime_url, start_epi, end_epi, session, gui, token)
 

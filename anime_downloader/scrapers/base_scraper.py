@@ -33,8 +33,7 @@ class BaseScraper:
             d = {}
             for c in cookies:
                 d[c.name] = c.value
-
-            print(d)
+            # print(d)
 
             cookie_header = "__cfduid={uid}; cf_clearance={clear}"
 

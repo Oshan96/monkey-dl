@@ -21,7 +21,7 @@ class AnimeUltimaScraper(BaseScraper):
         page = self.get_url_content()
         soup_html = BeautifulSoup(page, "html.parser")
 
-        print(soup_html)
+        # print(soup_html)
 
         button_with_id = soup_html.find("button", attrs={"class": "button"})
 

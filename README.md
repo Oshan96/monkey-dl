@@ -5,6 +5,16 @@ You can now bulk download your favourite anime episodes for various websites, in
 
 [See supported websites](#Supported-Websites)
 
+## Important Notes:
+- Monkey-DL will use your browser cookies for some URLs (for the given anime website domain) if it fails to bypass cloudflare automatically.
+So make sure that you visit the given URL manually from either Google Chrome or Firefox browser and let cloudflare challenge to be solved via browser.
+Then Monkey-DL will use those cookies once to bypass cloudflare (Note that this is only for several websites which are using cloudflare, and also no other cookies will be read by Monkey-DL other than of that particular domain)
+
+- Some of the antivirus software mark Monkey-DL as malware since it is using some Crypto libraries to decrypt data from websites to collect direct download links (currently I'm trying to fix these as well since at first it was caused by subprocess calls which were to run FFMPEG from cmd, which are removed now).
+This is a false positive and need not to be worried. Also, if in doubt, it is advised to clone the repository and run from the source, so that you can check the source code yourself.
+
+- The only place where the Monkey-DL releases are available is through the [releases](https://github.com/Oshan96/monkey-dl/releases) section of the repository and it is advised to avoid downloading from other places than that.
+
 ## Donations
 If this project is helpful to you and love my work and feel like showing love/appreciation, would you like to buy me a coffee?<br>
 <a href="https://buymeacoff.ee/Oshan96" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
@@ -25,8 +35,8 @@ If this project is helpful to you and love my work and feel like showing love/ap
 ## Supported Websites
 
 #### Note
-After v1.0.4 release, Monkey-DL now uses a custom HLSDownloader to download from streams, which is over 10x faster than downloading from FFMPEG. FFMPEG is now optional to be installed in system. FFMPEG will only be used if there is any error occured. So for now, it is safe FFMPEG to be installed as well.
-FFMPEG dependency will be removed completely soon in a later release
+FFMPEG is no longer needed (since calling FFMPEG using subprocess calls to run FFMPEG make monkey-dl detected as trojan by some antivirus). 
+Only custom HLS downloader will be used hereafter (v1.0.5 upwards)
 
 | Website                                       |Sub/Dub selection      | Need recaptcha token? | Supported resolutions                                         | FFMPEG needed?    | File Size                     | Additional Notes                                                                                  |
 |---                                            |---                    |---                    |---                                                            |---                |---                            |---                                                                                                |        
@@ -35,9 +45,10 @@ FFMPEG dependency will be removed completely soon in a later release
 | [AnimePahe](https://animepahe.com/)           | No                    | No                    | 720p, 1080p                                                   | No                | 720p: ~150MB, 1080p: ~200MB   | 2captcha API key is needed to download from AnimePahe. Also download speed is capped by host      |
 | [Twist](https://twist.moe/)                   | No                    | No                    | 1080p                                                         | No                | 500MB+                        | Files are very high quality and fast downloads. Seems to be raw HorribleSub content               |
 | [AnimeFreak](https://www.animefreak.tv/)      | Yes                   | No                    | Default only                                                  | No                | ~90-100MB                     | Downloading from AnimeFreak is generally fast                                                     |
+| [AnimeTake](https://animetake.tv/)            | No                    | No                    | 480p, 720p, 1080p (Might support more for some anime)         | No                | 1080p: ~300MB                 | Tested files were encoded HorribleSub content                                                     |
 | [GoGoAnime](https://gogoanime.io/)            | No                    | No                    | Mostly 360p, 480p                                             | Optional          | -                             | gogoanime.io and gogoanime.video are supported. gogoanime.pro support will be added in future     |
-| [AnimeUltima](https://www.animeultima.to/)    | Yes                   | No                    | Sub: 240p, 360p, 480p, 720p, 1080p<br><br> Dub: Default only  | Optional          | 1080p is 1GB+                 | File sizes are relatively large                                                                   |
-| [AnimeFlix](https://animeflix.io/)            | Yes                   | No                    | Sub: 240p, 360p, 480p, 720p, 1080p<br><br> Dub: Default only  | Optional          | 1080p is 1GB+                 | File sizes are relatively large                                                                   |
+| [AnimeUltima](https://www.animeultima.to/)    | Yes                   | No                    | Sub: 240p, 360p, 480p, 720p, 1080p<br><br> Dub: Default only  | Optional          | 1080p: 1GB+                   | File sizes are relatively large                                                                   |
+| [AnimeFlix](https://animeflix.io/)            | Yes                   | No                    | Sub: 240p, 360p, 480p, 720p, 1080p<br><br> Dub: Default only  | Optional          | 1080p: 1GB+                   | File sizes are relatively large                                                                   |
 
 ## Download Anime Downloader [Windows]
 > Note : Currently only windows executable is provided (Linux, Mac users go to [Build from source](#Building-from-source))

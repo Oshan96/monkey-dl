@@ -17,6 +17,7 @@ from scrapers.animeflix.animeflix_scraper import AnimeFlixScraper
 from scrapers.animepahe.animepahe_scraper import AnimePaheScraper
 from scrapers.gogoanime.gogoanime_scraper import GoGoAnimeScraper
 from scrapers.animefreak.animefreak_scraper import AnimeFreakScraper
+from scrapers.animetake.animetake_scraper import AnimeTakeScraper
 from scrapers.twist.twist_scraper import TwistScraper
 
 sg.theme('Dark Amber')
@@ -82,6 +83,10 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
         elif "twist" in anime_url:
             printer("INFO", "Twist URL detected...", gui)
             scraper = TwistScraper(anime_url, start_epi, end_epi, session, gui)
+
+        elif "animetake" in anime_url:
+            printer("INFO", "AnimeTake URL detected...", gui)
+            scraper = AnimeTakeScraper(anime_url, start_epi, end_epi, session, gui, resolution)
 
         elif "animepahe.com" in anime_url:
             printer("INFO", "AnimePahe URL detected...", gui)

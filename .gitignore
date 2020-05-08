@@ -1,8 +1,8 @@
 __pycache__/
 .idea/
 venv/
-anime_downloader/build/
-anime_downloader/dist/
-anime_downloader/settings.json
-anime_downloader/results.csv
+monkey_dl/build/
+monkey_dl/dist/
+monkey_dl/settings.json
+monkey_dl/results.csv
 *.spec

@@ -1,17 +1,13 @@
-import warnings
 import ssl
 import argparse
 import requests
 import shutil
-import os
-import sys
 import traceback
 from platform import system
 from threading import Thread
 from queue import Queue
 from art import text2art
 from util import Color
-from util.ffmpeg_downloader import FFMPEGDownloader
 from util.hls_downloader import HLSDownloader
 from scrapers.nineanime import Anime_Scraper
 
@@ -94,7 +90,7 @@ class Downloader:
                 # print("without title")
                 file_name = self.directory + episode.episode + ".mp4"
 
-            with requests.get(episode.download_url, headers=episode.request_headers, stream=True, verify=False) as r:
+            with requests.get(episode.download_url, headers=episode.request_headers, stream=True) as r:
                 with open(file_name, 'wb') as f:
                     shutil.copyfileobj(r.raw, f, length=16 * 1024 * 1024)
 
@@ -107,8 +103,7 @@ class Downloader:
             except Exception as ex:
                 trace = traceback.format_exc()
                 print(trace)
-                Color.printer("ERROR", "Custom HLS Downloader failed! Using FFMPEG to download...", self.gui)
-                FFMPEGDownloader(episode, self.directory, self.gui).download()
+                Color.printer("ERROR", "Custom HLS Downloader failed to download {epi}".format(epi=episode.episode), self.gui)
 
     def download(self):
 
@@ -186,11 +181,4 @@ def main():
 
 
 if __name__ == "__main__":
-    # suppress warnings
-    warnings.filterwarnings("ignore")
-
-    # activate color codes
-    if sys.platform.lower() == "win32":
-        os.system("color")
-
     main()

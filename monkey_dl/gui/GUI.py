@@ -3,7 +3,7 @@ import queue
 import json
 import cloudscraper
 import traceback
-import anime_downloader
+import monkey_dl
 import PySimpleGUI as sg
 from threading import Thread
 from time import sleep
@@ -173,9 +173,9 @@ class AnimeGUI:
         ]
 
         if sys.platform.lower() == "win32":
-            self.window = sg.Window("Monkey-DL v"+anime_downloader.__version__, layout, icon="app.ico")
+            self.window = sg.Window("Monkey-DL v" + monkey_dl.__version__, layout, icon="app.ico")
         else:
-            self.window = sg.Window("Monkey-DL v"+anime_downloader.__version__, layout, icon="app.png")
+            self.window = sg.Window("Monkey-DL v" + monkey_dl.__version__, layout, icon="app.png")
 
     def check_messages(self, values):
         global i, max_val

@@ -1,7 +1,6 @@
 import cloudscraper
 import json
 import sys
-import os
 from util import Color
 from bs4 import BeautifulSoup
 from time import sleep
@@ -171,15 +170,6 @@ def extract_download_urls():
 
         download_url = Mp4UploadExtractor(target, session).extract_direct_url()
 
-        # video_page = session.get(target).content
-        #
-        # string = video_page.decode("utf-8")
-        #
-        # www_base = re.search("false\|(.*)\|devicePixelRatio",string).group(1)
-        # url_id = re.search("video\|(.*)\|282", string).group(1)
-        #
-        # download_url = "https://"+www_base+".mp4upload.com:282/d/"+url_id+"/video.mp4"
-
         episode.download_url = download_url
 
 
@@ -253,9 +243,3 @@ def main(start_episode=-1, end_episode=-1, token=None):
     extract_download_urls()
 
     write_data()
-
-
-if __name__ == "__main__":
-    if sys.platform.lower() == "win32":
-        os.system("color")
-    main()

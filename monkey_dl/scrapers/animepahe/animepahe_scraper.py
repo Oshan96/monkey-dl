@@ -22,7 +22,7 @@ class AnimePaheScraper(BaseScraper):
         self.__set_start_end_page()
 
     def __set_working_url(self):
-        page = self.session.get(self.url).content
+        page = self.session.get(super().url).content
         soup_page = BeautifulSoup(page, "html.parser")
         og_url = soup_page.find("meta", attrs={"property": "og:url"})
         if og_url is not None:
@@ -78,19 +78,19 @@ class AnimePaheScraper(BaseScraper):
 
             # 720p
             link = api_data[links[0]]["720"]["url"]
-            id = link.split("/")[-1]
+            epi_id = link.split("/")[-1]
 
             try:
                 # 1080p
                 if self.resolution == "1080":
                     link = api_data[links[1]]["1080"]["url"]
-                    id = link.split("/")[-1]
+                    epi_id = link.split("/")[-1]
             except Exception:
                 printer("ERROR", "1080p not available!", self.gui)
                 printer("INFO", "Continuing with 720p link...", self.gui)
 
-            episode.id = id
-            page_url = "https://kwik.cx/f/" + id
+            episode.id = epi_id
+            page_url = "https://kwik.cx/f/" + epi_id
             episode.page_url = page_url
 
             if not self.extractor.set_direct_link(episode):  # try setting at retrieval

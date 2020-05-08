@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from scrapers.base_scraper import BaseScraper
 from util.Episode import Episode
 from extractors.jwplayer_extractor import JWPlayerExtractor
-from util.js_unpacker import eval
+from util.js_unpacker import evaluate
 
 
 class AnimeUltimaScraper(BaseScraper):
@@ -84,7 +84,7 @@ class AnimeUltimaScraper(BaseScraper):
     def set_direct_url(self, episode, page_url):
         page = self.session.get(page_url).text
         func = re.search("eval\(.*\)", page).group(0)
-        eval_data = eval(func)
+        eval_data = evaluate(func)
         link = re.search('fone\s+=\s+\"(.*)\"', eval_data).group(1)
         # print(link)
         episode.download_url = link

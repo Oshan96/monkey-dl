@@ -1,0 +1,5 @@
+exclude_paths:
+    - tests/*
+    - README.md
+    - monkey_dl/scrapers/twist/twist_source_decryptor.py
+    - monkey_dl/extractors/kwik_token_extractor.py

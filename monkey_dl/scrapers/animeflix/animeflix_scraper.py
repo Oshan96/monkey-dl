@@ -85,9 +85,9 @@ class AnimeFlixScraper(BaseScraper):
                     continue
 
                 title = epi["title"]
-                id = epi["id"]
+                epi_id = epi["id"]
                 episode = Episode(title, "Episode - {epi}".format(epi=str(epi_no)))
-                episode.id = id
+                episode.id = epi_id
 
                 self.__set_download_link(episode)
 
@@ -99,7 +99,7 @@ class AnimeFlixScraper(BaseScraper):
         try:
             episodes = self.__collect_episodes()
             return episodes
-        except Exception as ex:
+        except Exception:
             trace = traceback.format_exc()
             print(trace)
             return None

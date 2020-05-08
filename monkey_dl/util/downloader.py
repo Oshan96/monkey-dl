@@ -1,22 +1,19 @@
-import ssl
-import argparse
-import requests
 import shutil
+import ssl
 import traceback
+import requests
 from platform import system
-from threading import Thread
 from queue import Queue
-from art import text2art
+from threading import Thread
 from util import Color
 from util.hls_downloader import HLSDownloader
-from scrapers.nineanime import Anime_Scraper
 
-directory = ""
-threads = 1
-token = None
-titles = False
-args = None
-gui = None
+
+def clean_file_name(file_name):
+    for c in r'[]/\;,><&*:%=+@#^()|?^':
+        file_name = file_name.replace(c, '')
+
+    return file_name
 
 
 class Worker(Thread):
@@ -63,15 +60,9 @@ class Downloader:
         self.is_titles = is_titles
         self.gui = gui
 
-    def __clean_file_name(self, file_name):
-        for c in r'[]/\;,><&*:%=+@#^()|?^':
-            file_name = file_name.replace(c, '')
-
-        return file_name
-
     def __download_episode(self, episode):
         if system() == "Windows":
-            episode.title = self.__clean_file_name(episode.title)
+            episode.title = clean_file_name(episode.title)
 
         if episode.is_direct:
             if episode.download_url is None:
@@ -100,10 +91,11 @@ class Downloader:
             Color.printer("INFO", "HLS link found. Using custom HLSDownloader to download...", self.gui)
             try:
                 HLSDownloader(episode, self.directory, requests.session(), self.gui).download()
-            except Exception as ex:
+            except Exception:
                 trace = traceback.format_exc()
                 print(trace)
-                Color.printer("ERROR", "Custom HLS Downloader failed to download {epi}".format(epi=episode.episode), self.gui)
+                Color.printer("ERROR", "Custom HLS Downloader failed to download {epi}".format(epi=episode.episode),
+                              self.gui)
 
     def download(self):
 
@@ -118,67 +110,9 @@ class Downloader:
 
         Color.printer("INFO", "Downloading started...", self.gui)
 
-        pool = ThreadPool(self.threads, gui)
+        pool = ThreadPool(self.threads, self.gui)
 
         pool.map(self.__download_episode, self.episodes)
         pool.wait_completion()
 
         Color.printer("INFO", "Downloading finished!", self.gui)
-
-
-def print_banner():
-    banner = text2art("Anime    Downloader")
-    Color.printer("BANNER", banner)
-
-
-def main():
-    global directory, args, threads, titles, token
-
-    print_banner()
-
-    parser = argparse.ArgumentParser(description="Anime Downloader Command Line Tool")
-    argparse.ArgumentParser(description="Help option parcer for Anime Downloader Command Line Tool", add_help=False,
-                            formatter_class=argparse.HelpFormatter)
-
-    parser.add_argument("-u", "--url", required=True, help="9Anime.to URL for the anime to be downloaded", dest="url")
-    parser.add_argument("-n", "--names", required=True,
-                        help="https://www.animefillerlist.com/ URL to retrieve episode titles", dest="title_url")
-    parser.add_argument("-d", "--directory", required=False,
-                        help="Download destination. Will use the current directory if not provided", default="",
-                        dest="dir")
-    parser.add_argument("-s", "--start", required=False, help="Starting episode", default=1, type=int, dest="start")
-    parser.add_argument("-e", "--end", required=False, help="End episode", default=9999, type=int, dest="end")
-    parser.add_argument("-c", "--code", required=False,
-                        help="Recaptcha answer token code. Insert this if you don't have 2captcha captcha bypass api_key",
-                        default=None, dest="token")
-    parser.add_argument("-t", "--threads", required=False,
-                        help="Number of parrallel downloads. Will download sequencially if not provided", default=1,
-                        type=int, dest="threads")
-    parser.add_argument("-f", "--filler", required=False, help="Whether fillers needed", default=True, type=bool,
-                        dest="isFiller")
-
-    args = parser.parse_args()
-
-    Anime_Scraper.download_9anime_url = args.url
-    Anime_Scraper.title_url = args.title_url
-    Anime_Scraper.isFiller = args.isFiller
-
-    token = args.token
-    directory = args.dir
-    threads = args.threads
-
-    if args.title_url:
-        titles = True
-
-    if directory != "":
-        directory = directory.replace("\\", "/")
-        if not directory.endswith("/"):
-            directory += "/"
-
-    Anime_Scraper.main(args.start, args.end, token)
-
-    Downloader(directory, Anime_Scraper.episodes, threads, gui, titles).download()
-
-
-if __name__ == "__main__":
-    main()

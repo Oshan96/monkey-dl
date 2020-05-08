@@ -96,9 +96,8 @@ class KwikExtractor:
         try:
             episode.download_url = resp_headers.headers["location"]
             # print(resp_headers.headers["location"])
-        except Exception as ex:
+        except Exception:
             # print(resp_headers)
-            # printer("ERROR", ex, self.gui)
             self.token = None
             printer("ERROR", "Failed to retrieve direct url for " + episode.title, self.gui)
             return False

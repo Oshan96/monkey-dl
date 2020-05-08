@@ -4,6 +4,25 @@ from hashlib import md5
 from Crypto.Cipher import AES
 
 
+def unpad(data):
+    # print(data[-1])
+    return data[:-(data[-1] if isinstance(data[-1], int) else ord(data[-1]))]
+
+
+def get_key_iv(data, salt, output=48):
+    if len(salt) != 8 or not len(salt):
+        raise AssertionError("Salt Length is not met!")
+
+    data += salt
+    key = md5(data).digest()
+    key_iv_data = key
+    while len(key_iv_data) < output:
+        key = md5(key + data).digest()
+        key_iv_data += key
+
+    return key_iv_data[:output]
+
+
 class TwistSourceDecryptor:
     BLOCK_SIZE = 16
     SECRET_KEY = b'LXgIVP&PorO68Rq7dTx8N^lP!Fa5sGJ^*XK'
@@ -15,28 +34,14 @@ class TwistSourceDecryptor:
         length = self.BLOCK_SIZE - (len(data) % self.BLOCK_SIZE)
         return data + (chr(length) * length).encode()
 
-    def __unpad(self, data):
-        # print(data[-1])
-        return data[:-(data[-1] if type(data[-1]) == int else ord(data[-1]))]
-
-    def __get_key_iv(self, data, salt, output=48):
-        assert len(salt) == 8, len(salt)
-        data += salt
-        key = md5(data).digest()
-        key_iv_data = key
-        while len(key_iv_data) < output:
-            key = md5(key + data).digest()
-            key_iv_data += key
-
-        return key_iv_data[:output]
-
     def decrypt(self):
         enc_data = b64decode(self.enc_src)
         # print("b64decode enc :", enc_data)
-        assert enc_data[:8] == b'Salted__'
+        if enc_data[:8] != b'Salted__':
+            raise AssertionError("Encryption is not Salted!")
 
         salt = enc_data[8:16]  # 8byte salt
-        key_iv = self.__get_key_iv(self.SECRET_KEY, salt)  # key+iv is 48bytes
+        key_iv = get_key_iv(self.SECRET_KEY, salt)  # key+iv is 48bytes
         key = key_iv[:32]  # key is 32byte
         iv = key_iv[32:]  # 16byte iv
         # print("key :", key)
@@ -45,7 +50,7 @@ class TwistSourceDecryptor:
         aes = AES.new(key, AES.MODE_CBC, iv)
 
         decrypt_data = aes.decrypt(enc_data[16:])  # actual data are after first 16bytes (which is salt)
-        decrypt_data = self.__unpad(decrypt_data).decode('utf-8').lstrip(' ')
+        decrypt_data = unpad(decrypt_data).decode('utf-8').lstrip(' ')
         # print(decrypt_data)
         return requote_uri(decrypt_data)  # parse to url safe value
 

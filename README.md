@@ -9,7 +9,7 @@ You can now bulk download your favourite anime episodes for various websites, in
 If this project is helpful to you and love my work and feel like showing love/appreciation, would you like to buy me a coffee?<br>
 <a href="https://buymeacoff.ee/Oshan96" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
-## Important Notes:
+## Important Notes
 - Monkey-DL will use your browser cookies for some URLs (for the given anime website domain) if it fails to bypass cloudflare automatically.
 So make sure that you visit the given URL manually from either Google Chrome or Firefox browser and let cloudflare challenge to be solved via browser.
 Then Monkey-DL will use those cookies once to bypass cloudflare (Note that this is only for several websites which are using cloudflare, and also no other cookies will be read by Monkey-DL other than of that particular domain)
@@ -20,23 +20,19 @@ This is a false positive and need not to be worried. Also, if in doubt, it is ad
 - The only place where the Monkey-DL releases are available is through the [releases](https://github.com/Oshan96/monkey-dl/releases) section of the repository and it is advised to avoid downloading from other places than that.
 
 ## Features
-* Download Anime from various [supported websites](#Supported-Websites)
-* Batch download episodes in the given range at once
-* High speed downloads
-* Download multiple episodes at once
-* Select the resolution (from the available resolutions for the website)
-* Select sub/dub (Check whether the website supports selective sub/dub downloads from [here](#Supported-Websites))
-* Choose whether filler episodes need to be downloaded or not by selecting "Download fillers" (By providing animefillerlist URL)
-* Name the files in "Episode - {episode_number} - {episode_title}" format by providing animefillerlist URL
-* Choose the directory files need to be downloaded into
-* Custom HLSDownloader to download from streams when direct download links cannot be found
-* Custom decryptors for encrypted websites
+- Download Anime from various [supported websites](#Supported-Websites)
+- Batch download episodes in the given range at once
+- High speed downloads
+- Download multiple episodes at once
+- Select the resolution (from the available resolutions for the website)
+- Select sub/dub (Check whether the website supports selective sub/dub downloads from [here](#Supported-Websites))
+- Choose whether filler episodes need to be downloaded or not by selecting "Download fillers" (By providing animefillerlist URL)
+- Name the files in "Episode - {episode_number} - {episode_title}" format by providing animefillerlist URL
+- Choose the directory files need to be downloaded into
+- Custom HLSDownloader to download from streams when direct download links cannot be found
+- Custom decryptors for encrypted websites
 
 ## Supported Websites
-
-#### Note
-FFMPEG is no longer needed (since calling FFMPEG using subprocess calls to run FFMPEG make monkey-dl detected as trojan by some antivirus). 
-Only custom HLS downloader will be used hereafter (v2.0.0 upwards)
 
 | Website                                       |Sub/Dub selection      | Need recaptcha token? | Supported resolutions                                         | File Size                     | Additional Notes                                                                                  |
 |---                                            |---                    |---                    |---                                                            |---                            |---                                                                                                |        
@@ -53,7 +49,7 @@ Only custom HLS downloader will be used hereafter (v2.0.0 upwards)
 ## Download Anime Downloader [Windows]
 > Note : Currently only windows executable is provided (Linux, Mac users go to [Build from source](#Building-from-source))
 
-Download the [Latest Release](https://github.com/Oshan96/Anime-Downloader/releases) from here and extract the zip file
+Download the [Latest Release](https://github.com/Oshan96/monkey-dl/releases) from here and extract the zip file
 
 ## Downloading Your Favourite Anime
 
@@ -79,10 +75,10 @@ It is same as the CLI version, but provided a graphical user interface to collec
 
 Note : After v1.0.4 and anove, Anime Downloader was named as "Monkey-DL" and the executable is called "monkey-dl.exe"
 
-* v1.0.4 and above:
+- v1.0.4 and above:
     Execute the "monkey-dl.exe" to start.
 
-* v1.0.3 and lower:
+- v1.0.3 and lower:
     Execute the "anime-dl.exe" to start.
 
 If you're running from source files, execute the "anime-dl.py" script
@@ -307,7 +303,7 @@ python3 ./Anime_Downloader -u https://9anime.to/watch/one-piece.ov8/169lyx -s 13
 
 ## Authors
 
-* **Oshan Mendis** - *Author* - [Oshan96](https://github.com/Oshan96)
+- **Oshan Mendis** - *Author* - [Oshan96](https://github.com/Oshan96)
 
 ## License
 

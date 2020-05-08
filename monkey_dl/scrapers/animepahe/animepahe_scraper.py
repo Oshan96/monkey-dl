@@ -85,7 +85,7 @@ class AnimePaheScraper(BaseScraper):
                 if self.resolution == "1080":
                     link = api_data[links[1]]["1080"]["url"]
                     id = link.split("/")[-1]
-            except Exception as ex:
+            except Exception:
                 printer("ERROR", "1080p not available!", self.gui)
                 printer("INFO", "Continuing with 720p link...", self.gui)
 

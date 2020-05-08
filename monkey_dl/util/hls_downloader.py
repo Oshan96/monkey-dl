@@ -2,6 +2,31 @@ import re
 from Crypto.Cipher import AES
 
 
+def is_encrypted(m3u8_data):
+    method = re.search('#EXT-X-KEY:METHOD=(.*),', m3u8_data)
+    if method is None:
+        return False
+
+    if method.group(1) == "NONE":
+        return False
+
+    return True
+
+
+def collect_uri_iv(m3u8_data):
+    # print(m3u8_data)
+    uri_iv = re.search('#EXT-X-KEY:METHOD=AES-128,URI="(.*)",IV=(.*)', m3u8_data)
+
+    if uri_iv is None:
+        uri_data = re.search('#EXT-X-KEY:METHOD=AES-128,URI="(.*)"', m3u8_data)
+        return uri_data.group(1), None
+
+    uri = uri_iv.group(1)
+    iv = uri_iv.group(2)
+
+    return uri, iv
+
+
 class HLSDownloader:
     def __init__(self, episode, directory, session, gui=None):
         self.episode = episode
@@ -11,7 +36,7 @@ class HLSDownloader:
         self.count = 0
 
     def __get_default_iv(self):
-        """When IV is not passed, m3u8 use incremental 16byte iv key starting from 1 for each segment"""
+        """When IV is not passed, m3u8 use incremental 16byte iv key starting from 1 for each segment."""
         self.count += 1
         return self.count.to_bytes(16, 'big')
 
@@ -25,29 +50,6 @@ class HLSDownloader:
 
     def __collect_stream_data(self, ts_url):
         return self.session.get(ts_url).content
-
-    def __is_encrypted(self, m3u8_data):
-        method = re.search('#EXT-X-KEY:METHOD=(.*),', m3u8_data)
-        if method is None:
-            return False
-
-        if method.group(1) == "NONE":
-            return False
-
-        return True
-
-    def __collect_uri_iv(self, m3u8_data):
-        # print(m3u8_data)
-        uri_iv = re.search('#EXT-X-KEY:METHOD=AES-128,URI="(.*)",IV=(.*)', m3u8_data)
-
-        if uri_iv is None:
-            uri_data = re.search('#EXT-X-KEY:METHOD=AES-128,URI="(.*)"', m3u8_data)
-            return uri_data.group(1), None
-
-        uri = uri_iv.group(1)
-        iv = uri_iv.group(2)
-
-        return uri, iv
 
     def __collect_ts_urls(self, m3u8_data):
         urls = [url.group(0) for url in re.finditer("https://(.*)\.ts(.*)", m3u8_data)]
@@ -65,9 +67,9 @@ class HLSDownloader:
         print(self.episode.download_url)
         m3u8_data = self.session.get(self.episode.download_url).text
 
-        is_encrypted = self.__is_encrypted(m3u8_data)
-        if is_encrypted:
-            key_uri, iv = self.__collect_uri_iv(m3u8_data)
+        is_enc = is_encrypted(m3u8_data)
+        if is_enc:
+            key_uri, iv = collect_uri_iv(m3u8_data)
             # print("uri, iv :", key_uri, iv)
             key = self.__collect_stream_data(key_uri)
             # print("key :", key)
@@ -80,7 +82,7 @@ class HLSDownloader:
                 print("Processing ts file :", ts_url)
                 ts_data = self.__collect_stream_data(ts_url)
                 # print("ts data:", ts_data)
-                if is_encrypted:
+                if is_enc:
                     # print("encrypted")
                     ts_data = self.__decrypt(ts_data, key, iv)
                     # print("decrypted")

@@ -3,17 +3,18 @@ from bs4 import BeautifulSoup
 from extractors.jwplayer_extractor import JWPlayerExtractor
 
 
+def eval(func):
+    val = js.beautify(func)
+    return val
+
+
 class JsUnpacker:
     def __init__(self):
         self.jwp_extractor = JWPlayerExtractor(None, None)
 
-    def eval(self, func):
-        val = js.beautify(func)
-        return val
-
     def extract_link(self, func):
         src = ""
-        data = self.eval(func)
+        data = eval(func)
         # print(data)
         if "jwplayer" in data:
             print("jwplayer source will be returned")

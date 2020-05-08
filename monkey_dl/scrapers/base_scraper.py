@@ -19,7 +19,7 @@ class BaseScraper:
         try:
             page = self.session.get(self.url).content
             return page
-        except CloudflareException as ex:
+        except CloudflareException:
             print(
                 "Cloudflare exception raised! browser cookies will be used in retry. Make sure you visited the given url from chrome/firefox")
             printer("ERROR", "Cloudflare exception raised!", self.gui)

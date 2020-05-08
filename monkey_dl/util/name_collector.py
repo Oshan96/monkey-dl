@@ -3,6 +3,14 @@ from bs4 import BeautifulSoup
 from util.Episode import Episode
 
 
+def get_episode(epis, episode):
+    for epi in epis:
+        if epi.episode == episode.episode:
+            return epi
+
+    return None
+
+
 class EpisodeNamesCollector:
     def __init__(self, url, start_episode, end_episode, is_filler=False, episodes=None):
         self.url = url
@@ -37,17 +45,10 @@ class EpisodeNamesCollector:
 
         return episodes
 
-    def __get_episode(self, epis, episode):
-        for epi in epis:
-            if epi.episode == episode.episode:
-                return epi
-
-        return None
-
     def __set_episode_names(self, epis):
         fillers = []
         for episode in self.episodes:
-            epi = self.__get_episode(epis, episode)
+            epi = get_episode(epis, episode)
             if epi:
                 episode.title = epi.title
                 # print(episode.episode,"Title -",episode.title)

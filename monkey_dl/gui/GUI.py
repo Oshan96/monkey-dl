@@ -7,7 +7,7 @@ import monkey_dl
 import PySimpleGUI as sg
 from threading import Thread
 from time import sleep
-from Anime_Downloader import Downloader
+from util.downloader import Downloader
 from util.Color import printer
 from util.name_collector import EpisodeNamesCollector
 from scrapers.fouranime.fouranime_scraper import FourAnimeScraper
@@ -35,7 +35,7 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
         with open("settings.json") as (json_file):
             data = json.load(json_file)
             api_key = data["api_key"]
-    except:
+    except Exception:
         api_key = ""
 
     if api_key != "" and api_key != "insert_2captcha_api_key":

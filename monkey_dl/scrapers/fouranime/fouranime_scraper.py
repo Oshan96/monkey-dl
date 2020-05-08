@@ -7,6 +7,11 @@ from scrapers.base_scraper import BaseScraper
 from util.js_unpacker import JsUnpacker
 
 
+def get_packed(page):
+    pack_links = [match.group(0) for match in re.finditer("eval\(.*\)", page)]
+    return pack_links
+
+
 class FourAnimeScraper(BaseScraper):
     def __init__(self, url, start_episode, end_episode, session, gui=None):
         super().__init__(url, start_episode, end_episode, session, gui)
@@ -46,10 +51,6 @@ class FourAnimeScraper(BaseScraper):
 
         return self.episodes
 
-    def __get_packed(self, page):
-        pack_links = [match.group(0) for match in re.finditer("eval\(.*\)", page)]
-        return pack_links
-
     def __extract_download_urls(self):
         Color.printer("INFO", "Extracting download URLs...", self.gui)
         success = True
@@ -76,7 +77,7 @@ class FourAnimeScraper(BaseScraper):
 
             if video_tag is None or video_tag["src"] == '':
                 print("checking for packed data")
-                packed_funcs = self.__get_packed(page.decode('utf-8'))
+                packed_funcs = get_packed(page.decode('utf-8'))
                 # print(packed_funcs)
 
                 if len(packed_funcs) > 0:
@@ -91,7 +92,7 @@ class FourAnimeScraper(BaseScraper):
                                 episode.download_url = src
                                 success = True
                                 continue
-                        except:
+                        except Exception:
                             Color.printer("ERROR", "Download link not found for " + episode.episode, self.gui)
                             success = False
                 else:

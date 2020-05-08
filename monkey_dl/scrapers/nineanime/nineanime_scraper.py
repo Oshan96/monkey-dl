@@ -28,14 +28,14 @@ class NineAnimeScraper(BaseScraper):
                 with open("settings.json") as (json_file):
                     data = json.load(json_file)
                     self.api_key = data["api_key"]
-            except:
+            except Exception:
                 Color.printer("ERROR", "Reading settings file failed! Continue without API key...", self.gui)
                 self.api_key = ""
 
     def __get_mp4upload_index(self, servers_container):
         server_names = servers_container.findAll("span", attrs={"class": "tab"})
 
-        for i in range(0, len(server_names)):
+        for i in enumerate(server_names):
             if server_names[i].text.lower() == self.server_name.lower():
                 self.server_id = server_names[i]["data-name"]
                 return i
@@ -128,7 +128,7 @@ class NineAnimeScraper(BaseScraper):
         Color.printer("INFO", "Extracting download URLs...", self.gui)
 
         for episode in self.episodes:
-            if (episode.id is None):
+            if episode.id is None:
                 episode.download_url = None
                 continue
 

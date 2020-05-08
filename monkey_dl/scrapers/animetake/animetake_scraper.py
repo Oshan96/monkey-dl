@@ -45,7 +45,7 @@ class AnimeTakeScraper(BaseScraper):
 
         try:
             link = self.__get_direct_link(epi_sources_url)
-        except:
+        except Exception:
             return False
 
         if link is not None:

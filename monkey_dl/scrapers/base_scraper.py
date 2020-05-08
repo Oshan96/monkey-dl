@@ -1,3 +1,4 @@
+import re
 import requests
 import browser_cookie3 as bc
 from cloudscraper.exceptions import CloudflareException
@@ -30,25 +31,42 @@ class BaseScraper:
             cookies = bc.load(domain_name=self.domain_name)
             self.session = requests.Session()
 
+            # host_re = re.search(r'[htps]+://(\S+)/\S+', self.url) or re.search(r'[htps]+://(\S+)', self.url)
+            # host = host_re.group(1).split("/")[0]
+            # print(host)
+
             d = {}
             for c in cookies:
                 d[c.name] = c.value
             # print(d)
 
             cookie_header = "__cfduid={uid}; cf_clearance={clear}"
-
             c_head = cookie_header.format(uid=d['__cfduid'], clear=d['cf_clearance'])
+
+            # c_head = ""
+            # for key, value in d.items():
+            #     c_head += "{k}={v}; ".format(k=key, v=value)
+            #
+            # c_head = c_head.strip()
+            # if c_head != "":
+            #     c_head = c_head[:-1]
 
             if self.domain_name == ".animeultima.to":
                 c_head += "; XSRF-TOKEN={xsrf}".format(xsrf=d["XSRF-TOKEN"])
 
-            head = {"cookie": c_head,
-                    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36",
-                    "referer": self.url
+            head = {
+                    # "Host": host,
+                    "cookie": c_head,
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36",
+                    "Referer": self.url
                     }
+
+            # print(head)
 
             self.session.cookies.update(cookies)
             self.session.headers.update(head)
+            print(self.session.headers)
+            # print(self.session.get(self.url, headers=head))
 
             page = self.session.get(self.url).text
 

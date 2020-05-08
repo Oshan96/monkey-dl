@@ -23,7 +23,7 @@ class FourAnimeScraper(BaseScraper):
         page = self.get_url_content()
 
         soup_html = BeautifulSoup(page, "html.parser")
-        # print(page)
+        # print(soup_html)
 
         try:
             server = soup_html.findAll("div", attrs={"class": "server"})[0]

@@ -1,4 +1,3 @@
-import re
 import requests
 import browser_cookie3 as bc
 from cloudscraper.exceptions import CloudflareException
@@ -36,10 +35,6 @@ class BaseScraper:
         print(self.domain_name)
         cookies = bc.load(domain_name=self.domain_name)
         self.session = requests.Session()
-
-        host_re = re.search(r'[htps]+://(\S+)/\S+', self.url) or re.search(r'[htps]+://(\S+)', self.url)
-        host = host_re.group(1).split("/")[0]
-        # print(host)
 
         d = {}
         for c in cookies:

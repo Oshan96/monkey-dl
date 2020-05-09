@@ -43,7 +43,7 @@ class GoGoAnimeScraper(BaseScraper):
         return None
 
     def __get_page_url(self, href):
-        base_url = re.search("(.*)/category/", self.url).group(1)
+        base_url = re.search(r"(.*)/category/", self.url).group(1)
         # print(base_url)
         src = base_url + href
         # print(src)
@@ -70,7 +70,7 @@ class GoGoAnimeScraper(BaseScraper):
 
                 if src != "":
                     res_link_id = self.extractor.get_resolution_link(src, self.resolution)
-                    stream_base = re.search("(.*)/[\S]+\.m3u8", src).group(1)
+                    stream_base = re.search(r"(.*)/[\S]+\.m3u8", src).group(1)
                     episode.download_url = stream_base + "/" + res_link_id
                     print("stream url:", episode.download_url)
 
@@ -120,16 +120,16 @@ class GoGoAnimeScraper(BaseScraper):
             return None
 
 
-if __name__ == "__main__":
-    import cloudscraper as cs
-
-    s = cs.create_scraper(delay=7)
-
-    epis = GoGoAnimeScraper("https://www18.gogoanime.io/category/one-piece", 1, 4, s).get_direct_links()
-
-    for epi in epis:
-        print(epi.episode)
-        print(epi.title)
-        print(epi.download_url)
-        print("-" * 25)
-        print()
+# if __name__ == "__main__":
+#     import cloudscraper as cs
+#
+#     s = cs.create_scraper(delay=7)
+#
+#     epis = GoGoAnimeScraper("https://www18.gogoanime.io/category/one-piece", 1, 4, s).get_direct_links()
+#
+#     for epi in epis:
+#         print(epi.episode)
+#         print(epi.title)
+#         print(epi.download_url)
+#         print("-" * 25)
+#         print()

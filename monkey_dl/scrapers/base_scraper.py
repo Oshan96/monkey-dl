@@ -1,3 +1,4 @@
+import re
 import requests
 import browser_cookie3 as bc
 from cloudscraper.exceptions import CloudflareException
@@ -29,37 +30,47 @@ class BaseScraper:
                     "browser cookies will be used in retry. Make sure you visited the given url from chrome/firefox browser.",
                     self.gui)
 
-            cookies = bc.load(domain_name=self.domain_name)
-            self.session = requests.Session()
+            return self.request_from_cookies()
 
-            d = {}
-            for c in cookies:
-                d[c.name] = c.value
-            # print(d)
+    def request_from_cookies(self):
+        print(self.domain_name)
+        cookies = bc.load(domain_name=self.domain_name)
+        self.session = requests.Session()
 
-            c_head = ""
-            for key, value in d.items():
-                c_head += "{k}={v}; ".format(k=key, v=value)
+        host_re = re.search(r'[htps]+://(\S+)/\S+', self.url) or re.search(r'[htps]+://(\S+)', self.url)
+        host = host_re.group(1).split("/")[0]
+        # print(host)
 
-            c_head = c_head.strip()
-            if c_head != "":
-                c_head = c_head[:-1]
+        d = {}
+        for c in cookies:
+            d[c.name] = c.value
+        # print(d)
 
-            head = {
-                "cookie": c_head,
-                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36",
-                "referer": self.url
-            }
+        c_head = ""
+        for key, value in d.items():
+            c_head += "{k}={v}; ".format(k=key, v=value)
 
-            # print(head)
+        c_head = c_head.strip()
+        if c_head != "":
+            c_head = c_head[:-1]
 
-            self.session.cookies.update(cookies)
-            self.session.headers.update(head)
-            # print(self.session.headers)
+        head = {
+            "cookie": c_head,
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36",
+            "referer": self.url
+        }
 
-            page = self.session.get(self.url).text
+        # print(head)
 
-            return page
+        self.session.cookies.update(cookies)
+        self.session.headers.update(head)
+        # print(self.session.headers)
+        # print(self.url)
+        # print(self.session.get(self.url))
+
+        page = self.session.get(self.url).text
+
+        return page
 
     def get_direct_links(self):
         raise NotImplementedError

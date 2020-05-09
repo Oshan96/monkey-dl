@@ -15,15 +15,22 @@ class GoGoAnimeScraper(BaseScraper):
         self.api_link_bases = ['https://ajax.gogocdn.net/ajax/load-list-episode',
                                'https://ajax.apimovie.xyz/ajax/load-list-episode']
 
+        if "gogoanime.video" in self.url:
+            self.domain_name = "www2.gogoanime.video"
+        elif "gogoanime.io" in self.url:
+            self.domain_name = "www18.gogoanime.io"
+
         self.__set_anime_id()
 
     def __set_anime_id(self):
-        response = self.session.get(self.url)
-        if response.status_code == 200:
-            soup_html = BeautifulSoup(response.content, "html.parser")
-            movie_id_tag = soup_html.find("input", attrs={"id": "movie_id"})
-            if movie_id_tag is not None:
-                self.anime_id = movie_id_tag["value"]
+        print("Setting anime_id")
+        response = self.request_from_cookies()
+        soup_html = BeautifulSoup(response, "html.parser")
+        # print(soup_html)
+        movie_id_tag = soup_html.find("input", attrs={"id": "movie_id"})
+        # print(movie_id_tag)
+        if movie_id_tag is not None:
+            self.anime_id = movie_id_tag["value"]
 
     def __get_episode_data(self):
         for base_link in self.api_link_bases:
@@ -95,6 +102,9 @@ class GoGoAnimeScraper(BaseScraper):
                     else:
                         printer("ERROR", "Failed to collect download link for " + episode.title, self.gui)
 
+        else:
+            print("Anime id is None")
+
         return episodes
 
     def get_direct_links(self):
@@ -108,3 +118,18 @@ class GoGoAnimeScraper(BaseScraper):
         except Exception as ex:
             printer("ERROR", str(ex), self.gui)
             return None
+
+
+if __name__ == "__main__":
+    import cloudscraper as cs
+
+    s = cs.create_scraper(delay=7)
+
+    epis = GoGoAnimeScraper("https://www18.gogoanime.io/category/one-piece", 1, 4, s).get_direct_links()
+
+    for epi in epis:
+        print(epi.episode)
+        print(epi.title)
+        print(epi.download_url)
+        print("-" * 25)
+        print()

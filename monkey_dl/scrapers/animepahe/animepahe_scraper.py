@@ -15,6 +15,9 @@ class AnimePaheScraper(BaseScraper):
         self.base_url = "https://animepahe.com"
         self.start_page = 1
         self.end_page = 1
+
+        self.session.delay = 7
+
         self.extractor = KwikExtractor(session, gui)
 
         self.__set_working_url()

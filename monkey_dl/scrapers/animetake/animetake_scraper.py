@@ -75,7 +75,7 @@ class AnimeTakeScraper(BaseScraper):
             title = anchor.find("p", attrs={"class": "list-group-item-text"}).text.strip().split("\n")[0]
             page_url = "https://animetake.tv" + anchor["href"]
 
-            episode = Episode(title, "Episode - "+str(epi_no))
+            episode = Episode(title, "Episode - " + str(epi_no))
             episode.page_url = page_url
 
             self.episodes.append(episode)
@@ -95,7 +95,6 @@ class AnimeTakeScraper(BaseScraper):
 
         else:
             return None
-
 
 # if __name__ == "__main__":
 #     import cloudscraper as cs

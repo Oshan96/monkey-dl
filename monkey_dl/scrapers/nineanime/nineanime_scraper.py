@@ -25,7 +25,7 @@ class NineAnimeScraper(BaseScraper):
 
         if not token:
             try:
-                with open("settings.json") as (json_file):
+                with open("settings.json", "r") as json_file:
                     data = json.load(json_file)
                     self.api_key = data["api_key"]
             except Exception:

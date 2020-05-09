@@ -45,6 +45,28 @@ except ModuleNotFoundError:
     from scrapers.twist.twist_scraper import TwistScraper
 
 
+def get_session_with_api_key():
+    try:
+        with open("monkey_dl/settings.json", "r") as st:
+            data = json.load(st)
+            api_key = data["api_key"]
+            # print(api_key)
+            if api_key != "" or api_key != "insert_2captcha_api_key":
+                session = cloudscraper.create_scraper(
+                    recaptcha={
+                        'provider': '2captcha',
+                        'api_key': api_key
+                    }
+                )
+            else:
+                session = cloudscraper.create_scraper()
+
+        return session
+
+    except FileNotFoundError:
+        raise FileNotFoundError("Settings not found at : {path}".format(path=sys.path))
+
+
 class TestScrapers:
 
     def test_animeflix_scraper(self):
@@ -59,36 +81,24 @@ class TestScrapers:
 
     def test_animepahe_scraper(self):
         """Unit test for AnimePahe. Does not work without 2captcha key"""
-        try:
-            with open("monkey_dl/settings.json", "r") as st:
-                data = json.load(st)
-                api_key = data["api_key"]
-                print(api_key)
-                if api_key != "" or api_key != "insert_2captcha_api_key":
-                    session = cloudscraper.create_scraper(
-                        recaptcha={
-                            'provider': '2captcha',
-                            'api_key': api_key
-                        }
-                    )
-                else:
-                    session = cloudscraper.create_scraper()
-
-        except FileNotFoundError:
-            raise FileNotFoundError("Settings not found at : {path}".format(path=sys.path))
-
+        session = get_session_with_api_key()
         assert len(AnimePaheScraper("https://animepahe.com/anime/one-piece", 1, 4, session).get_direct_links()) > 0
-    #
+
     def test_animetake_scraper(self):
         """Unit test for AnimeTake."""
         session = cloudscraper.create_scraper()
         assert len(AnimeTakeScraper("https://animetake.tv/anime/one-piece", 1, 4, session).get_direct_links()) > 0
 
-    # def test_gogoanime_scraper(self):
-    #     """Unit test for GoGoAnime."""
-    #     session = cloudscraper.create_scraper()
-    #     assert len(GoGoAnimeScraper("https://www.gogoanime.io/one-piece", 1, 4, session).get_direct_links()) > 0
-    #
+    def test_animeultima_scraper(self):
+        """Unit test for AnimeUltima."""
+        session = cloudscraper.create_scraper()
+        assert len(AnimeUltimaScraper("https://www1.animeultima.to/a/one-piece_276830", 1, 4, session).get_direct_links()) > 0
+
+    def test_gogoanime_scraper(self):
+        """Unit test for GoGoAnime."""
+        session = cloudscraper.create_scraper()
+        assert len(GoGoAnimeScraper("https://www.gogoanime.io/one-piece", 1, 4, session).get_direct_links()) > 0
+
     def test_twist_scraper(self):
         """Unit test for Twist."""
         session = cloudscraper.create_scraper()
@@ -98,3 +108,8 @@ class TestScrapers:
         """Unit test for 4Anime."""
         session = cloudscraper.create_scraper()
         assert len(FourAnimeScraper("https://4anime.to/anime/one-piece", 1, 4, session).get_direct_links()) > 0
+
+    def test_nineanime_scraper(self):
+        """Unit test for 9Anime."""
+        session = get_session_with_api_key()
+        assert len(NineAnimeScraper("https://9anime.to/watch/one-piece.ov8/7n7o21", 1, 4, session).get_direct_links()) > 0

@@ -83,9 +83,9 @@ class AnimeUltimaScraper(BaseScraper):
 
     def set_direct_url(self, episode, page_url):
         page = self.session.get(page_url).text
-        func = re.search("eval\(.*\)", page).group(0)
+        func = re.search(r"eval\(.*\)", page).group(0)
         eval_data = evaluate(func)
-        link = re.search('fone\s+=\s+\"(.*)\"', eval_data).group(1)
+        link = re.search(r'fone\s+=\s+\"(.*)\"', eval_data).group(1)
         # print(link)
         episode.download_url = link
 

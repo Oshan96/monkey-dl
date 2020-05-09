@@ -32,7 +32,7 @@ class BaseScraper:
             return self.request_from_cookies()
 
     def request_from_cookies(self):
-        print(self.domain_name)
+        # print(self.domain_name)
         cookies = bc.load(domain_name=self.domain_name)
         self.session = requests.Session()
 

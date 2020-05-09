@@ -120,16 +120,16 @@ class GoGoAnimeScraper(BaseScraper):
             return None
 
 
-# if __name__ == "__main__":
-#     import cloudscraper as cs
-#
-#     s = cs.create_scraper(delay=7)
-#
-#     epis = GoGoAnimeScraper("https://www18.gogoanime.io/category/one-piece", 1, 4, s).get_direct_links()
-#
-#     for epi in epis:
-#         print(epi.episode)
-#         print(epi.title)
-#         print(epi.download_url)
-#         print("-" * 25)
-#         print()
+if __name__ == "__main__":
+    import cloudscraper as cs
+
+    s = cs.create_scraper(delay=7)
+
+    epis = GoGoAnimeScraper("https://www18.gogoanime.io/category/one-piece", 1, 4, s).get_direct_links()
+
+    for epi in epis:
+        print(epi.episode)
+        print(epi.title)
+        print(epi.download_url)
+        print("-" * 25)
+        print()

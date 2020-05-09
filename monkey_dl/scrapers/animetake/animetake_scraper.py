@@ -36,6 +36,7 @@ class AnimeTakeScraper(BaseScraper):
 
     def __set_episode_direct_link(self, episode):
         page = self.session.get(episode.page_url).text
+        # print(episode.page_url)
         vcdn_url = re.search(r'\"https://vcdn.space/v/(\S+)/\"', page) or re.search(r'\"https://vcdn.space/v/(\S+)\"', page)
 
         # print(vcdn_url.group(0))
@@ -100,7 +101,7 @@ class AnimeTakeScraper(BaseScraper):
 #     import cloudscraper as cs
 #     s = cs.create_scraper()
 #
-#     epis = AnimeTakeScraper("https://animetake.tv/anime/one-piece/",1,30,s).get_direct_links()
+#     epis = AnimeTakeScraper("https://animetake.tv/anime/one-piece/",1,4,s).get_direct_links()
 #
 #     for epi in epis:
 #         print(epi.episode)

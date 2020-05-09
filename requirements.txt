@@ -8,3 +8,4 @@ js2py==0.70
 PySimpleGUI==4.19.0
 browser_cookie3==0.11.1
 polling==0.3.1
+pytest==5.4.2

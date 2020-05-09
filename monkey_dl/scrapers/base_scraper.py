@@ -1,4 +1,3 @@
-import re
 import requests
 import browser_cookie3 as bc
 from cloudscraper.exceptions import CloudflareException
@@ -8,6 +7,8 @@ from util.Color import printer
 class BaseScraper:
     def __init__(self, url, start_episode, end_episode, session, gui=None):
         self.url = url
+        if not self.url.endswith("/"):
+            self.url += "/"
         self.start_episode = start_episode
         self.end_episode = end_episode
         self.session = session
@@ -31,10 +32,6 @@ class BaseScraper:
             cookies = bc.load(domain_name=self.domain_name)
             self.session = requests.Session()
 
-            host_re = re.search(r'[htps]+://(\S+)/\S+', self.url) or re.search(r'[htps]+://(\S+)', self.url)
-            host = host_re.group(1).split("/")[0]
-            # print(host)
-
             d = {}
             for c in cookies:
                 d[c.name] = c.value
@@ -49,11 +46,10 @@ class BaseScraper:
                 c_head = c_head[:-1]
 
             head = {
-                    "Host": host,
-                    "cookie": c_head,
-                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36",
-                    "Referer": self.url
-                    }
+                "cookie": c_head,
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36",
+                "referer": self.url
+            }
 
             # print(head)
 

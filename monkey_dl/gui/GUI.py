@@ -32,7 +32,7 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
     session = cloudscraper.create_scraper()
     api_key = ""
     try:
-        with open("settings.json") as (json_file):
+        with open("settings.json", "r") as json_file:
             data = json.load(json_file)
             api_key = data["api_key"]
     except Exception:

@@ -1,4 +1,5 @@
-"""Automatic updater for Monkey-DL executable versions (Windows).
+"""
+Automatic updater for Monkey-DL executable versions (Windows).
 
 Updater will check for the version of the latest release against the current installed version and notify whether a
 new update is available The Updater class will be used to create the executable (Windows) which will download the

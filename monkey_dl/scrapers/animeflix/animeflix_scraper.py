@@ -8,6 +8,7 @@ from extractors.jwplayer_extractor import JWPlayerExtractor
 class AnimeFlixScraper(BaseScraper):
     def __init__(self, url, start_episode, end_episode, session, gui=None, resolution="720", is_dub=False):
         super().__init__(url, start_episode, end_episode, session, gui)
+        self.domain_name = ".animeflix.io"
         self.resolution = resolution
         self.is_dub = is_dub
         url_data = re.search("(.*)/shows/(.*)", self.url)

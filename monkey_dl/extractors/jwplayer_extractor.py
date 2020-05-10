@@ -8,13 +8,14 @@ class JWPlayerExtractor(BaseExtractor):
         super().__init__(url, session)
 
     def extract_sources(self, page_content=None):
+        print("started extracting jwplayer sources")
         if page_content is None:
             page_content = self.extract_page_content()
 
         # print(page_content)
 
         link_sources = [match.group(1) for match in
-                        re.finditer("{\s*file\s*:\s*[\"\']\s*([htps][^\"\']+)", page_content)]
+                        re.finditer(r"{\s*file\s*:\s*[\"\']\s*([htps][^\"\']+)", page_content)]
 
         return link_sources
 
@@ -35,7 +36,7 @@ class JWPlayerExtractor(BaseExtractor):
         count = 0
         try:
             content = self.session.get(master_url).text
-        except:
+        except Exception:
             print("retry")
             content = self.session.get(master_url).text
 

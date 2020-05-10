@@ -14,12 +14,13 @@ class BaseScraper:
         self.session = session
         self.gui = gui
         self.domain_name = None
+        self.host = None
 
         self.episodes = []
 
     def get_url_content(self):
         try:
-            page = self.session.get(self.url).content
+            page = self.session.get(self.url)
             return page
         except CloudflareException:
             print(
@@ -29,12 +30,26 @@ class BaseScraper:
                     "browser cookies will be used in retry. Make sure you visited the given url from chrome/firefox browser.",
                     self.gui)
 
-            return self.request_from_cookies()
+            self.session = requests.Session()
 
-    def request_from_cookies(self):
+            return self.request_from_cookies(session=self.session)
+
+    def request_from_cookies(self, url=None, session=None, domain_name=None, referer=None):
+        if url is None:
+            url = self.url
+
+        if session is None:
+            session = self.session
+
+        if domain_name is None:
+            domain_name = self.domain_name
+
+        if referer is None:
+            referer = url
+
         # print(self.domain_name)
-        cookies = bc.load(domain_name=self.domain_name)
-        self.session = requests.Session()
+        cookies = bc.load(domain_name=domain_name)
+        # session = requests.Session()
 
         d = {}
         for c in cookies:
@@ -52,18 +67,22 @@ class BaseScraper:
         head = {
             "cookie": c_head,
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36",
-            "referer": self.url
+            "referer": referer
         }
 
         # print(head)
 
-        self.session.cookies.update(cookies)
-        self.session.headers.update(head)
-        # print(self.session.headers)
-        # print(self.url)
+        session.cookies.update(cookies)
+        session.headers.update(head)
+
+        if self.host is not None:
+            session.headers.update({"Host": self.host})
+
+        # print(session.headers)
+        # print(url)
         # print(self.session.get(self.url))
 
-        page = self.session.get(self.url).text
+        page = session.get(url)
 
         return page
 

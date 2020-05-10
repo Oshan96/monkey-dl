@@ -97,7 +97,7 @@ class TestScrapers:
     def test_gogoanime_scraper(self):
         """Unit test for GoGoAnime."""
         session = cloudscraper.create_scraper()
-        assert len(GoGoAnimeScraper("https://www.gogoanime.io/one-piece", 1, 4, session).get_direct_links()) > 0
+        assert len(GoGoAnimeScraper("https://www2.gogoanime.video/category/one-piece", 300, 304, session).get_direct_links()) > 0
 
     def test_twist_scraper(self):
         """Unit test for Twist."""
@@ -111,5 +111,5 @@ class TestScrapers:
 
     def test_nineanime_scraper(self):
         """Unit test for 9Anime."""
-        session = get_session_with_api_key()
+        session = cloudscraper.create_scraper()
         assert len(NineAnimeScraper("https://9anime.to/watch/one-piece.ov8/7n7o21", 1, 4, session).get_direct_links()) > 0

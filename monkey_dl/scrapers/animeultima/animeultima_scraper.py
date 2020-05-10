@@ -18,7 +18,7 @@ class AnimeUltimaScraper(BaseScraper):
         self.extractor = JWPlayerExtractor(None, None)
 
     def get_anime_id(self):
-        page = self.get_url_content()
+        page = self.get_url_content().content
         soup_html = BeautifulSoup(page, "html.parser")
 
         # print(soup_html)

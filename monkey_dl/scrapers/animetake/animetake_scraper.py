@@ -57,7 +57,7 @@ class AnimeTakeScraper(BaseScraper):
 
     def extract_page_urls(self):
         printer("INFO", "Extracting page URLs...", self.gui)
-        page = self.get_url_content()
+        page = self.get_url_content().content
         # print(page)
 
         soup_html = BeautifulSoup(page, "html.parser")

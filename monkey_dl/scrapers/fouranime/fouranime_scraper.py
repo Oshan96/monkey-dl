@@ -8,7 +8,7 @@ from util.js_unpacker import JsUnpacker
 
 
 def get_packed(page):
-    pack_links = [match.group(0) for match in re.finditer("eval\(.*\)", page)]
+    pack_links = [match.group(0) for match in re.finditer(r"eval\(.*\)", page)]
     return pack_links
 
 
@@ -20,7 +20,7 @@ class FourAnimeScraper(BaseScraper):
     def __extract_page_urls(self):
         Color.printer("INFO", "Extracting page URLs...", self.gui)
 
-        page = self.get_url_content()
+        page = self.get_url_content().content
 
         soup_html = BeautifulSoup(page, "html.parser")
         # print(soup_html)

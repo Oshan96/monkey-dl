@@ -7,6 +7,14 @@ from scrapers.base_scraper import BaseScraper
 
 class RyuAnimeScraper(BaseScraper):
     def __init__(self, url, start_episode, end_episode, session, gui=None, is_dub=False):
+        """RyuAnime scraper to collect direct download links.
+
+        Sources
+        -------
+        TrollVid
+        MP4Upload
+
+        """
         super().__init__(url, start_episode, end_episode, session, gui)
         self.is_dub = is_dub
 
@@ -22,11 +30,6 @@ class RyuAnimeScraper(BaseScraper):
         return None
 
     def __extract_page_urls(self):
-        """
-
-        Returns:
-
-        """
         printer("INFO", "Extracting Page URLs...", self.gui)
         page = self.get_url_content()
 
@@ -52,11 +55,13 @@ class RyuAnimeScraper(BaseScraper):
     def __get_direct_url(self, page, page_url):
         """Extracting video source links.
 
-        Args:
-            page (str): HTML source page
+        Args
+        -------
+        page (str): HTML source page
 
-        Returns:
-            url: A direct link to download the video from either Trollvid /MP4Upload, or None if neither is available
+        Returns
+        -------
+        url: A direct link to download the video from either Trollvid /MP4Upload, or None if neither is available
 
         """
         matches = re.findall(r'\"host\":\"(\w+)\",\"id\":\"(\w+)\",\"type\":\"(\w+)\"', page)
@@ -68,7 +73,7 @@ class RyuAnimeScraper(BaseScraper):
         for match in matches:
             host = match[0]
             vid_id = match[1]
-            vid_type = match[2]
+            # vid_type = match[2]
 
             if host == "trollvid":
                 troll_page_url = "https://trollvid.net/embed/{v_id}".format(v_id=vid_id)
@@ -83,8 +88,8 @@ class RyuAnimeScraper(BaseScraper):
 
             elif host == "mp4upload":
                 # for now mp4upload page came "deleted" for tested sources. Will check and update later
-                mpu_page_url = "https://www.mp4upload.com/embed-{v_id}.html".format(v_id=vid_id)
-                mpu_page = self.session.get(mpu_page_url, headers=head).text
+                # mpu_page_url = "https://www.mp4upload.com/embed-{v_id}.html".format(v_id=vid_id)
+                # mpu_page = self.session.get(mpu_page_url, headers=head).text
                 pass
 
         return None

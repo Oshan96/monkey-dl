@@ -7,7 +7,7 @@ from scrapers.base_scraper import BaseScraper
 
 class RyuAnimeScraper(BaseScraper):
     def __init__(self, url, start_episode, end_episode, session, gui=None, is_dub=False):
-        """RyuAnime scraper to collect direct download links.
+        """Ryuanime scraper to collect direct download links.
 
         Sources
         -------

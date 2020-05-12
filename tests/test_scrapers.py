@@ -30,6 +30,7 @@ try:
     from scrapers.gogoanime.gogoanime_scraper import GoGoAnimeScraper
     from scrapers.nineanime.nineanime_scraper import NineAnimeScraper
     from scrapers.twist.twist_scraper import TwistScraper
+    from scrapers.ryuanime.ryuanime_scraper import RyuAnimeScraper
 
 except ModuleNotFoundError:
     sys.path.append("monkey_dl")
@@ -43,6 +44,7 @@ except ModuleNotFoundError:
     from scrapers.gogoanime.gogoanime_scraper import GoGoAnimeScraper
     from scrapers.nineanime.nineanime_scraper import NineAnimeScraper
     from scrapers.twist.twist_scraper import TwistScraper
+    from scrapers.ryuanime.ryuanime_scraper import RyuAnimeScraper
 
 
 def get_session_with_api_key():
@@ -72,7 +74,7 @@ class TestScrapers:
     def test_animeflix_scraper(self):
         """Unit test for AnimeFlix."""
         session = cloudscraper.create_scraper()
-        assert len(AnimeFlixScraper("https://animeflix.io/shows/one-piece", 1, 4, session).get_direct_links()) > 0
+        assert len(AnimeFlixScraper("https://animeflix.io/shows/one-piece", 929, 929, session).get_direct_links()) > 0
 
     def test_animefreak_scraper(self):
         """Unit test for AnimeFreak."""
@@ -113,3 +115,8 @@ class TestScrapers:
         """Unit test for 9Anime."""
         session = cloudscraper.create_scraper()
         assert len(NineAnimeScraper("https://9anime.to/watch/one-piece.ov8/7n7o21", 1, 4, session).get_direct_links()) > 0
+
+    def test_ryuanime_scraper(self):
+        """Unit test for RyuAnime."""
+        session = cloudscraper.create_scraper()
+        assert len(RyuAnimeScraper("https://www4.ryuanime.com/anime/48-one-piece", 920, 924, session).get_direct_links()) > 0

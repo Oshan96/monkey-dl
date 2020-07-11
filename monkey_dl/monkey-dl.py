@@ -10,5 +10,4 @@ def main():
         AnimeGUI(Queue()).run()
 
 if __name__ == "__main__":
-    #AnimeGUI(Queue()).run()
     main()

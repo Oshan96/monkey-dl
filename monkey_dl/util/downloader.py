@@ -27,7 +27,6 @@ def clean_file_name(file_name):
 
     return file_name
 
-
 class Worker(Thread):
     def __init__(self, tasks, gui=None):
         Thread.__init__(self)

@@ -15,8 +15,8 @@ i = 0
 max_val = 100
 
 
-def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, gui,
-             resolution="720", is_dub=False):
+def gui_download_wrapper(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, gui,
+                         resolution="720", is_dub=False):
     global max_val
 
     downloader = Downloader(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, gui, resolution, is_dub)
@@ -134,7 +134,7 @@ class AnimeGUI:
                 self.window["txt_msg"].update("")
                 self.window.refresh()
 
-                thread = Thread(target=download, args=(
+                thread = Thread(target=gui_download_wrapper, args=(
                     anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, self,
                     resolution, is_dub), daemon=True)
                 thread.start()

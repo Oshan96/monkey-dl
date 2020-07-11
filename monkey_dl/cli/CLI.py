@@ -1,8 +1,8 @@
 import argparse
 from util.downloader import Downloader
 
-def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, gui,
-        resolution="720", is_dub=False):
+def cli_download_wrapper(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, gui,
+                        resolution="720", is_dub=False):
 
     downloader = Downloader(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, gui, resolution, is_dub)
     downloader.download()
@@ -48,6 +48,6 @@ class AnimeCLI:
                 directory += "/"
 
         if args.nogui:
-            download(args.url, args.title_url, args.start, args.end, args.isFiller, titles, args.token, args.threads, directory, None)
+            cli_download_wrapper(args.url, args.title_url, args.start, args.end, args.isFiller, titles, args.token, args.threads, directory, None)
 
         return args.nogui

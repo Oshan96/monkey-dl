@@ -19,11 +19,8 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
              resolution="720", is_dub=False):
     global max_val
 
-    #downloader = Downloader(directory, episodes, threads, gui, is_titles)
     downloader = Downloader(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, gui, resolution, is_dub)
-
     max_val = downloader.get_episodes()
-
     downloader.download()
 
 

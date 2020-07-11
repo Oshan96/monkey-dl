@@ -1,7 +1,6 @@
 import sys
 import queue
 import json
-import cloudscraper
 import traceback
 import monkey_dl
 import PySimpleGUI as sg
@@ -10,126 +9,19 @@ from time import sleep
 from util.downloader import Downloader
 from util.Color import printer
 from util.name_collector import EpisodeNamesCollector
-from scrapers.fouranime.fouranime_scraper import FourAnimeScraper
-from scrapers.nineanime.nineanime_scraper import NineAnimeScraper
-from scrapers.animeultima.animeultima_scraper import AnimeUltimaScraper
-from scrapers.animeflix.animeflix_scraper import AnimeFlixScraper
-from scrapers.animepahe.animepahe_scraper import AnimePaheScraper
-from scrapers.gogoanime.gogoanime_scraper import GoGoAnimeScraper
-from scrapers.animefreak.animefreak_scraper import AnimeFreakScraper
-from scrapers.animetake.animetake_scraper import AnimeTakeScraper
-from scrapers.twist.twist_scraper import TwistScraper
 
 sg.theme('Dark Amber')
 i = 0
 max_val = 100
 
 
-def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, gui,
-             resolution="720", is_dub=False):
+def gui_download_wrapper(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, gui,
+                         resolution="720", is_dub=False):
     global max_val
 
-    session = cloudscraper.create_scraper()
-    api_key = ""
-    try:
-        with open("settings.json", "r") as json_file:
-            data = json.load(json_file)
-            api_key = data["api_key"]
-    except Exception:
-        api_key = ""
-
-    if api_key != "" and api_key != "insert_2captcha_api_key":
-        session = cloudscraper.create_scraper(
-            recaptcha={
-                'provider': '2captcha',
-                'api_key': api_key
-            }
-        )
-
-    scraper = None
-    episodes = []
-
-    anime_url = anime_url.lower()
-
-    try:
-        if "9anime" in anime_url:
-            printer("INFO", "9Anime URL detected...", gui)
-            scraper = NineAnimeScraper(anime_url, start_epi, end_epi, session, gui, token)
-
-        elif "4anime.to" in anime_url:
-            printer("INFO", "4Anime URL detected...", gui)
-            scraper = FourAnimeScraper(anime_url, start_epi, end_epi, session, gui)
-
-        elif "animeultima.to" in anime_url:
-            printer("INFO", "AnimeUltima URL detected...", gui)
-            scraper = AnimeUltimaScraper(anime_url, start_epi, end_epi, session, gui, resolution, is_dub)
-
-        elif "animeflix" in anime_url:
-            printer("INFO", "AnimeFlix URL detected...", gui)
-            scraper = AnimeFlixScraper(anime_url, start_epi, end_epi, session, gui, resolution, is_dub)
-
-        elif "gogoanime" in anime_url:
-            printer("INFO", "GoGoAnime URL detected...", gui)
-            if "gogoanime.pro" in anime_url:
-                printer("ERROR", "goganime.pro links are not supported yet try gogoanime.io or gogoanime.video", gui)
-                return
-
-            scraper = GoGoAnimeScraper(anime_url, start_epi, end_epi, session, gui, resolution)
-
-        elif "animefreak" in anime_url:
-            printer("INFO", "AnimeFreak URL detected...", gui)
-            scraper = AnimeFreakScraper(anime_url, start_epi, end_epi, session, gui, is_dub)
-
-        elif "twist" in anime_url:
-            printer("INFO", "Twist URL detected...", gui)
-            scraper = TwistScraper(anime_url, start_epi, end_epi, session, gui)
-
-        elif "animetake" in anime_url:
-            printer("INFO", "AnimeTake URL detected...", gui)
-            scraper = AnimeTakeScraper(anime_url, start_epi, end_epi, session, gui, resolution)
-
-        elif "animepahe.com" in anime_url:
-            printer("INFO", "AnimePahe URL detected...", gui)
-
-            if api_key == "" or api_key == "insert_2captcha_api_key":
-                printer("ERROR", "You need 2captcha API key to download from AnimePahe!", gui)
-                printer("ERROR", "Set 2captcha API key in 'settings.json' file to download from AnimePahe!", gui)
-                return
-
-            scraper = AnimePaheScraper(anime_url, start_epi, end_epi, session, gui, resolution, is_filler)
-
-        else:
-            printer("ERROR", "Incorrect URL provided!", gui)
-            return
-
-        printer("INFO", "Collecting download links...", gui)
-        episodes = scraper.get_direct_links()
-
-        if episodes is None:
-            printer("INFO", "Retrying to collect download links...", gui)
-            sleep(5)
-            episodes = scraper.get_direct_links()
-
-        if episodes:
-            if is_titles:
-                printer("INFO", "Setting episode titles...", gui)
-                episodes = EpisodeNamesCollector(names_url, start_epi, end_epi, is_filler,
-                                                 episodes).collect_episode_names()
-
-        else:
-            printer("ERROR", "Failed to retrieve download links!", gui)
-            return
-
-        max_val = len(episodes)
-        # print("is titles", is_titles)
-        downloader = Downloader(directory, episodes, threads, gui, is_titles)
-        downloader.download()
-
-    except Exception as ex:
-        trace = traceback.format_exc()
-        print(trace)
-        printer("ERROR", ex, gui)
-        printer("ERROR", "Something went wrong! Please close and restart Anime Downloader to retry!", gui)
+    downloader = Downloader(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, gui, resolution, is_dub)
+    max_val = downloader.get_episodes()
+    downloader.download()
 
 
 class AnimeGUI:
@@ -242,7 +134,7 @@ class AnimeGUI:
                 self.window["txt_msg"].update("")
                 self.window.refresh()
 
-                thread = Thread(target=download, args=(
+                thread = Thread(target=gui_download_wrapper, args=(
                     anime_url, names_url, start_epi, end_epi, is_filler, is_titles, token, threads, directory, self,
                     resolution, is_dub), daemon=True)
                 thread.start()

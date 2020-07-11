@@ -6,3 +6,6 @@ monkey_dl/dist/
 monkey_dl/settings.json
 monkey_dl/results.csv
 *.spec
+
+*.mp4
+*.mkv

@@ -19,6 +19,7 @@ from scrapers.gogoanime.gogoanime_scraper import GoGoAnimeScraper
 from scrapers.animefreak.animefreak_scraper import AnimeFreakScraper
 from scrapers.animetake.animetake_scraper import AnimeTakeScraper
 from scrapers.twist.twist_scraper import TwistScraper
+from monkey_dl.scrapers.shiro.shiro import ShiroScraper
 
 sg.theme('Dark Amber')
 i = 0
@@ -97,6 +98,10 @@ def download(anime_url, names_url, start_epi, end_epi, is_filler, is_titles, tok
                 return
 
             scraper = AnimePaheScraper(anime_url, start_epi, end_epi, session, gui, resolution, is_filler)
+
+        elif "shiro" in anime_url:
+            printer("INFO", "Shiro.is URL detected...", gui)
+            scraper = ShiroScraper(anime_url, start_epi, end_epi, session, gui)
 
         else:
             printer("ERROR", "Incorrect URL provided!", gui)

@@ -1,5 +1,4 @@
 import re
-from bs4 import BeautifulSoup
 from util.Episode import Episode
 from scrapers.base_scraper import BaseScraper
 from util.Color import printer

@@ -5,17 +5,18 @@ from util.Color import printer
 import requests
 
 
+def get_token():
+    r = requests.get('https://shiro.is').text
+    script = 'https://shiro.is' + re.search(r'src\=\"(\/static\/js\/main\..*?)\"', r)[1]  # noqa
+    script = requests.get(script).text
+    token = re.search(r'token\:\"(.*?)\"', script)[1]
+    return token
+
+
 class ShiroScraper(BaseScraper):
     def __init__(self, url, start_episode, end_episode, session, gui=None, is_dub=False):
         super().__init__(url, start_episode, end_episode, session, gui)
-        self.token = self.get_token()
-
-    def get_token(self):
-        r = requests.get('https://shiro.is').text
-        script = 'https://shiro.is' + re.search(r'src\=\"(\/static\/js\/main\..*?)\"', r)[1]  # noqa
-        script = requests.get(script).text
-        token = re.search(r'token\:\"(.*?)\"', script)[1]
-        return token
+        self.token = get_token()
 
     def __collect_episodes(self):
         printer("INFO", "Extracting page URLs...", self.gui)

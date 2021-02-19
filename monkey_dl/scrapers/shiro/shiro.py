@@ -15,9 +15,7 @@ def get_token():
 
 class ShiroScraper(BaseScraper):
     def __init__(self, url, start_episode, end_episode, session, gui=None, is_dub=False):
-        """
-            This is a sample docstring to make "Codacy Static Code Analysis" shut up...
-        """
+        "This is a sample docstring to make \"Codacy Static Code Analysis\" shut up..."""
         super().__init__(url, start_episode, end_episode, session, gui)
         self.token = get_token()
 

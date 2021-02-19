@@ -19,7 +19,7 @@ from scrapers.gogoanime.gogoanime_scraper import GoGoAnimeScraper
 from scrapers.animefreak.animefreak_scraper import AnimeFreakScraper
 from scrapers.animetake.animetake_scraper import AnimeTakeScraper
 from scrapers.twist.twist_scraper import TwistScraper
-from monkey_dl.scrapers.shiro.shiro import ShiroScraper
+from scrapers.shiro.shiro import ShiroScraper
 
 sg.theme('Dark Amber')
 i = 0

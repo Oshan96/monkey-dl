@@ -15,10 +15,6 @@ def get_token():
 
 class ShiroScraper(BaseScraper):
     def __init__(self, url, start_episode, end_episode, session, gui=None, is_dub=False):
-        """
-        This is a sample docstring
-        And it has to be multiline cause pep8
-        """
         super().__init__(url, start_episode, end_episode, session, gui)
         self.token = get_token()
 

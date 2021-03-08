@@ -31,6 +31,7 @@ try:
     from scrapers.nineanime.nineanime_scraper import NineAnimeScraper
     from scrapers.twist.twist_scraper import TwistScraper
     from scrapers.ryuanime.ryuanime_scraper import RyuAnimeScraper
+    from monkey_dl.scrapers.shiro.shiro import ShiroScraper
 
 except ModuleNotFoundError:
     sys.path.append("monkey_dl")
@@ -45,6 +46,7 @@ except ModuleNotFoundError:
     from scrapers.nineanime.nineanime_scraper import NineAnimeScraper
     from scrapers.twist.twist_scraper import TwistScraper
     from scrapers.ryuanime.ryuanime_scraper import RyuAnimeScraper
+    from monkey_dl.scrapers.shiro.shiro import ShiroScraper
 
 
 def get_session_with_api_key():
@@ -120,3 +122,8 @@ class TestScrapers:
         """Unit test for RyuAnime."""
         session = cloudscraper.create_scraper()
         assert len(RyuAnimeScraper("https://www4.ryuanime.com/anime/48-one-piece", 920, 924, session).get_direct_links()) > 0
+
+    def test_shiro_scraper(self):
+        """Unit test for RyuAnime."""
+        session = cloudscraper.create_scraper()
+        assert len(ShiroScraper("https://shiro.is/anime/nanatsu-no-taizai-fundo-no-shinpan", 1, 1, session).get_direct_links()) > 0

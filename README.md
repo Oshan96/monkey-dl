@@ -45,7 +45,7 @@ This is a false positive and need not to be worried. Also, if in doubt, it is ad
 | [GoGoAnime](https://gogoanime.io/)            | No                    | No                    | Mostly 360p, 480p                                             | -                             | gogoanime.io and gogoanime.video are supported. gogoanime.pro support will be added in future     |
 | [AnimeUltima](https://www.animeultima.to/)    | Yes                   | No                    | Sub: 240p, 360p, 480p, 720p, 1080p<br><br> Dub: Default only  | 1080p: 1GB+                   | File sizes are relatively large                                                                   |
 | [AnimeFlix](https://animeflix.io/)            | Yes                   | No                    | Sub: 240p, 360p, 480p, 720p, 1080p<br><br> Dub: Default only  | 1080p: 1GB+                   | File sizes are relatively large                                                                   |
-| [Shiro](https://shiro.is/)            | No                   | No                    | 720p, 1080p (Might support more for some anime) | 1080p: 300MB+                   | File sizes are relatively small                                                                   |
+| [Shiro](https://shiro.is/)            | No                   | No                    | 720p, 1080p (Might support more for some anime) | 1080p: 300MB+                   | Quality is good most of the time and the file sizes are usually small                                                                   |
 
 ## Download Anime Downloader [Windows]
 > Note : Currently only windows executable is provided (Linux, Mac users go to [Build from source](#Building-from-source))

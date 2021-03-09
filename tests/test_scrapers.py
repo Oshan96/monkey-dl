@@ -31,7 +31,7 @@ try:
     from scrapers.nineanime.nineanime_scraper import NineAnimeScraper
     from scrapers.twist.twist_scraper import TwistScraper
     from scrapers.ryuanime.ryuanime_scraper import RyuAnimeScraper
-    from monkey_dl.scrapers.shiro.shiro import ShiroScraper
+    from scrapers.shiro.shiro import ShiroScraper
 
 except ModuleNotFoundError:
     sys.path.append("monkey_dl")
@@ -46,7 +46,7 @@ except ModuleNotFoundError:
     from scrapers.nineanime.nineanime_scraper import NineAnimeScraper
     from scrapers.twist.twist_scraper import TwistScraper
     from scrapers.ryuanime.ryuanime_scraper import RyuAnimeScraper
-    from monkey_dl.scrapers.shiro.shiro import ShiroScraper
+    from scrapers.shiro.shiro import ShiroScraper
 
 
 def get_session_with_api_key():

@@ -1,9 +1,11 @@
 import re
+from functools import reduce
+
 from bs4 import BeautifulSoup
-from util.Episode import Episode
+from extractors.kwik_extractor import KwikExtractor
 from scrapers.base_scraper import BaseScraper
 from util.Color import printer
-from extractors.kwik_extractor import KwikExtractor
+from util.Episode import Episode
 
 
 class AnimePaheScraper(BaseScraper):
@@ -65,41 +67,40 @@ class AnimePaheScraper(BaseScraper):
 
             page_count += 1
 
-    def __set_kwik_links(self):
+    def __set_kwik_links(self, *, max_tries=3):
         printer("INFO", "Collecting kwik links...", self.gui)
-
-        api_url = "https://animepahe.com/api?m=embed&p=kwik&id="
+        BASE_API_URL = "https://animepahe.com/api?m=embed&p=kwik&id={}&session={}"        
+        
         for episode in self.episodes:
-            temp_url = api_url + self.id + "&session=" + episode.id
-            # print(temp_url)
-            api_data = self.__get_page_data(temp_url)["data"]
-
-            links = list(api_data.keys())
-
-            # 720p
-            link = api_data[links[0]]["720"]["url"]
-            id = link.split("/")[-1]
-
-            try:
-                # 1080p
-                if self.resolution == "1080":
-                    link = api_data[links[1]]["1080"]["url"]
-                    id = link.split("/")[-1]
-            except Exception as ex:
-                printer("ERROR", "1080p not available!", self.gui)
-                printer("INFO", "Continuing with 720p link...", self.gui)
-
-            episode.id = id
-            page_url = "https://kwik.cx/f/" + id
-            episode.page_url = page_url
-
-            if not self.extractor.set_direct_link(episode):  # try setting at retrieval
-                printer("INFO", "Second download link retrieval attempt", self.gui)
+            available_urls = self.__get_page_data(BASE_API_URL.format(self.id, episode.id)).get('data', [])
+            if not available_urls:
+                printer("ERROR", "API error, AnimePahe API failed to retrieve available qualities.", self.gui)
+                continue
+            
+            quality_dict = reduce(lambda d1, d2: d1 | d2, available_urls) # type: dict
+            
+            if not self.resolution in quality_dict:
+                printer("ERROR", "Could not find the requested quality %sp, falling back to the first available quality." % self.resolution, self.gui)
+                self.resolution = [*quality_dict.keys()][0] # Due to line 78, there is always a value here & an error occurence is impossible.
+                
+            printer("INFO", "Fetching stream url based on selected quality - %sp." % self.resolution, self.gui)
+            
+            episode.page_url = quality_dict.get(self.resolution, {}).get('kwik', "").replace('\\', '')
+            episode.id = episode.page_url.split('/')[-1]
+            
+            tries = 1            
+            success = False
+            
+            while tries <= max_tries and not success:
                 if not self.extractor.set_direct_link(episode):
-                    printer("INFO", "Third download link retrieval attempt", self.gui)
-                    if not self.extractor.set_direct_link(episode):
-                        printer("ERROR", "Failed all attempts to retrieve download link for " + episode.title, self.gui)
-
+                    printer("INFO", "Failed to retrieve download link from URL for %s, try %d (max tries: %d)." % (episode.title, tries, max_tries), self.gui)
+                else:
+                    success = True
+                tries += 1
+            
+            if not success:
+                printer("ERROR", "Could not retrieve the download url for %s. (Possibly due to an extraction error)" % (episode.title), self.gui)    
+            
     def get_direct_links(self):
         try:
             self.__collect_episodes()

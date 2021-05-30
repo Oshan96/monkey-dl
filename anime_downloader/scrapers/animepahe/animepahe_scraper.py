@@ -73,9 +73,11 @@ class AnimePaheScraper(BaseScraper):
             temp_url = api_url + self.id + "&session=" + episode.id
             # print(temp_url)
             api_data = self.__get_page_data(temp_url)["data"]
-
+            # Update taken from a response by Oshan-96, can be seen at https://github.com/Oshan96/monkey-dl/issues/30#issuecomment-850628397
+            # For some reason the scrapper hasn't been updated but the solution was given and so I wanted to update it
+            if isinstance(api_data, list) and len(api_data) > 0:
+                api_data = api_data[0]
             links = list(api_data.keys())
-
             # 720p
             link = api_data[links[0]]["720"]["url"]
             id = link.split("/")[-1]

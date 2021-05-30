@@ -77,7 +77,6 @@ class AnimePaheScraper(BaseScraper):
             # For some reason the scrapper hasn't been updated but the solution was given and so I wanted to update it
             if isinstance(api_data, list) and len(api_data) > 0: 
                 api_data = api_data[0]
-            
             links = list(api_data.keys())
 
             # 720p
